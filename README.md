@@ -21,7 +21,7 @@ To get a local copy up and running follow these simple steps.
 
 Ensure you have the following installed on your machine:
 - [Git](https://git-scm.com)
-- [MySQL]
+- [MySQL](https://www.mysql.com/downloads)
 
 ### Installation
 
