@@ -8,8 +8,8 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "components")
-public class Components {
+@Table(name = "component")
+public class Component {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

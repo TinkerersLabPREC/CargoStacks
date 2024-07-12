@@ -1,6 +1,6 @@
 package com.prectinkerers.inventorymanagementsystem.dao.components.allocation;
 
-import com.prectinkerers.inventorymanagementsystem.dao.components.Components;
+import com.prectinkerers.inventorymanagementsystem.dao.components.Component;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +24,6 @@ public class Allocation {
     private String projectName;
 
     @ManyToOne
-    private Components components;
+    private Component component;
 
 }
