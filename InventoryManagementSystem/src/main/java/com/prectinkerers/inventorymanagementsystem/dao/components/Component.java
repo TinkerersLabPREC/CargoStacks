@@ -22,7 +22,7 @@ public class Component {
     private int total;
     private int currentlyAvailable;
 
-    @OneToMany(mappedBy = "components")
+    @OneToMany(mappedBy = "component")
     private List<Allocation> allocations;
 
 }
