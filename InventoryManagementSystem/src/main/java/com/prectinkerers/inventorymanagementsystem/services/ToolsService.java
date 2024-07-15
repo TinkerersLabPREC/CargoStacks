@@ -38,4 +38,7 @@ public class ToolsService {
     public Tools updateTools(Tools tool) {
         return toolsRepo.save(tool);
     }
+
+    public void getImageById(int id) {
+    }
 }

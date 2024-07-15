@@ -21,6 +21,7 @@ public class Component {
     private String location;         //to locate component in the lab
     private int total;
     private int currentlyAvailable;
+    private String image;
 
     @OneToMany(mappedBy = "component")
     private List<Allocation> allocations;

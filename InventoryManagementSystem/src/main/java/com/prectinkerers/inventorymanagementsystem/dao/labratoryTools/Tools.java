@@ -26,6 +26,7 @@ public class Tools {
     private String description;
     private int price;
     private String requiredSoftware;
+    private String image;
 
     @OneToMany(mappedBy = "tool")
     private List<Utilization> utilization;

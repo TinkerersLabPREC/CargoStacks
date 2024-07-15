@@ -2,17 +2,26 @@ package com.prectinkerers.inventorymanagementsystem.controllers;
 
 import com.prectinkerers.inventorymanagementsystem.dao.components.Component;
 import com.prectinkerers.inventorymanagementsystem.services.ComponentsService;
+import org.aspectj.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api")
 public class ComponentController {
+
+    @Value("project.imagesPath")
+    private String imagesPath;
 
     @Autowired
     private ComponentsService componentsService;
@@ -37,14 +46,18 @@ public class ComponentController {
 
     @GetMapping("/component/{id}/image")
     public ResponseEntity<byte[]> getComponentImage(@PathVariable int id) {
-
         return null;
     }
 
     @PostMapping("/component")
-    public ResponseEntity<Component> addComponent(@RequestBody Component component) {
-
-        return new ResponseEntity<>(componentsService.addComponent(component), HttpStatus.OK);
+    public ResponseEntity<Component> addComponent(@RequestBody Component component, @RequestParam("image") MultipartFile image) {
+        try {
+            Component component1 = componentsService.addComponent(component, image);
+            return new ResponseEntity<>(component1, HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/component/{id}")
@@ -55,6 +68,7 @@ public class ComponentController {
     @PutMapping("/component")
     public ResponseEntity<Component> updateComponent(@RequestBody Component component) {
         return new ResponseEntity<>(componentsService.updateComponent(component), HttpStatus.OK);
+
     }
 
 }

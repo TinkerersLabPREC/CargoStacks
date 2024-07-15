@@ -21,6 +21,4 @@ public class Beneficiary {
     private Date returnDate;
     private String department;
     private String year;
-
-
 }
