@@ -1,6 +1,6 @@
-package com.prectinkerers.inventorymanagementsystem.dao.labratoryTools.utilization;
+package com.TinkerersLab.CargoStacks.dao.labratoryTools.utilization;
 
-import com.prectinkerers.inventorymanagementsystem.dao.labratoryTools.Tools;
+import com.TinkerersLab.CargoStacks.dao.labratoryTools.Tools;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

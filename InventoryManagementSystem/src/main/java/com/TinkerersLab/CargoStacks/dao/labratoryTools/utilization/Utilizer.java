@@ -1,11 +1,9 @@
-package com.prectinkerers.inventorymanagementsystem.dao.labratoryTools.utilization;
+package com.TinkerersLab.CargoStacks.dao.labratoryTools.utilization;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 @Embeddable
 @Data

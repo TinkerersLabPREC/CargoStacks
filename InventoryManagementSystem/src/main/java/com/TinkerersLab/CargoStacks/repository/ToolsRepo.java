@@ -1,6 +1,6 @@
-package com.prectinkerers.inventorymanagementsystem.repository;
+package com.TinkerersLab.CargoStacks.repository;
 
-import com.prectinkerers.inventorymanagementsystem.dao.labratoryTools.Tools;
+import com.TinkerersLab.CargoStacks.dao.labratoryTools.Tools;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

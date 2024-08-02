@@ -1,7 +1,7 @@
-package com.prectinkerers.inventorymanagementsystem.controllers;
+package com.TinkerersLab.CargoStacks.controllers;
 
-import com.prectinkerers.inventorymanagementsystem.dao.labratoryTools.Tools;
-import com.prectinkerers.inventorymanagementsystem.services.ToolsService;
+import com.TinkerersLab.CargoStacks.services.ToolsService;
+import com.TinkerersLab.CargoStacks.dao.labratoryTools.Tools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
