@@ -19,11 +19,16 @@ public class Allocation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @Column(
+        nullable = false,
+        length = 500
+    )
     private Beneficiary beneficiary;
 
     private String projectName;
 
     @ManyToOne
+    @Column(nullable = false)
     private Component component;
 
 }

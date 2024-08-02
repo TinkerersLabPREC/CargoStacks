@@ -20,11 +20,15 @@ public class Utilization {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Column(nullable = false)
     private Utilizer utilizer;
     private Time UtilizationTime;
     private int estimatedTimeRequired;          //estimation tool utilization time in hours
 
+    
     @ManyToOne
+    @Column(nullable = false)
     private Tools tool;
 
 }

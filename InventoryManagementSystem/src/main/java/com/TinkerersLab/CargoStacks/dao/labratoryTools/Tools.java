@@ -21,7 +21,18 @@ public class Tools {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @Column(
+        nullable = false,
+        unique = true,
+        length = 200
+    )
     private String name;
+    
+    @Column(
+        nullable = false,
+        unique = true,
+        length = 200
+    )
     private String modelName;
     private String description;
     private int price;

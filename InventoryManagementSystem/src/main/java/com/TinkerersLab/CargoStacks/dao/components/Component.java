@@ -15,11 +15,28 @@ public class Component {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @Column(
+        nullable = false,
+        unique = true,
+        length = 150
+    )
     private String name;             //model no.
+
+    @Column(nullable = false)
     private String description;
-    private String explanatoryName;  //actual component name
+
+    @Column(
+        nullable = false,
+        unique = true,
+        length = 150
+    )
+    private String modelName;  //actual component name
+    
+    @Column(nullable = false)
     private String location;         //to locate component in the lab
+    
     private int total;
+    
     private int currentlyAvailable;
 
     @OneToMany(mappedBy = "component")
