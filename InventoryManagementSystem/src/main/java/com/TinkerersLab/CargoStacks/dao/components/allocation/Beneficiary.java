@@ -1,5 +1,6 @@
 package com.TinkerersLab.CargoStacks.dao.components.allocation;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.util.Date;
 @ToString
 @Embeddable
 public class Beneficiary {
+    
     private String name;
     private String email;
     private String phone;
