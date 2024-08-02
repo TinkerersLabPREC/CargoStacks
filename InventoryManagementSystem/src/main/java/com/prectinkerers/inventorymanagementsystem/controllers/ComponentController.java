@@ -6,6 +6,7 @@ import org.aspectj.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,7 +47,8 @@ public class ComponentController {
 
     @GetMapping("/component/{id}/image")
     public ResponseEntity<byte[]> getComponentImage(@PathVariable int id) {
-        return null;
+        componentsService.getImage(id);
+
     }
 
     @PostMapping("/component")

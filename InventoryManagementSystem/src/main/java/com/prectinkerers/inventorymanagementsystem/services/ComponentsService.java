@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -36,7 +38,7 @@ public class ComponentsService {
     public Component addComponent(Component component, MultipartFile image) throws IOException {
 
         Component component1 = componentsRepo.save(component);
-        Path filePath = Path.of(imagesPath, String.valueOf(component1.getId()), image.getOriginalFilename());
+        Path filePath = Path.of(imagesPath, image.getOriginalFilename());
         Files.write(filePath, image.getBytes());
         component1.setImage(String.valueOf(filePath));
         return componentsRepo.save(component1);
@@ -54,5 +56,16 @@ public class ComponentsService {
     }
 
     public void getImagebyId(int id) {
+    }
+
+    public URI getImage(int id) {
+        Component component = getComponentById(id);
+        File file = new File(imagesPath, component.getImage());
+        if(!file.exists()) {
+            throw new RuntimeException("Image not found");
+        }
+        return file.toURI();
+
+
     }
 }
