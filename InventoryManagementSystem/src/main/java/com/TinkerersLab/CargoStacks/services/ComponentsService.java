@@ -1,7 +1,7 @@
-package com.prectinkerers.inventorymanagementsystem.services;
+package com.TinkerersLab.CargoStacks.services;
 
-import com.prectinkerers.inventorymanagementsystem.dao.components.Component;
-import com.prectinkerers.inventorymanagementsystem.repository.ComponentsRepo;
+import com.TinkerersLab.CargoStacks.dao.components.Component;
+import com.TinkerersLab.CargoStacks.repository.ComponentsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.prectinkerers.inventorymanagementsystem.dao.components.allocation;
+package com.TinkerersLab.CargoStacks.dao.components.allocation;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

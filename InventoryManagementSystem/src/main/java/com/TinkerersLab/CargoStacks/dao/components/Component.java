@@ -1,6 +1,6 @@
-package com.prectinkerers.inventorymanagementsystem.dao.components;
+package com.TinkerersLab.CargoStacks.dao.components;
 
-import com.prectinkerers.inventorymanagementsystem.dao.components.allocation.Allocation;
+import com.TinkerersLab.CargoStacks.dao.components.allocation.Allocation;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,7 +22,7 @@ public class Component {
     private int total;
     private int currentlyAvailable;
 
-    @OneToMany(mappedBy = "components")
+    @OneToMany(mappedBy = "component")
     private List<Allocation> allocations;
 
 }
