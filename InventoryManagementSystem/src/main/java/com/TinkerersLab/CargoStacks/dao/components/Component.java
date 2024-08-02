@@ -20,7 +20,7 @@ public class Component {
         unique = true,
         length = 150
     )
-    private String name;             //model no.
+    private String name;         //actual component name
 
     @Column(nullable = false)
     private String description;
@@ -30,9 +30,9 @@ public class Component {
         unique = true,
         length = 150
     )
-    private String modelName;  //actual component name
+    private String modelName;  //model no.
     
-    @Column(nullable = false)
+    @Column(nullable = false)   
     private String location;         //to locate component in the lab
     
     private int total;

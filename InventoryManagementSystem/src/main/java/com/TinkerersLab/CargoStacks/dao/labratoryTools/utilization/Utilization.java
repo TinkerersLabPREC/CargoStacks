@@ -28,7 +28,6 @@ public class Utilization {
 
     
     @ManyToOne
-    @Column(nullable = false)
     private Tools tool;
 
 }

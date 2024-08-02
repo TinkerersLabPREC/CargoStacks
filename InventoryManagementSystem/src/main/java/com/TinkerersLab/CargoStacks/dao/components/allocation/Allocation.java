@@ -28,7 +28,6 @@ public class Allocation {
     private String projectName;
 
     @ManyToOne
-    @Column(nullable = false)
     private Component component;
 
 }
