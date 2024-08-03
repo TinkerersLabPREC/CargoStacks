@@ -1,6 +1,6 @@
-package com.TinkerersLab.CargoStacks.dao.labratoryTools.utilization;
+package com.TinkerersLab.CargoStacks.dao.laboratoryTools.utilization;
 
-import com.TinkerersLab.CargoStacks.dao.labratoryTools.Tools;
+import com.TinkerersLab.CargoStacks.dao.laboratoryTools.Tools;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +26,7 @@ public class Utilization {
     private Time UtilizationTime;
     private int estimatedTimeRequired;          //estimation tool utilization time in hours
 
-    
+
     @ManyToOne
     private Tools tool;
 

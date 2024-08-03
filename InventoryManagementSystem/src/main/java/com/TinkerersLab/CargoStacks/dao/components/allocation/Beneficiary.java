@@ -1,6 +1,5 @@
 package com.TinkerersLab.CargoStacks.dao.components.allocation;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;

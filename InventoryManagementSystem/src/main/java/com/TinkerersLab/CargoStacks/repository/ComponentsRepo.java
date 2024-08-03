@@ -11,10 +11,10 @@ import java.util.List;
 public interface ComponentsRepo extends JpaRepository<Component, Integer> {
 
     @Query(
-        "SELECT c FROM Component c WHERE "+
-        "LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword , '%')) OR " +
-        "LOWER(c.description) LIKE LOWER(CONCAT('%', :keyword , '%')) OR " +
-        "LOWER(c.modelName) LIKE LOWER(CONCAT('%', :keyword , '%')) "
+            "SELECT c FROM Component c WHERE " +
+                    "LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword , '%')) OR " +
+                    "LOWER(c.description) LIKE LOWER(CONCAT('%', :keyword , '%')) OR " +
+                    "LOWER(c.modelName) LIKE LOWER(CONCAT('%', :keyword , '%')) "
     )
     List<Component> searchComponent(String keyword);
 }

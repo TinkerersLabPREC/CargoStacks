@@ -1,4 +1,4 @@
-package com.TinkerersLab.CargoStacks.dao.labratoryTools.utilization;
+package com.TinkerersLab.CargoStacks.dao.laboratoryTools.utilization;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

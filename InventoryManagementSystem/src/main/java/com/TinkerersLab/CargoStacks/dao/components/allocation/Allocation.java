@@ -20,8 +20,8 @@ public class Allocation {
     private int id;
 
     @Column(
-        nullable = false,
-        length = 500
+            nullable = false,
+            length = 500
     )
     private Beneficiary beneficiary;
 
