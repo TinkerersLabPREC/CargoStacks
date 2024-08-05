@@ -1,6 +1,6 @@
 package com.TinkerersLab.CargoStacks.services;
 
-import com.TinkerersLab.CargoStacks.dao.laboratoryTools.Tools;
+import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tools;
 import com.TinkerersLab.CargoStacks.repository.ToolsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

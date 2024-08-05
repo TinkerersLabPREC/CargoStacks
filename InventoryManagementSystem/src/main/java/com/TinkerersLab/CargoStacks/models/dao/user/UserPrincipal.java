@@ -1,4 +1,4 @@
-package com.TinkerersLab.CargoStacks.dao.user;
+package com.TinkerersLab.CargoStacks.models.dao.user;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

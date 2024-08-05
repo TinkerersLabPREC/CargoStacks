@@ -1,6 +1,6 @@
 package com.TinkerersLab.CargoStacks.repository;
 
-import com.TinkerersLab.CargoStacks.dao.components.Component;
+import com.TinkerersLab.CargoStacks.models.dao.components.Component;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

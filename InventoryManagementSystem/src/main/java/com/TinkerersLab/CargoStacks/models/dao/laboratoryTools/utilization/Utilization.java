@@ -1,6 +1,6 @@
-package com.TinkerersLab.CargoStacks.dao.laboratoryTools.utilization;
+package com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization;
 
-import com.TinkerersLab.CargoStacks.dao.laboratoryTools.Tools;
+import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tools;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

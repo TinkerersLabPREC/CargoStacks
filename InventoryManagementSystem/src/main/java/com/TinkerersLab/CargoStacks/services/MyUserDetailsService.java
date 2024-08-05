@@ -1,7 +1,7 @@
 package com.TinkerersLab.CargoStacks.services;
 
-import com.TinkerersLab.CargoStacks.dao.user.User;
-import com.TinkerersLab.CargoStacks.dao.user.UserPrincipal;
+import com.TinkerersLab.CargoStacks.models.dao.user.User;
+import com.TinkerersLab.CargoStacks.models.dao.user.UserPrincipal;
 import com.TinkerersLab.CargoStacks.repository.UserRepo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

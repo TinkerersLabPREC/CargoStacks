@@ -1,4 +1,4 @@
-package com.TinkerersLab.CargoStacks.dao.user;
+package com.TinkerersLab.CargoStacks.models.dao.user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

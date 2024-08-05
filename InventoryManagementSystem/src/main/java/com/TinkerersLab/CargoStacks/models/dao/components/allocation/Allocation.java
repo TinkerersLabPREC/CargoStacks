@@ -1,6 +1,6 @@
-package com.TinkerersLab.CargoStacks.dao.components.allocation;
+package com.TinkerersLab.CargoStacks.models.dao.components.allocation;
 
-import com.TinkerersLab.CargoStacks.dao.components.Component;
+import com.TinkerersLab.CargoStacks.models.dao.components.Component;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

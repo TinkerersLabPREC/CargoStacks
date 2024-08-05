@@ -1,6 +1,6 @@
 package com.TinkerersLab.CargoStacks.controllers;
 
-import com.TinkerersLab.CargoStacks.dao.laboratoryTools.Tools;
+import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tools;
 import com.TinkerersLab.CargoStacks.services.ToolsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
