@@ -1,6 +1,6 @@
 package com.TinkerersLab.CargoStacks.services;
 
-import com.TinkerersLab.CargoStacks.Excpetions.ResourceNotFoundException;
+import com.TinkerersLab.CargoStacks.Exceptions.ResourceNotFoundException;
 import com.TinkerersLab.CargoStacks.models.dao.components.Component;
 import com.TinkerersLab.CargoStacks.repository.ComponentsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +31,8 @@ public class ComponentsService {
     }
 
     public Component addComponent(Component component) {
-        try {
-            componentsRepo.save(component);
-        } catch (Exception e) {
-            throw new RuntimeException("Component with similar name/model-name already exists");
-        }
-        return component;
+
+        return componentsRepo.save(component);
     }
 
     public Component deleteById(int id) {

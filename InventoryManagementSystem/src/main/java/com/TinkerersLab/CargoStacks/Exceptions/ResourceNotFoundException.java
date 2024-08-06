@@ -1,4 +1,4 @@
-package com.TinkerersLab.CargoStacks.Excpetions;
+package com.TinkerersLab.CargoStacks.Exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
 
@@ -6,7 +6,7 @@ public class ResourceNotFoundException extends RuntimeException {
 
     public ResourceNotFoundException(String message, int id){
         super(message);
-        this.id = id;
+        this.id = id;   
     }
 
     public ResourceNotFoundException(){
