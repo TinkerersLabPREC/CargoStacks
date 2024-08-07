@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.precTinkerers</groupId>
-    <artifactId>InventoryManagementSystem</artifactId>
+    <artifactId>CargoStacks</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>InventoryManagementSystem</name>
     <description>InventoryManagementSystem</description>
