@@ -1,5 +1,6 @@
 package com.TinkerersLab.CargoStacks.services;
 
+import com.TinkerersLab.CargoStacks.Exceptions.ResourceNotFoundException;
 import com.TinkerersLab.CargoStacks.models.dao.components.Component;
 import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
 import com.TinkerersLab.CargoStacks.repository.AllocationRepo;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Service
 public class ComponentsService {
-    
+  
     @Autowired
     private ComponentsRepo componentsRepo;
 
@@ -19,9 +20,12 @@ public class ComponentsService {
     private AllocationRepo allocationRepo;
 
     public Component getComponentById(int id) {
-        return componentsRepo.findById(id).orElse(new Component());
+        Component component = componentsRepo.findById(id).get();
+        if(component == null){
+            throw new ResourceNotFoundException("Component resource with specified id not found" , id);
+        }
+        return component;
     }
-
 
     public List<Component> getAllComponents() {
         return componentsRepo.findAll();
@@ -32,6 +36,7 @@ public class ComponentsService {
     }
 
     public Component addComponent(Component component) {
+
         return componentsRepo.save(component);
     }
 
