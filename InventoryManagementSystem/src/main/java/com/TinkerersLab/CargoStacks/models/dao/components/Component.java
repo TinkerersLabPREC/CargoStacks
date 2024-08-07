@@ -1,6 +1,6 @@
-package com.TinkerersLab.CargoStacks.dao.components;
+package com.TinkerersLab.CargoStacks.models.dao.components;
 
-import com.TinkerersLab.CargoStacks.dao.components.allocation.Allocation;
+import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,9 +16,9 @@ public class Component {
     private int id;
 
     @Column(
-        nullable = false,
-        unique = true,
-        length = 150
+            nullable = false,
+            unique = true,
+            length = 150
     )
     private String name;         //actual component name
 
@@ -26,17 +26,17 @@ public class Component {
     private String description;
 
     @Column(
-        nullable = false,
-        unique = true,
-        length = 150
+            nullable = false,
+            unique = true,
+            length = 150
     )
     private String modelName;  //model no.
-    
-    @Column(nullable = false)   
+
+    @Column(nullable = false)
     private String location;         //to locate component in the lab
-    
+
     private int total;
-    
+
     private int currentlyAvailable;
 
     @OneToMany(mappedBy = "component")

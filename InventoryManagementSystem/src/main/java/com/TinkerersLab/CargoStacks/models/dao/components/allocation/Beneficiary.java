@@ -1,23 +1,27 @@
-package com.TinkerersLab.CargoStacks.dao.labratoryTools.utilization;
+package com.TinkerersLab.CargoStacks.models.dao.components.allocation;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Embeddable
+import java.util.Date;
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Utilizer {
-
+@NoArgsConstructor
+@ToString
+@Embeddable
+public class Beneficiary {
+    
     private String name;
     private String email;
     private String phone;
+    private String address;
+    private Date returnDate;
     private String department;
     private String year;
-    private String address;
-    private String usageDescription;
 
 
 }

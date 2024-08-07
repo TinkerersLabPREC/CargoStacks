@@ -1,13 +1,15 @@
 package com.TinkerersLab.CargoStacks.controllers;
 
+import com.TinkerersLab.CargoStacks.models.dao.components.Component;
 import com.TinkerersLab.CargoStacks.services.ComponentsService;
-import com.TinkerersLab.CargoStacks.dao.components.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @CrossOrigin
@@ -32,7 +34,7 @@ public class ComponentController {
     @GetMapping("/component/search")
     public ResponseEntity<List<Component>> searchComponent(@RequestParam String keyword) {
 
-        return new ResponseEntity<>(componentsService.searchComponent(keyword) , HttpStatus.OK);
+        return new ResponseEntity<>(componentsService.searchComponent(keyword), HttpStatus.OK);
     }
 
     @GetMapping("/component/{id}/image")

@@ -15,29 +15,27 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
-
 @Configuration
 @EnableWebSecurity
 public class ApplicationConfiguration {
 
-    @Value("${server.BcryptPasswordEncoder.strength}")
-    private int encryptionStrength;
-    
     @Autowired
     UserDetailsService userDetailsService;
+    @Value("${server.BcryptPasswordEncoder.strength}")
+    private int encryptionStrength;
 
     @Bean
-    public SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-            .csrf(customizer -> customizer.disable())
-            .authorizeHttpRequests(customizer -> customizer.anyRequest().authenticated())
-            .httpBasic(Customizer.withDefaults())
-            .sessionManagement( session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .build();
+                .csrf(customizer -> customizer.disable())
+                .authorizeHttpRequests(customizer -> customizer.anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .build();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder(encryptionStrength));
         authenticationProvider.setUserDetailsService(userDetailsService);

@@ -1,6 +1,6 @@
-package com.TinkerersLab.CargoStacks.dao.labratoryTools;
+package com.TinkerersLab.CargoStacks.models.dao.laboratoryTools;
 
-import com.TinkerersLab.CargoStacks.dao.labratoryTools.utilization.Utilization;
+import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization.Utilization;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,16 +22,16 @@ public class Tools {
     private int id;
 
     @Column(
-        nullable = false,
-        unique = true,
-        length = 200
+            nullable = false,
+            unique = true,
+            length = 200
     )
     private String name;
-    
+
     @Column(
-        nullable = false,
-        unique = true,
-        length = 200
+            nullable = false,
+            unique = true,
+            length = 200
     )
     private String modelName;
     private String description;

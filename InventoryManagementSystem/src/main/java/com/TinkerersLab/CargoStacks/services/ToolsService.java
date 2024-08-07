@@ -1,7 +1,7 @@
 package com.TinkerersLab.CargoStacks.services;
 
+import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tools;
 import com.TinkerersLab.CargoStacks.repository.ToolsRepo;
-import com.TinkerersLab.CargoStacks.dao.labratoryTools.Tools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class ToolsService {
+
     @Autowired
     ToolsRepo toolsRepo;
 
