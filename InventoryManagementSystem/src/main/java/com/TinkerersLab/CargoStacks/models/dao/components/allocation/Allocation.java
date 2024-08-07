@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@Entity
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "allocation")
 public class Allocation {
 
@@ -24,6 +24,11 @@ public class Allocation {
             length = 500
     )
     private Beneficiary beneficiary;
+
+    @Column(
+        nullable = false
+    )
+    private int quantityTaken;
 
     private String projectName;
 

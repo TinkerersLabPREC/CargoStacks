@@ -2,6 +2,8 @@ package com.TinkerersLab.CargoStacks.services;
 
 import com.TinkerersLab.CargoStacks.Exceptions.ResourceNotFoundException;
 import com.TinkerersLab.CargoStacks.models.dao.components.Component;
+import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
+import com.TinkerersLab.CargoStacks.repository.AllocationRepo;
 import com.TinkerersLab.CargoStacks.repository.ComponentsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,9 +12,12 @@ import java.util.List;
 
 @Service
 public class ComponentsService {
+  
+    @Autowired
+    private ComponentsRepo componentsRepo;
 
     @Autowired
-    ComponentsRepo componentsRepo;
+    private AllocationRepo allocationRepo;
 
     public Component getComponentById(int id) {
         Component component = componentsRepo.findById(id).get();
@@ -43,5 +48,12 @@ public class ComponentsService {
 
     public Component updateComponent(Component component) {
         return componentsRepo.save(component);
+    }
+
+    public Allocation allocate(Allocation allocation, int compId){
+        Component component = getComponentById(compId);
+        component.setCurrentlyAvailable(component.getCurrentlyAvailable() - allocation.getQuantityTaken());
+        allocation.setComponent(component);
+        return allocationRepo.save(allocation);
     }
 }
