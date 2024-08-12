@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class ComponentDto {
 
-    private int id;
+    private String id;
 
     private String name;
 

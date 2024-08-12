@@ -1,5 +1,6 @@
 package com.TinkerersLab.CargoStacks.services;
 
+import com.TinkerersLab.CargoStacks.Exceptions.ResourceNotFoundException;
 import com.TinkerersLab.CargoStacks.dtos.ToolDto;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
 import com.TinkerersLab.CargoStacks.repository.ToolRepo;
@@ -29,32 +30,47 @@ public class ToolServiceImpl implements ToolService {
 
     @Override
     public List<ToolDto> getAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        List<Tool> tools = toolRepo.findAll();
+        List<ToolDto> toolDtos = tools
+                .stream()
+                .map(tool -> entityToDto(tool))
+                .toList()
+        ;
+        return toolDtos;
     }
 
     @Override
     public ToolDto findById(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        Tool tool = toolRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tool of provided id not found!" ,id));
+        return entityToDto(tool);
     }
 
     @Override
     public ToolDto update(ToolDto toolDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        toolRepo
+            .findById(toolDto.getId())
+            .orElseThrow(()-> new ResourceNotFoundException("Tool to be updated not found!", toolDto.getId()));
+
+        Tool newTool = toolRepo.save(dtoToEntity(toolDto));
+        return entityToDto(newTool);        
     }
 
     @Override
     public ToolDto delete(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        Tool tool = toolRepo
+            .findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Tool of given id not found!", id));
+        toolRepo.deleteById(id);
+        return entityToDto(tool);
     }
 
     @Override
     public List<ToolDto> search(String keyword) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'search'");
+        List<Tool> result = toolRepo.searchTools(keyword);
+        return result
+            .stream()
+            .map(tool -> entityToDto(tool))
+            .toList();
     }
 
     public ToolDto entityToDto(Tool tool){
@@ -62,8 +78,8 @@ public class ToolServiceImpl implements ToolService {
         return toolDto;
     }
 
-    public Tool dtoToEntity(ToolDto tooldDto){
-        Tool tool = modelMapper.map(tooldDto, Tool.class);
+    public Tool dtoToEntity(ToolDto toolDto){
+        Tool tool = modelMapper.map(toolDto, Tool.class);
         return tool;
     }
 

@@ -1,7 +1,7 @@
 package com.TinkerersLab.CargoStacks.controllers;
 
 import com.TinkerersLab.CargoStacks.models.dao.components.Component;
-import com.TinkerersLab.CargoStacks.services.ComponentsService;
+import com.TinkerersLab.CargoStacks.services.ComponentsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ComponentController {
 
     @Autowired
-    private ComponentsService componentsService;
+    private ComponentsServiceImpl componentsService;
 
     @GetMapping("/components")
     public ResponseEntity<List<Component>> getAllComponents() {
 
-        return new ResponseEntity<>(componentsService.getAllComponents(), HttpStatus.OK);
+        return new ResponseEntity<>(componentsService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/component/{id}")

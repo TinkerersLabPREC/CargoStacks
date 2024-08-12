@@ -1,7 +1,7 @@
 package com.TinkerersLab.CargoStacks.controllers;
 
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
-import com.TinkerersLab.CargoStacks.services.ToolService;
+import com.TinkerersLab.CargoStacks.services.ToolServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.List;
 public class ToolsController {
 
     @Autowired
-    private ToolService toolService;
+    private ToolServiceImpl toolService;
 
 
     @GetMapping("/tools")

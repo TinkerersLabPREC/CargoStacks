@@ -19,7 +19,7 @@ public class Utilization {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private String id;
 
     @Column(nullable = false)
     private Utilizer utilizer;

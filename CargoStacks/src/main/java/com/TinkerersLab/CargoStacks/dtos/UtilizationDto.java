@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class UtilizationDto {
 
-    private int id;
+    private String id;
 
     private Utilizer utilizer;
     
