@@ -1,6 +1,6 @@
 package com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization;
 
-import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tools;
+import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +28,6 @@ public class Utilization {
 
 
     @ManyToOne
-    private Tools tool;
+    private Tool tool;
 
 }
