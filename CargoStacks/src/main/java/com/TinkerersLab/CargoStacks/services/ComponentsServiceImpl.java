@@ -76,9 +76,11 @@ public class ComponentsServiceImpl implements ComponentService {
     }
 
     @Override
-    public ComponentDto update(ComponentDto newComponentDto) {
-        Component comp = componentsRepo.save(dtoToEntity(newComponentDto));
-        return entityToDto(comp);
+    public ComponentDto update(ComponentDto newComponentDto, String componentId) {
+        Component oldComponent = componentsRepo.findById(componentId).get();
+        componentsRepo.save(dtoToEntity(newComponentDto));
+        return entityToDto(oldComponent);
+
     }
 
     public Component dtoToEntity(ComponentDto componentDto){

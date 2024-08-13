@@ -16,5 +16,5 @@ public interface ComponentService {
 
     ComponentDto deleteById(String componentId);
 
-    ComponentDto update(ComponentDto newComponentDto);
+    ComponentDto update(ComponentDto newComponentDto, String id);
 }
