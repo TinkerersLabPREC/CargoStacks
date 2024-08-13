@@ -18,45 +18,45 @@ public class ToolsController {
     private ToolServiceImpl toolService;
 
 
-    @GetMapping("/tools")
-    public ResponseEntity<List<Tool>> getTools() {
+    // @GetMapping("/tools")
+    // public ResponseEntity<List<Tool>> getTools() {
 
-        return new ResponseEntity<>(toolService.getAllTools(), HttpStatus.OK);
-    }
+    //     return new ResponseEntity<>(toolService.getAllTools(), HttpStatus.OK);
+    // }
 
-    @GetMapping("/tool/{id}")
-    public ResponseEntity<Tool> getToolsById(@PathVariable int id) {
+    // @GetMapping("/tool/{id}")
+    // public ResponseEntity<Tool> getToolsById(@PathVariable int id) {
 
-        return new ResponseEntity<>(toolService.getToolById(id), HttpStatus.OK);
-    }
+    //     return new ResponseEntity<>(toolService.getToolById(id), HttpStatus.OK);
+    // }
 
-    @GetMapping("/tools/search")
-    public ResponseEntity<List<Tool>> searchTools(@RequestParam String keyword) {
+    // @GetMapping("/tools/search")
+    // public ResponseEntity<List<Tool>> searchTools(@RequestParam String keyword) {
 
-        return new ResponseEntity<>(toolService.searchTools(keyword), HttpStatus.OK);
-    }
+    //     return new ResponseEntity<>(toolService.searchTools(keyword), HttpStatus.OK);
+    // }
 
-    @GetMapping("/tools/{id}/image")
-    public ResponseEntity<byte[]> getToolsImage(@PathVariable int id) {
-        return null;
-    }
+    // @GetMapping("/tools/{id}/image")
+    // public ResponseEntity<byte[]> getToolsImage(@PathVariable int id) {
+    //     return null;
+    // }
 
-    @PostMapping("/tool")
-    public ResponseEntity<Tool> addTools(@RequestBody Tool tool) {
+    // @PostMapping("/tool")
+    // public ResponseEntity<Tool> addTools(@RequestBody Tool tool) {
 
-        return new ResponseEntity<>(toolService.addTool(tool), HttpStatus.OK);
-    }
+    //     return new ResponseEntity<>(toolService.addTool(tool), HttpStatus.OK);
+    // }
 
-    @DeleteMapping("/tool/{id}")
-    public ResponseEntity<Tool> deleteTool(@PathVariable int id) {
+    // @DeleteMapping("/tool/{id}")
+    // public ResponseEntity<Tool> deleteTool(@PathVariable int id) {
 
-        return new ResponseEntity<>(toolService.deleteById(id), HttpStatus.OK);
-    }
+    //     return new ResponseEntity<>(toolService.deleteById(id), HttpStatus.OK);
+    // }
 
-    @PutMapping("/tool")
-    public ResponseEntity<Tool> updateTool(@RequestBody Tool tool) {
+    // @PutMapping("/tool")
+    // public ResponseEntity<Tool> updateTool(@RequestBody Tool tool) {
 
-        return new ResponseEntity<>(toolService.updateTools(tool), HttpStatus.OK);
-    }
+    //     return new ResponseEntity<>(toolService.updateTools(tool), HttpStatus.OK);
+    // }
 
 }

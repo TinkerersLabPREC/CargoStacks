@@ -12,9 +12,8 @@ public interface AllocationService {
 
     AllocationDto updateAllocation(AllocationDto allocationDto, String id);
 
-    List<AllocationDto> getAll();
-
+    AllocationDto getById(String id);
     
-
+    List<AllocationDto> getAll();
     
 }
