@@ -18,7 +18,7 @@ import lombok.ToString;
 public class User {
 
     @Id
-    private int id;
+    private String id;
 
     @Column(unique = true, nullable = false)
     private String username;

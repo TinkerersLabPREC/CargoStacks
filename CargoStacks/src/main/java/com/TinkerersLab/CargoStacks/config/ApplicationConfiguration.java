@@ -1,5 +1,6 @@
 package com.TinkerersLab.CargoStacks.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -40,5 +41,10 @@ public class ApplicationConfiguration {
         authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder(encryptionStrength));
         authenticationProvider.setUserDetailsService(userDetailsService);
         return authenticationProvider;
+    }
+
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
     }
 }

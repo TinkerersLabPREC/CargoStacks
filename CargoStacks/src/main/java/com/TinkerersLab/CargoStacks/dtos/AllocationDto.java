@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class AllocationDto {
 
-    private int id;
+    private String id;
 
     private Beneficiary beneficiary;
 

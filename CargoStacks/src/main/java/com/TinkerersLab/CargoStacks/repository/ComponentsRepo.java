@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ComponentsRepo extends JpaRepository<Component, Integer> {
+public interface ComponentsRepo extends JpaRepository<Component, String> {
 
     @Query(
             "SELECT c FROM Component c WHERE " +

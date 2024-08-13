@@ -2,9 +2,9 @@ package com.TinkerersLab.CargoStacks.Exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
 
-    private int id;
+    private String id;
 
-    public ResourceNotFoundException(String message, int id){
+    public ResourceNotFoundException(String message, String id){
         super(message);
         this.id = id;   
     }
@@ -13,11 +13,11 @@ public class ResourceNotFoundException extends RuntimeException {
         super("Resource not found !");
     }
 
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ToolRepo extends JpaRepository<Tool, Integer> {
+public interface ToolRepo extends JpaRepository<Tool, String> {
 
     @Query(
             "SELECT t FROM Tool t WHERE " +
