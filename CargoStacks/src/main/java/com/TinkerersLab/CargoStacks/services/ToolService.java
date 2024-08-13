@@ -10,9 +10,9 @@ public interface ToolService {
 
     List<ToolDto> getAll();
 
-    ToolDto findById(String id);
+    ToolDto getById(String id);
 
-    ToolDto update(ToolDto toolDto);
+    ToolDto update(ToolDto toolDto, String toolId);
 
     ToolDto delete(String id);
     

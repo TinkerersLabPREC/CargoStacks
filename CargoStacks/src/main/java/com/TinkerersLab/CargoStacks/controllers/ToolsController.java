@@ -1,11 +1,20 @@
 package com.TinkerersLab.CargoStacks.controllers;
 
-import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
+import com.TinkerersLab.CargoStacks.dtos.ToolDto;
 import com.TinkerersLab.CargoStacks.services.ToolServiceImpl;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -16,46 +25,30 @@ public class ToolsController {
     @Autowired
     private ToolServiceImpl toolService;
 
+    @GetMapping
+    public List<ToolDto> getAllTools() {
+        return toolService.getAll();
+    }
+    
+    @GetMapping("/{toolId}")
+    public ToolDto getToolByID (@RequestParam String toolId ) {
+        return toolService.getById(toolId);
+    }
 
-    // @GetMapping("/tools")
-    // public ResponseEntity<List<Tool>> getTools() {
+    @PostMapping()
+    public ResponseEntity<ToolDto> crateTool(@RequestBody ToolDto newTool ) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(toolService.create(newTool));
+    }
 
-    //     return new ResponseEntity<>(toolService.getAllTools(), HttpStatus.OK);
-    // }
+    @PutMapping("/{toolId}")
+    public ToolDto updateTool (@PathVariable String toolId, @RequestBody ToolDto updatedTool ) {
+        return toolService.update(updatedTool, toolId);
+    }
 
-    // @GetMapping("/tool/{id}")
-    // public ResponseEntity<Tool> getToolsById(@PathVariable int id) {
-
-    //     return new ResponseEntity<>(toolService.getToolById(id), HttpStatus.OK);
-    // }
-
-    // @GetMapping("/tools/search")
-    // public ResponseEntity<List<Tool>> searchTools(@RequestParam String keyword) {
-
-    //     return new ResponseEntity<>(toolService.searchTools(keyword), HttpStatus.OK);
-    // }
-
-    // @GetMapping("/tools/{id}/image")
-    // public ResponseEntity<byte[]> getToolsImage(@PathVariable int id) {
-    //     return null;
-    // }
-
-    // @PostMapping("/tool")
-    // public ResponseEntity<Tool> addTools(@RequestBody Tool tool) {
-
-    //     return new ResponseEntity<>(toolService.addTool(tool), HttpStatus.OK);
-    // }
-
-    // @DeleteMapping("/tool/{id}")
-    // public ResponseEntity<Tool> deleteTool(@PathVariable int id) {
-
-    //     return new ResponseEntity<>(toolService.deleteById(id), HttpStatus.OK);
-    // }
-
-    // @PutMapping("/tool")
-    // public ResponseEntity<Tool> updateTool(@RequestBody Tool tool) {
-
-    //     return new ResponseEntity<>(toolService.updateTools(tool), HttpStatus.OK);
-    // }
+    @DeleteMapping("/{toolId}")
+    public ToolDto deleteTool(@PathVariable String toolId){
+        return toolService.delete(toolId);
+        
+    }
 
 }

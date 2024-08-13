@@ -40,16 +40,16 @@ public class ToolServiceImpl implements ToolService {
     }
 
     @Override
-    public ToolDto findById(String id) {
+    public ToolDto getById(String id) {
         Tool tool = toolRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tool of provided id not found!" ,id));
         return entityToDto(tool);
     }
 
     @Override
-    public ToolDto update(ToolDto toolDto) {
+    public ToolDto update(ToolDto toolDto, String toolId) {
         toolRepo
-            .findById(toolDto.getId())
-            .orElseThrow(()-> new ResourceNotFoundException("Tool to be updated not found!", toolDto.getId()));
+            .findById(toolId)
+            .orElseThrow(()-> new ResourceNotFoundException("Tool to be updated not found!", toolId));
 
         Tool newTool = toolRepo.save(dtoToEntity(toolDto));
         return entityToDto(newTool);        
