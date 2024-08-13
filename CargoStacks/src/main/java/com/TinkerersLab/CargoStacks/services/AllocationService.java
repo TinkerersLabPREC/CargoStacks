@@ -8,7 +8,7 @@ public interface AllocationService {
 
     AllocationDto allocate(AllocationDto allocationDto);
 
-    AllocationDto deallocate(AllocationDto allocationDto);
+    AllocationDto deallocate(AllocationDto allocationDto, String id);
 
     AllocationDto updateAllocation(AllocationDto allocationDto, String id);
 
