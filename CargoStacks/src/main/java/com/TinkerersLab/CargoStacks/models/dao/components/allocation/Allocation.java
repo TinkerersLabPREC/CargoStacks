@@ -16,7 +16,6 @@ import lombok.ToString;
 public class Allocation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
 
     @Column(

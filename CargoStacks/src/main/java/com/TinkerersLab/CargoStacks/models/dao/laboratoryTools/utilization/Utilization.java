@@ -18,7 +18,6 @@ import java.sql.Time;
 public class Utilization {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
 
     @Column(nullable = false)

@@ -18,7 +18,6 @@ import java.util.List;
 public class Tool {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
 
     @Column(

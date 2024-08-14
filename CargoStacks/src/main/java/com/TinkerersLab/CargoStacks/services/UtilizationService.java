@@ -13,6 +13,5 @@ public interface UtilizationService {
     UtilizationDto utilize(UtilizationDto utilizationDto);
 
     UtilizationDto update(UtilizationDto newUtilizationDto, String id);
-
     
 }

@@ -12,7 +12,6 @@ import java.util.List;
 public class Component {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
 
     @Column(
