@@ -12,7 +12,7 @@ public class AllocationServiceImpl implements AllocationService {
 
     private AllocationRepo allocationRepo;
     
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     public AllocationServiceImpl(AllocationRepo allocationRepo, ModelMapper modelMapper){
         this.allocationRepo = allocationRepo;
@@ -56,13 +56,11 @@ public class AllocationServiceImpl implements AllocationService {
     }
 
     public AllocationDto entityToDto(Allocation allocation){
-        AllocationDto allocationDto = modelMapper.map(allocation, AllocationDto.class);
-        return allocationDto;
+        return modelMapper.map(allocation, AllocationDto.class);
     }
 
     public Allocation dtoToEntity(AllocationDto allocationDto){
-        Allocation allocation = modelMapper.map(allocationDto, Allocation.class);
-        return allocation;
+        return modelMapper.map(allocationDto, Allocation.class);
     }
 
 }

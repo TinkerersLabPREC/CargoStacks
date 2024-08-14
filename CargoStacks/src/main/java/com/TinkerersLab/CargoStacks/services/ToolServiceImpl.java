@@ -33,12 +33,10 @@ public class ToolServiceImpl implements ToolService {
     @Override
     public List<ToolDto> getAll() {
         List<Tool> tools = toolRepo.findAll();
-        List<ToolDto> toolDtos = tools
+        return tools
                 .stream()
                 .map(tool -> entityToDto(tool))
-                .toList()
-        ;
-        return toolDtos;
+                .toList();
     }
 
     @Override
@@ -81,34 +79,7 @@ public class ToolServiceImpl implements ToolService {
     }
 
     public Tool dtoToEntity(ToolDto toolDto){
-        Tool tool = modelMapper.map(toolDto, Tool.class);
-        return tool;
+        return modelMapper.map(toolDto, Tool.class);
     }
 
-
-    // public List<Tool> getAllTools() {
-    //     return toolRepo.findAll();
-    // }
-
-    // public Tool getToolById(String id) {
-    //     return toolRepo.findById(id).orElse(new Tool());
-    // }
-
-    // public List<Tool> searchTools(String keyword) {
-    //     return toolRepo.searchTools(keyword);
-    // }
-
-    // public Tool addTool(Tool tool) {
-    //     return toolRepo.save(tool);
-    // }
-
-    // public Tool deleteById(String id) {
-    //     Tool tool = getToolById(id);
-    //     toolRepo.delete(tool);
-    //     return tool;
-    // }
-
-    // public Tool updateTools(Tool tool) {
-    //     return toolRepo.save(tool);
-    // }
 }

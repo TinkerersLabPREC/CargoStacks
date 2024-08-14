@@ -55,13 +55,11 @@ public class UtilizationServiceImpl implements UtilizationService {
     }
 
     public UtilizationDto entityToDto(Utilization utilization){
-        UtilizationDto utilizationDto = modelMapper.map(utilization, UtilizationDto.class);
-        return utilizationDto;
+        return modelMapper.map(utilization, UtilizationDto.class);
     }
 
     public Utilization dtoToEntity(UtilizationDto utilizationDto){
-        Utilization utilization = modelMapper.map(utilizationDto, Utilization.class);
-        return utilization;
+        return modelMapper.map(utilizationDto, Utilization.class);
     }
 
 }

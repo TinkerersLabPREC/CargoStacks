@@ -22,6 +22,7 @@ public class ApplicationConfiguration {
 
     @Autowired
     UserDetailsService userDetailsService;
+
     @Value("${server.BcryptPasswordEncoder.strength}")
     private int encryptionStrength;
 
