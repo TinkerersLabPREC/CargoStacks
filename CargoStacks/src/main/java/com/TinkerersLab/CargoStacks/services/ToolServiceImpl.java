@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ToolServiceImpl implements ToolService {
@@ -24,6 +25,7 @@ public class ToolServiceImpl implements ToolService {
 
     @Override
     public ToolDto create(ToolDto toolDto) {
+        toolDto.setId(UUID.randomUUID().toString());
         Tool tool = toolRepo.save(dtoToEntity(toolDto));
         return entityToDto(tool);
     }
@@ -47,12 +49,12 @@ public class ToolServiceImpl implements ToolService {
 
     @Override
     public ToolDto update(ToolDto toolDto, String toolId) {
-        toolRepo
+        Tool oldTool = toolRepo
             .findById(toolId)
             .orElseThrow(()-> new ResourceNotFoundException("Tool to be updated not found!", toolId));
 
-        Tool newTool = toolRepo.save(dtoToEntity(toolDto));
-        return entityToDto(newTool);        
+        toolRepo.save(dtoToEntity(toolDto));
+        return entityToDto(oldTool);        
     }
 
     @Override

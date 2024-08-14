@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ComponentsServiceImpl implements ComponentService {
@@ -28,7 +29,7 @@ public class ComponentsServiceImpl implements ComponentService {
 
     @Override
     public ComponentDto create(ComponentDto componentDto) {
-
+        componentDto.setId(UUID.randomUUID().toString());
         Component newComponent = componentsRepo.save(dtoToEntity(componentDto));
         return entityToDto(newComponent);
     }

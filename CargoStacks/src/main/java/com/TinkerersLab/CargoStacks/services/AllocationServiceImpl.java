@@ -1,12 +1,10 @@
 package com.TinkerersLab.CargoStacks.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.TinkerersLab.CargoStacks.dtos.AllocationDto;
-import com.TinkerersLab.CargoStacks.models.dao.components.Component;
 import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
 import com.TinkerersLab.CargoStacks.repository.AllocationRepo;
 
@@ -23,7 +21,7 @@ public class AllocationServiceImpl implements AllocationService {
 
     @Override
     public AllocationDto allocate(AllocationDto allocationDto) {
-
+        allocationDto.setId(UUID.randomUUID().toString());
         Allocation allocation = allocationRepo.save(dtoToEntity(allocationDto));
         return entityToDto(allocation);
     }
@@ -44,14 +42,17 @@ public class AllocationServiceImpl implements AllocationService {
 
     @Override
     public AllocationDto getById(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+        Allocation allocation = allocationRepo.findById(id).get();
+        return entityToDto(allocation);
     }
 
     @Override
     public List<AllocationDto> getAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        List<Allocation> allocations = allocationRepo.findAll();
+        return allocations
+            .stream()
+            .map( allocation -> entityToDto(allocation))
+            .toList();
     }
 
     public AllocationDto entityToDto(Allocation allocation){

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
 
 @RestController
-@RequestMapping("/api/v1/allocations")
+@RequestMapping("/api")
 public class AllocationController {
 
 

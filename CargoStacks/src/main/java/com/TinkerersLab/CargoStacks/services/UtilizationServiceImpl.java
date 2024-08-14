@@ -1,6 +1,7 @@
 package com.TinkerersLab.CargoStacks.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,7 @@ public class UtilizationServiceImpl implements UtilizationService {
 
     @Override
     public UtilizationDto utilize(UtilizationDto utilizationDto) {
+        utilizationDto.setId(UUID.randomUUID().toString());
         Utilization utilization = utilizationRepo.save(dtoToEntity(utilizationDto));
         return entityToDto(utilization);
     }
