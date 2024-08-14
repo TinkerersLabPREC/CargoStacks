@@ -1,6 +1,6 @@
 package com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization;
 
-import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tools;
+import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,8 +18,7 @@ import java.sql.Time;
 public class Utilization {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private String id;
 
     @Column(nullable = false)
     private Utilizer utilizer;
@@ -28,6 +27,6 @@ public class Utilization {
 
 
     @ManyToOne
-    private Tools tool;
+    private Tool tool;
 
 }

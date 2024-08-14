@@ -15,11 +15,10 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Table(name = "tools")
-public class Tools {
+public class Tool {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private String id;
 
     @Column(
             nullable = false,

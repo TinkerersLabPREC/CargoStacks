@@ -15,15 +15,16 @@ public class AllocationController {
 
 
     @PostMapping("/{id}/allocate")
-    public ResponseEntity<Allocation> allocateComponent(@RequestBody Allocation allocation, @PathVariable("id") int compId) {
+    public ResponseEntity<Allocation> allocateComponent(@RequestBody Allocation allocation, 
+        @PathVariable("id") int compId) {
         
-        return new ResponseEntity<>(null);
+        return null;
     }
 
     @PostMapping("/{componentId}/{allocationId}")
     public ResponseEntity<Allocation> returnAllocated(@PathVariable("componentId")int componentId, 
-        @PathVariable("allocationId") int allocationId
-    ){
+        @PathVariable("allocationId") int allocationId){
+            
         return null;
 
     }

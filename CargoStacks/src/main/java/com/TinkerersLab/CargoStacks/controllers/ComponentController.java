@@ -1,62 +1,51 @@
 package com.TinkerersLab.CargoStacks.controllers;
 
-import com.TinkerersLab.CargoStacks.models.dao.components.Component;
-import com.TinkerersLab.CargoStacks.services.ComponentsService;
+import com.TinkerersLab.CargoStacks.dtos.ComponentDto;
+import com.TinkerersLab.CargoStacks.services.ComponentsServiceImpl;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
+@RequestMapping("/api/v1/components")
 public class ComponentController {
 
     @Autowired
-    private ComponentsService componentsService;
+    private ComponentsServiceImpl componentsService;
 
-    @GetMapping("/components")
-    public ResponseEntity<List<Component>> getAllComponents() {
-
-        return new ResponseEntity<>(componentsService.getAllComponents(), HttpStatus.OK);
+    @GetMapping
+    public List<ComponentDto> getMethodName() {
+        return componentsService.getAll();
+    }
+    
+    @GetMapping("/{componentId}")
+    public ComponentDto getMethodName(@PathVariable String componentId) {
+        return componentsService.getById(componentId);
     }
 
-    @GetMapping("/component/{id}")
-    public ResponseEntity<Component> getComponentById(@PathVariable int id) {
-
-        return new ResponseEntity<>(componentsService.getComponentById(id), HttpStatus.OK);
+    @PostMapping
+    public ResponseEntity<ComponentDto> createComponent (@RequestBody ComponentDto componentDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(componentsService.create(componentDto));
     }
 
-    @GetMapping("/component/search")
-    public ResponseEntity<List<Component>> searchComponent(@RequestParam String keyword) {
-
-        return new ResponseEntity<>(componentsService.searchComponent(keyword), HttpStatus.OK);
+    @PutMapping("/{componentId}")
+    public ComponentDto updateComponent (@PathVariable String componentId, @RequestBody ComponentDto componentDto) {
+        return componentsService.update(componentDto, componentId);
     }
 
-    @GetMapping("/component/{id}/image")
-    public ResponseEntity<byte[]> getComponentImage(@PathVariable int id) {
-
-        return null;
-    }
-
-    @PostMapping("/component")
-    public ResponseEntity<Component> addComponent(@RequestBody Component component) {
-
-        return new ResponseEntity<>(componentsService.addComponent(component), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/component/{id}")
-    public ResponseEntity<Component> deleteComponent(@PathVariable int id) {
-        return new ResponseEntity<>(componentsService.deleteById(id), HttpStatus.OK);
-    }
-
-    @PutMapping("/component")
-    public ResponseEntity<Component> updateComponent(@RequestBody Component component) {
-        return new ResponseEntity<>(componentsService.updateComponent(component), HttpStatus.OK);
+    @DeleteMapping("/{componentId}")    
+    public ComponentDto deleteComponent ( @PathVariable String componentId){
+        return componentsService.deleteById(componentId);
     }
 
 }

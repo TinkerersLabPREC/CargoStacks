@@ -1,23 +1,19 @@
 package com.TinkerersLab.CargoStacks.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
-import com.TinkerersLab.CargoStacks.models.dao.components.Component;
-import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
-import com.TinkerersLab.CargoStacks.repository.AllocationRepo;
+import com.TinkerersLab.CargoStacks.dtos.AllocationDto;
 
-public class AllocationService {
+public interface AllocationService {
 
-    @Autowired
-    private AllocationRepo allocationRepo;
+    AllocationDto allocate(AllocationDto allocationDto);
+
+    AllocationDto deallocate(AllocationDto allocationDto, String id);
+
+    AllocationDto updateAllocation(AllocationDto allocationDto, String id);
+
+    AllocationDto getById(String id);
     
-    @Autowired
-    private ComponentsService componentsService;
-
-    public Allocation allocate(Allocation allocation, int compId){
-        Component component = componentsService.getComponentById(compId);
-        component.setCurrentlyAvailable(component.getCurrentlyAvailable() - allocation.getQuantityTaken());
-        allocation.setComponent(component);
-        return allocationRepo.save(allocation);
-    }
+    List<AllocationDto> getAll();
+    
 }

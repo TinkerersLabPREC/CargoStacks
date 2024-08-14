@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
 
 @Repository
-public interface AllocationRepo extends JpaRepository<Allocation, Integer> {
+public interface AllocationRepo extends JpaRepository<Allocation, String> {
 
 }
