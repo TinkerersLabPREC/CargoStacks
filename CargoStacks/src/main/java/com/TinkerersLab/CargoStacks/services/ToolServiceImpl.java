@@ -2,10 +2,14 @@ package com.TinkerersLab.CargoStacks.services;
 
 import com.TinkerersLab.CargoStacks.Exceptions.ResourceNotFoundException;
 import com.TinkerersLab.CargoStacks.dtos.ToolDto;
+import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
 import com.TinkerersLab.CargoStacks.repository.ToolRepo;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,12 +35,36 @@ public class ToolServiceImpl implements ToolService {
     }
 
     @Override
-    public List<ToolDto> getAll() {
-        List<Tool> tools = toolRepo.findAll();
-        return tools
-                .stream()
-                .map(tool -> entityToDto(tool))
-                .toList();
+    public CustomPageResponse<ToolDto> getAll(int pageNumber, int pageSize, String sortBy, String sortSeq) {
+        if(pageNumber <= 0){
+            return null;
+        }
+
+        Sort sort;
+        if(sortSeq.equals("descending")){
+            sort = Sort.by(sortBy).descending();
+        }else{
+            sort = Sort.by(sortBy).ascending();
+        }
+
+        PageRequest pageRequest = PageRequest.of(pageNumber-1, pageSize, sort);
+        Page<Tool> toolPage = toolRepo.findAll(pageRequest);
+        List<Tool> tools = toolPage.getContent();
+
+        List<ToolDto> toolDtos = tools
+            .stream()
+            .map(tool -> entityToDto(tool))
+            .toList();
+
+        CustomPageResponse<ToolDto> customPageResponse = new CustomPageResponse<>();
+        customPageResponse.setPageNumber(pageNumber);
+        customPageResponse.setPageSize(pageSize);
+        customPageResponse.setTotalElements(toolPage.getTotalElements());
+        customPageResponse.setTotalPages(toolPage.getTotalPages());
+        customPageResponse.setLast(toolPage.isLast());
+        customPageResponse.setContent(toolDtos);
+
+        return customPageResponse;
     }
 
     @Override
