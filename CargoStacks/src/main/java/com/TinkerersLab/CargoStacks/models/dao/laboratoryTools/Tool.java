@@ -21,20 +21,33 @@ public class Tool {
     private String id;
 
     @Column(
-            nullable = false,
-            unique = true,
-            length = 200
+        nullable = false,
+        unique = true,
+        length = 50
     )
     private String name;
 
     @Column(
-            nullable = false,
-            unique = true,
-            length = 200
+        nullable = false,
+        unique = true,
+        length = 50
     )
     private String modelName;
+
+    @Column(
+        nullable = false,
+        length = 500
+    )
     private String description;
+
+    @Column(
+        nullable = false
+    )
     private int price;
+
+    @Column(
+        length = 50
+    )
     private String requiredSoftware;
 
     @OneToMany(mappedBy = "tool")
