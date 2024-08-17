@@ -1,19 +1,14 @@
 package com.TinkerersLab.CargoStacks.controllers;
 
+import com.TinkerersLab.CargoStacks.config.ApplicationConstants;
 import com.TinkerersLab.CargoStacks.dtos.ComponentDto;
+import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 import com.TinkerersLab.CargoStacks.services.ComponentsServiceImpl;
-
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @CrossOrigin
@@ -24,8 +19,13 @@ public class ComponentController {
     private ComponentsServiceImpl componentsService;
 
     @GetMapping
-    public List<ComponentDto> getMethodName() {
-        return componentsService.getAll();
+    public ResponseEntity<CustomPageResponse<ComponentDto>> getAllComponents(
+        @RequestParam(name = "pageNumber", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER) int pageNumber,
+        @RequestParam(name = "pageSize" , required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_SIZE ) int pageSize,
+        @RequestParam(name = "sortBy", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_BY) String sortBy,
+        @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq) {
+        
+        return ResponseEntity.status(HttpStatus.OK).body(componentsService.getAll(pageNumber, pageSize, sortBy, sortSeq));
     }
     
     @GetMapping("/{componentId}")
