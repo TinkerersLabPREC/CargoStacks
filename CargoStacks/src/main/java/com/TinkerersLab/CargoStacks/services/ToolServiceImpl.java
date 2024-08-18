@@ -56,13 +56,15 @@ public class ToolServiceImpl implements ToolService {
             .map(tool -> entityToDto(tool))
             .toList();
 
-        CustomPageResponse<ToolDto> customPageResponse = new CustomPageResponse<>();
-        customPageResponse.setPageNumber(pageNumber);
-        customPageResponse.setPageSize(pageSize);
-        customPageResponse.setTotalElements(toolPage.getTotalElements());
-        customPageResponse.setTotalPages(toolPage.getTotalPages());
-        customPageResponse.setLast(toolPage.isLast());
-        customPageResponse.setContent(toolDtos);
+        CustomPageResponse<ToolDto> customPageResponse = CustomPageResponse
+            .<ToolDto>builder()
+            .pageNumber(pageNumber)
+            .pageSize(pageSize)
+            .totalPages(toolPage.getTotalPages())
+            .totalElements(toolPage.getTotalElements())
+            .content(toolDtos)
+            .isLast(toolPage.isLast())
+            .build();
 
         return customPageResponse;
     }

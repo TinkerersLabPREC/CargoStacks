@@ -55,13 +55,15 @@ public class ComponentsServiceImpl implements ComponentService {
             .map( course -> entityToDto(course))
             .toList();
         
-        CustomPageResponse<ComponentDto> customPageResponse = new CustomPageResponse<>();
-        customPageResponse.setPageNumber(pageNumber);
-        customPageResponse.setPageSize(pageSize);
-        customPageResponse.setTotalElements(componentPage.getTotalElements());
-        customPageResponse.setTotalPages(componentPage.getTotalPages());
-        customPageResponse.setLast(componentPage.isLast());
-        customPageResponse.setContent(componentDtos);
+        CustomPageResponse<ComponentDto> customPageResponse = CustomPageResponse
+            .<ComponentDto>builder()
+            .pageNumber(pageNumber)
+            .pageSize(pageSize)
+            .totalPages(componentPage.getTotalPages())
+            .totalElements(componentPage.getTotalElements())
+            .isLast(componentPage.isLast())
+            .content(componentDtos)
+            .build();
 
         return customPageResponse;
     }
