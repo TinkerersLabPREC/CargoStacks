@@ -19,8 +19,7 @@ public class Allocation {
     private String id;
 
     @Column(
-            nullable = false,
-            length = 500
+            nullable = false
     )
     private Beneficiary beneficiary;
 
@@ -29,6 +28,10 @@ public class Allocation {
     )
     private int quantityTaken;
 
+    @Column(
+        nullable = false,
+        length = 100
+    )
     private String projectName;
 
     @ManyToOne

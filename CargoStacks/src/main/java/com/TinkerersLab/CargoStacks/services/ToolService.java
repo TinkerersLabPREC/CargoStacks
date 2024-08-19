@@ -3,12 +3,13 @@ package com.TinkerersLab.CargoStacks.services;
 import java.util.List;
 
 import com.TinkerersLab.CargoStacks.dtos.ToolDto;
+import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 
 public interface ToolService {
 
+    CustomPageResponse<ToolDto> getAll(int pageNumber, int pageSize, String sortBy, String sortSeq);
+    
     ToolDto create(ToolDto toolDto);
-
-    List<ToolDto> getAll();
 
     ToolDto getById(String id);
 

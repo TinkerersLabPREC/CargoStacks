@@ -2,10 +2,14 @@ package com.TinkerersLab.CargoStacks.services;
 
 import com.TinkerersLab.CargoStacks.Exceptions.ResourceNotFoundException;
 import com.TinkerersLab.CargoStacks.dtos.ComponentDto;
+import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 import com.TinkerersLab.CargoStacks.models.dao.components.Component;
 import com.TinkerersLab.CargoStacks.repository.ComponentsRepo;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,15 +35,37 @@ public class ComponentsServiceImpl implements ComponentService {
     }
 
     @Override
-    public List<ComponentDto> getAll() {
+    public CustomPageResponse<ComponentDto> getAll(int pageNumber, int pageSize, String sortBy, String sortSeq) {
+        if(pageNumber <= 0 ){
+            return null;
+        }
 
-        List<Component> components = componentsRepo.findAll();
+        Sort sort;
+        if(sortBy.equals("descending")){
+            sort = Sort.by(sortBy).descending();
+        }else{
+            sort = Sort.by(sortBy).ascending();
+        }
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sort);
+        Page<Component> componentPage = componentsRepo.findAll(pageRequest);
+        List<Component> components = componentPage.getContent();
 
-        return  components
+        List<ComponentDto> componentDtos = components
             .stream()
             .map( course -> entityToDto(course))
-            .toList()
-        ;
+            .toList();
+        
+        CustomPageResponse<ComponentDto> customPageResponse = CustomPageResponse
+            .<ComponentDto>builder()
+            .pageNumber(pageNumber)
+            .pageSize(pageSize)
+            .totalPages(componentPage.getTotalPages())
+            .totalElements(componentPage.getTotalElements())
+            .isLast(componentPage.isLast())
+            .content(componentDtos)
+            .build();
+
+        return customPageResponse;
     }
 
     @Override

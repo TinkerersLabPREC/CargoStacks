@@ -20,12 +20,23 @@ public class User {
     @Id
     private String id;
 
-    @Column(unique = true, nullable = false)
+    @Column(
+        unique = true, 
+        nullable = false,
+        length = 35
+    )
     private String username;
 
-    @Column(unique = true, nullable = false)
+    @Column(
+        unique = true, 
+        nullable = false,
+        length = 50
+    )
     private String password;
 
+    @Column(
+        length = 50
+    )
     private String userDescription;
 
 }

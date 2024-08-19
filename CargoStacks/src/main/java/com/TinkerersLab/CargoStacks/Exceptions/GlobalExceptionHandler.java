@@ -1,9 +1,13 @@
 package com.TinkerersLab.CargoStacks.Exceptions;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -11,18 +15,6 @@ import com.TinkerersLab.CargoStacks.models.ErrorResponse;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
-    // @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    // public ResponseEntity<ErrorResponse> handleDuplicateObjectException(SQLIntegrityConstraintViolationException exception){
-
-    //     ErrorResponse errorResponse = new ErrorResponse<>();
-    //     errorResponse.setMessage(exception.getMessage());
-    //     errorResponse.setStatus(HttpStatus.);
-    //     errorResponse.setPayload(errorResponse);;
-    //     errorResponse.setSuccess(false);;
-        
-    //     return new ResponseEntity<>(null)
-    // } 
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity< ErrorResponse<String> > handleInvalidToolException(SQLIntegrityConstraintViolationException exception){
@@ -33,9 +25,8 @@ public class GlobalExceptionHandler {
         errorResponse.setStatus(HttpStatus.BAD_REQUEST);
         errorResponse.setSuccess(false);
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     } 
-
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse<String> > handleResourceNotFoundException(ResourceNotFoundException exception){
@@ -46,9 +37,29 @@ public class GlobalExceptionHandler {
         errorResponse.setStatus(HttpStatus.NOT_FOUND);
         errorResponse.setSuccess(false);
         errorResponse.setPayload(exception.getId());
-        
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);        
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse<Map<String, String>>> handleVailidationException(MethodArgumentNotValidException exception){
+
+        ErrorResponse<Map<String, String>> errorResponse = new ErrorResponse<>();
+        errorResponse.setMessage("Invalid Object provided");
+        errorResponse.setStatus(HttpStatus.BAD_REQUEST);
+        errorResponse.setSuccess(false);
+        
+        Map<String, String> errors = new HashMap<>();
+
+        exception.getBindingResult().getAllErrors().forEach( error -> {
+
+            String fieldName = ((FieldError)error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+
+        errorResponse.setPayload(errors);
+        return ResponseEntity.status(HttpStatus.OK).body(errorResponse);
+    }
     
 }

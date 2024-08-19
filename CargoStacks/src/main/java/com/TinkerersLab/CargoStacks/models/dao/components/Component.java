@@ -17,25 +17,35 @@ public class Component {
     @Column(
             nullable = false,
             unique = true,
-            length = 150
+            length = 50
     )
     private String name;         //actual component name
 
-    @Column(nullable = false)
+    @Column(
+		nullable = false,
+		length = 200)
     private String description;
 
     @Column(
             nullable = false,
-            unique = true,
-            length = 150
+            length = 50
     )
     private String modelName;  //model no.
 
-    @Column(nullable = false)
+    @Column(
+		nullable = false, 
+		length = 40
+	)
     private String location;         //to locate component in the lab
 
+	@Column(
+		nullable = false
+	)
     private int total;
 
+	@Column(
+		nullable = false
+	)
     private int currentlyAvailable;
 
     @OneToMany(mappedBy = "component")

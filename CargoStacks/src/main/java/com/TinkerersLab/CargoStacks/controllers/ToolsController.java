@@ -1,6 +1,8 @@
 package com.TinkerersLab.CargoStacks.controllers;
 
+import com.TinkerersLab.CargoStacks.config.ApplicationConstants;
 import com.TinkerersLab.CargoStacks.dtos.ToolDto;
+import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 import com.TinkerersLab.CargoStacks.services.ToolServiceImpl;
 
 import java.util.List;
@@ -26,8 +28,13 @@ public class ToolsController {
     private ToolServiceImpl toolService;
 
     @GetMapping
-    public List<ToolDto> getAllTools() {
-        return toolService.getAll();
+    public ResponseEntity<CustomPageResponse<ToolDto>> getAllTools(
+        @RequestParam(name = "pageNumber", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER) int pageNumber,
+        @RequestParam(name = "pageSize" , required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_SIZE ) int pageSize,
+        @RequestParam(name = "sortBy", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_BY) String sortBy,
+        @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq
+    ) {
+        return ResponseEntity.status(HttpStatus.OK).body(toolService.getAll(pageNumber, pageSize, sortBy, sortSeq));
     }
     
     @GetMapping("/{toolId}")
