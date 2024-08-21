@@ -21,10 +21,11 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ApplicationConfiguration {
 
     @Autowired
-    UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
-    @Value("${server.BcryptPasswordEncoder.strength}")
-    private int encryptionStrength;
+    @Autowired
+    private ApplicationProperties applicationProperties;
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -39,7 +40,7 @@ public class ApplicationConfiguration {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder(encryptionStrength));
+        authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder(applicationProperties.getBcryptPasswordEncoderStrength()));
         authenticationProvider.setUserDetailsService(userDetailsService);
         return authenticationProvider;
     }
