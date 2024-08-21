@@ -18,6 +18,9 @@ import lombok.ToString;
 public class User {
 
     @Id
+    @Column(
+        length = 12
+    )
     private String id;
 
     @Column(
@@ -30,12 +33,12 @@ public class User {
     @Column(
         unique = true, 
         nullable = false,
-        length = 50
+        length = 150
     )
     private String password;
 
     @Column(
-        length = 50
+        length = 150
     )
     private String userDescription;
 

@@ -50,6 +50,6 @@ public class Tool {
     )
     private String requiredSoftware;
 
-    @OneToMany(mappedBy = "tool")
+    @OneToMany(mappedBy = "tool", cascade = CascadeType.ALL)
     private List<Utilization> utilization;
 }

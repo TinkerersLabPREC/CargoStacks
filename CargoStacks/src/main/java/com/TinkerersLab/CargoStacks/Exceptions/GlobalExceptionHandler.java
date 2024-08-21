@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +16,20 @@ import com.TinkerersLab.CargoStacks.models.ErrorResponse;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Class<? extends Throwable>[] HttpRequestMethodNotSupportedException = null;
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorResponse<String>> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException exception){
+        
+        ErrorResponse<String> errorResponse = new ErrorResponse<>();
+        
+        errorResponse.setMessage(exception.getMessage());
+        errorResponse.setStatus(HttpStatus.NOT_FOUND);
+        errorResponse.setSuccess(false);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity< ErrorResponse<String> > handleInvalidToolException(SQLIntegrityConstraintViolationException exception){

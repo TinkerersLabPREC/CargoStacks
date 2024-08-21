@@ -1,6 +1,8 @@
 package com.TinkerersLab.CargoStacks.models.dao.components;
 
 import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -48,7 +50,7 @@ public class Component {
 	)
     private int currentlyAvailable;
 
-    @OneToMany(mappedBy = "component")
+    @OneToMany(mappedBy = "component", cascade = CascadeType.ALL)
     private List<Allocation> allocations;
 
 }

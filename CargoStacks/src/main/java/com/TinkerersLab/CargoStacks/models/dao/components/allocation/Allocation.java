@@ -19,7 +19,7 @@ public class Allocation {
     private String id;
 
     @Column(
-            nullable = false
+        nullable = false
     )
     private Beneficiary beneficiary;
 
@@ -33,7 +33,9 @@ public class Allocation {
         length = 100
     )
     private String projectName;
-
+    
+    private boolean isReturned = false;
+    
     @ManyToOne
     private Component component;
 

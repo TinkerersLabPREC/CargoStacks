@@ -3,7 +3,9 @@ package com.TinkerersLab.CargoStacks.dtos;
 import com.TinkerersLab.CargoStacks.models.dao.components.Component;
 import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Beneficiary;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -12,17 +14,18 @@ public class AllocationDto {
 
     private String id;
 
-    @NotEmpty
+    @NotNull
     private Beneficiary beneficiary;
 
-    @NotEmpty
+    @Min(value = 1)
     private int quantityTaken;
 
     @NotEmpty
     @Size(min = 8, max = 100)
     private String projectName;
 
-    @NotEmpty
+    private boolean isReturned = false;
+    
     private Component component;
 
 }
