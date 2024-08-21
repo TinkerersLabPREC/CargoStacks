@@ -5,6 +5,10 @@ import com.TinkerersLab.CargoStacks.dtos.ToolDto;
 import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 import com.TinkerersLab.CargoStacks.services.ToolServiceImpl;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +26,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RestController
 @RequestMapping("/api/v1/tools")
 @CrossOrigin
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ToolsController {
 
-    @Autowired
-    private ToolServiceImpl toolService;
+    ToolServiceImpl toolService;
 
     @GetMapping
     public ResponseEntity<CustomPageResponse<ToolDto>> getAllTools(

@@ -13,19 +13,4 @@ import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
 @RequestMapping("/api")
 public class AllocationController {
 
-
-    @PostMapping("/{id}/allocate")
-    public ResponseEntity<Allocation> allocateComponent(@RequestBody Allocation allocation, 
-        @PathVariable("id") int compId) {
-        
-        return null;
-    }
-
-    @PostMapping("/{componentId}/{allocationId}")
-    public ResponseEntity<Allocation> returnAllocated(@PathVariable("componentId")int componentId, 
-        @PathVariable("allocationId") int allocationId){
-            
-        return null;
-
-    }
 }

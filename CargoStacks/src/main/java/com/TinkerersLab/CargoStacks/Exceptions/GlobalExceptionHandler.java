@@ -17,8 +17,6 @@ import com.TinkerersLab.CargoStacks.models.ErrorResponse;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Class<? extends Throwable>[] HttpRequestMethodNotSupportedException = null;
-
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ErrorResponse<String>> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException exception){
         
