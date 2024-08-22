@@ -17,6 +17,6 @@ public interface AllocationService {
     
     CustomPageResponse<AllocationDto> getAll(int pageNumber, int pageSize, String sortBy, String sortSeq);
 
-    CustomPageResponse<AllocationDto> getAllOfComponent(String componentId, int pageNumber, int pageSize, String sortBy, String sortSeq);
+    CustomPageResponse<AllocationDto> getAllOfComponent(String componentId, int pageNumber, int pageSize, String sortBy, String sortSeq, String returned, String beneficiaryName);
     
 }

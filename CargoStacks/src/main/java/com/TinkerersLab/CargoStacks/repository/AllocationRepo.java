@@ -9,8 +9,16 @@ import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
 import com.TinkerersLab.CargoStacks.models.dao.components.Component;
 
 
+
 @Repository
 public interface AllocationRepo extends JpaRepository<Allocation, String> {
 
     Page<Allocation> findByComponent(Component component, PageRequest pageRequest);
+
+    Page<Allocation> findByComponentAndReturned(Component component, boolean isReturned, PageRequest pageRequest);
+    
+    Page<Allocation> findByBeneficiaryNameContainingIgnoreCaseAndComponent(String beneficiaryName, Component component, PageRequest pageRequest);
+
+    // Page<Allocation> findByComponentAndReturned(Component component, boolean isReturned, String beneficiaryName )
+
 }

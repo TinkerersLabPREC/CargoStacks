@@ -1,6 +1,7 @@
 package com.TinkerersLab.CargoStacks.dtos;
 
-import com.TinkerersLab.CargoStacks.models.dao.components.Component;
+import java.util.Date;
+
 import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Beneficiary;
 
 import jakarta.validation.constraints.Min;
@@ -20,12 +21,14 @@ public class AllocationDto {
     @Min(value = 1)
     private int quantityTaken;
 
-    @NotEmpty
     @Size(min = 8, max = 100)
     private String projectName;
 
-    private boolean isReturned = false;
+    private Date allocationDate;
     
-    private Component component;
+    @NotNull
+    private boolean isReturned;
+    
+    private ComponentDto component;
 
 }

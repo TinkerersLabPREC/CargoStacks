@@ -70,9 +70,12 @@ public class ComponentController {
         @RequestParam(name = "pageNumber", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER) int pageNumber,
         @RequestParam(name = "pageSize" , required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_SIZE ) int pageSize,
         @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
-        @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq) {
+        @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq,
+        @RequestParam(name = "returned", required = false, defaultValue =  ApplicationConstants.DEFAULT_ALLOCATION_RETURNED) String returned,
+        @RequestParam(name = "beneficiaryName", required = false, defaultValue = ApplicationConstants.DEFAULT_BENEFICIARY_NAME) String beneficiaryName
+        ) {
         
-        return ResponseEntity.ok(allocationService.getAllOfComponent(componentId, pageNumber, pageSize, sortBy, sortSeq));
+        return ResponseEntity.ok(allocationService.getAllOfComponent(componentId, pageNumber, pageSize, sortBy, sortSeq, returned, beneficiaryName));
     }
 
     @PostMapping("/{componentId}/allocations")
@@ -84,12 +87,10 @@ public class ComponentController {
     }
 
     @DeleteMapping("/{componentId}/allocations/{allocationId}")
-    public AllocationDto deallocationComponent(@PathVariable String componentId,
+    public AllocationDto deallocationComponent( @PathVariable String componentId,
         @PathVariable String allocationId) {
         
         return allocationService.deallocate(componentId, allocationId);
-    }
-    
-        
+    }       
     
 }

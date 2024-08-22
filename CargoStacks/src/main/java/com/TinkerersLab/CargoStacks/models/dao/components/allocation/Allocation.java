@@ -1,5 +1,7 @@
 package com.TinkerersLab.CargoStacks.models.dao.components.allocation;
 
+import java.util.Date;
+
 import com.TinkerersLab.CargoStacks.models.dao.components.Component;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,7 +36,15 @@ public class Allocation {
     )
     private String projectName;
     
-    private boolean isReturned = false;
+    @Column(
+        nullable = false
+    )
+    private Date allocationDate;
+    
+    @Column(
+        nullable = false
+    )
+    private boolean isReturned;
     
     @ManyToOne
     private Component component;

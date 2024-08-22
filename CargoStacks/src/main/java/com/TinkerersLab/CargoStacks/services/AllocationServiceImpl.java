@@ -1,5 +1,6 @@
 package com.TinkerersLab.CargoStacks.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +44,8 @@ public class AllocationServiceImpl implements AllocationService {
         component.setCurrentlyAvailable(component.getCurrentlyAvailable() - newAllocationDto.getQuantityTaken());
         
         Allocation newAllocation = dtoToEntity(newAllocationDto);
+        newAllocation.setReturned(false);
+        newAllocation.setAllocationDate(new Date());
         newAllocation.setComponent(component);
         // newAllocation.addComponent(component);
         Allocation savedAllocation = allocationRepo.save(newAllocation);
@@ -56,12 +59,14 @@ public class AllocationServiceImpl implements AllocationService {
         Component component = componentsRepo
             .findById(componentId)
             .orElseThrow(() -> new ResourceNotFoundException("Component with provided id not found", componentId));
+
         Allocation allocation = allocationRepo
             .findById(allocationId)
             .orElseThrow(() -> new ResourceNotFoundException("Allocation with provided id not found", allocationId));
+
         allocation.setReturned(true);
         component.setCurrentlyAvailable(component.getCurrentlyAvailable()+allocation.getQuantityTaken());
-        componentsRepo.save(component);
+        allocationRepo.save(allocation);
         return entityToDto(allocation);
         // Allocation allocation = allocationRepo.findById(id).get();
         // allocationRepo.delete(allocation);
@@ -114,7 +119,13 @@ public class AllocationServiceImpl implements AllocationService {
 
 
     @Override
-    public CustomPageResponse<AllocationDto> getAllOfComponent(String componentId, int pageNumber, int pageSize, String sortBy, String sortSeq) {
+    public CustomPageResponse<AllocationDto> getAllOfComponent(String componentId, 
+        int pageNumber, 
+        int pageSize, 
+        String sortBy, 
+        String sortSeq, 
+        String returned, 
+        String beneficiaryName) {
         
         Sort sort;
 
@@ -129,7 +140,29 @@ public class AllocationServiceImpl implements AllocationService {
             .findById(componentId)
             .orElseThrow(() -> new ResourceNotFoundException("Component with provided id does not exist", componentId));
 
-        Page<Allocation> allocationPage = allocationRepo.findByComponent(component, pageRequest);
+        Page<Allocation> allocationPage;
+
+        if(!returned.equals("null") && !beneficiaryName.equals("null")){
+            // TODO: Write a custom query in repository
+            allocationPage = allocationRepo.findByComponent(component, pageRequest);
+
+        }else if(returned.equals("null") && !beneficiaryName.equals("null")){
+            allocationPage = allocationRepo.findByBeneficiaryNameContainingIgnoreCaseAndComponent(beneficiaryName, component, pageRequest);
+
+        }else if(!returned.equals("null") && beneficiaryName.equals("null")){
+
+            if(returned.equals("true")){
+                allocationPage = allocationRepo.findByComponentAndReturned(component, true, pageRequest);
+
+            }else if(returned.equals("false")){
+                allocationPage = allocationRepo.findByComponentAndReturned(component, false, pageRequest);
+
+            }else{
+                allocationPage = allocationRepo.findByComponent(component, pageRequest); 
+            }
+        }else {
+            allocationPage = allocationRepo.findByComponent(component, pageRequest);
+        }
         List<Allocation> allocations = allocationPage.getContent();
         List<AllocationDto> allocationDtos = allocations
             .stream()
