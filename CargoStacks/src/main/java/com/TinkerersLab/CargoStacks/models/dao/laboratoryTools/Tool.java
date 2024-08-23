@@ -46,7 +46,7 @@ public class Tool {
     private int price;
 
     @Column(
-        length = 50
+        length = 100
     )
     private String requiredSoftware;
 

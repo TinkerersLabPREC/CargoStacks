@@ -4,17 +4,19 @@ import java.util.List;
 
 import com.TinkerersLab.CargoStacks.dtos.ToolDto;
 import com.TinkerersLab.CargoStacks.dtos.UtilizationDto;
+import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
 
 public interface UtilizationService {
 
-    List<UtilizationDto> getAll();
+    CustomPageResponse<UtilizationDto> getAll(int pageNumber, int pageSize, String sortBy, String sortSeq);
 
     UtilizationDto getById(String id);
 
-    UtilizationDto utilize(UtilizationDto utilizationDto);
+    UtilizationDto utilize(String toolId, UtilizationDto utilizationDto);
 
     UtilizationDto update(UtilizationDto newUtilizationDto, String id);
     
-    UtilizationDto utilizeTool(ToolDto toolDto, UtilizationDto utilizationDto);
+    CustomPageResponse<UtilizationDto> getUtilizationOfTool(int pageNumber, int pageSize, String sortBy, String sortSeq, String toolId);
+
 }

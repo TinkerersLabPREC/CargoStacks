@@ -23,7 +23,7 @@ public class Utilization {
     @Column(nullable = false)
     private Utilizer utilizer;
 
-    private Date UtilizationTime;
+    private Date utilizationTime;
 
     private int estimatedTimeRequired;          //estimation tool utilization time in hours
 

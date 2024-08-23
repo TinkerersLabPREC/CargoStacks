@@ -19,7 +19,4 @@ public interface ToolService {
     ToolDto delete(String id);
     
     List<ToolDto> search(String keyword);
-
-    UtilizationDto utilizeTool(String toolId, UtilizationDto newUtilizationDto);
-    
 }

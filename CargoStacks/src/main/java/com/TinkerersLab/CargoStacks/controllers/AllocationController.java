@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -34,6 +35,12 @@ public class AllocationController {
         
         return ResponseEntity.ok().body(allocationService.getAll(pageNumber, pageSize, sortBy, sortSeq));
     }
+
+    @GetMapping("/{allocationId}")
+    public AllocationDto getAllocationById (@PathVariable String allocationVariable ) {
+        return null;
+    }
+    
     
 
 }

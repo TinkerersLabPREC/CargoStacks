@@ -5,6 +5,7 @@ import com.TinkerersLab.CargoStacks.dtos.ToolDto;
 import com.TinkerersLab.CargoStacks.dtos.UtilizationDto;
 import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 import com.TinkerersLab.CargoStacks.services.ToolServiceImpl;
+import com.TinkerersLab.CargoStacks.services.UtilizationServiceImpl;
 
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -28,6 +29,8 @@ public class ToolsController {
 
     ToolServiceImpl toolService;
 
+    UtilizationServiceImpl utilizationService;
+
     @GetMapping
     public ResponseEntity<CustomPageResponse<ToolDto>> getAllTools(
         @RequestParam(name = "pageNumber", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER) int pageNumber,
@@ -39,17 +42,18 @@ public class ToolsController {
     }
     
     @GetMapping("/{toolId}")
-    public ToolDto getToolByID (@RequestParam String toolId ) {
+    public ToolDto getToolByID (@PathVariable String toolId ) {
         return toolService.getById(toolId);
     }
 
     @PostMapping()
     public ResponseEntity<ToolDto> crateTool(@RequestBody ToolDto newTool ) {
+
         return ResponseEntity.status(HttpStatus.CREATED).body(toolService.create(newTool));
     }
 
     @PutMapping("/{toolId}")
-    public ToolDto updateTool (@PathVariable String toolId, @RequestBody ToolDto updatedTool ) {
+    public ToolDto updateTool (@PathVariable String toolId, @Valid @RequestBody ToolDto updatedTool ) {
         return toolService.update(updatedTool, toolId);
     }
 
@@ -66,15 +70,15 @@ public class ToolsController {
         @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
         @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq
     ){
-        return ResponseEntity.ok(toolService.getUtilizations(pageNumber, pageSize, sortBy, sortSeq, toolId));
+
+        return ResponseEntity.ok(utilizationService.getUtilizationOfTool(pageNumber, pageSize, sortBy, sortSeq, toolId));
     }
     
-    @PostMapping("/{toolId}/utilization")
+    @PostMapping("/{toolId}/utilizations")
     public ResponseEntity<UtilizationDto> createUtilization (@PathVariable String toolId,
         @Valid @RequestBody UtilizationDto utilizationDto) {
         
-        return ResponseEntity.status(HttpStatus.CREATED).body(toolService.utilizeTool(toolId, utilizationDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(utilizationService.utilize(toolId, utilizationDto));
     }
     
-
 }
