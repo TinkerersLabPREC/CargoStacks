@@ -38,9 +38,7 @@ public class AllocationController {
 
     @GetMapping("/{allocationId}")
     public AllocationDto getAllocationById (@PathVariable String allocationVariable ) {
-        return null;
+        return allocationService.getById(allocationVariable);
     }
-    
-    
 
 }

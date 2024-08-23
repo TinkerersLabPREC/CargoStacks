@@ -76,9 +76,10 @@ public class UtilizationServiceImpl implements UtilizationService {
         }else{
             newUtilizationDto.setUtilizationTime(newUtilizationDto.getUtilizationTime());
         }
-        newUtilizationDto.setTool(tool);
+        Utilization newUtilization = dtoToEntity(newUtilizationDto);
+        newUtilization.setTool(tool);
 
-        Utilization savedUtilization = utilizationRepo.save(dtoToEntity(newUtilizationDto));
+        Utilization savedUtilization = utilizationRepo.save(newUtilization);
         return entityToDto(savedUtilization);
     }
 
