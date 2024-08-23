@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 @Service
 @Configuration
-@ConfigurationProperties(prefix = "com.application")
+@ConfigurationProperties(prefix = "spring.application")
 @Validated
 public class ApplicationProperties {
 
