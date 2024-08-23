@@ -6,7 +6,9 @@ import java.util.UUID;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.TinkerersLab.CargoStacks.dtos.ToolDto;
 import com.TinkerersLab.CargoStacks.dtos.UtilizationDto;
+import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization.Utilization;
 import com.TinkerersLab.CargoStacks.repository.UtilizationRepo;
 
@@ -17,6 +19,7 @@ public class UtilizationServiceImpl implements UtilizationService {
 
     private ModelMapper modelMapper;
 
+    private ToolServiceImpl toolService;
 
     public UtilizationServiceImpl(UtilizationRepo utilizationRepo, ModelMapper modelMapper){
         this.modelMapper = modelMapper;
@@ -52,6 +55,17 @@ public class UtilizationServiceImpl implements UtilizationService {
         Utilization oldUtilization = utilizationRepo.findById(id).get();
         utilizationRepo.save(dtoToEntity(newUtilizationDto));
         return entityToDto(oldUtilization);
+    }
+
+    @Override
+    public UtilizationDto utilizeTool(ToolDto toolDto, UtilizationDto newUtilizationDto) {
+        Tool tool = toolService.dtoToEntity(toolDto);
+        Utilization newUtilization = dtoToEntity(newUtilizationDto);
+
+        tool.getUtilization().add(newUtilization);
+        Utilization savedUtilization =  utilizationRepo.save(newUtilization);
+
+        return entityToDto(savedUtilization);
     }
 
     public UtilizationDto entityToDto(Utilization utilization){

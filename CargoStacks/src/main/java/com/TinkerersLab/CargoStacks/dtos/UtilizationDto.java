@@ -5,6 +5,8 @@ import java.sql.Time;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization.Utilizer;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -14,7 +16,7 @@ public class UtilizationDto {
 
     private Utilizer utilizer;
     
-    private Time UtilizationTime;
+    private Date UtilizationTime;
     
     private int estimatedTimeRequired;
 

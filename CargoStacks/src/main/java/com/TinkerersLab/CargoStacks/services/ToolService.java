@@ -3,6 +3,7 @@ package com.TinkerersLab.CargoStacks.services;
 import java.util.List;
 
 import com.TinkerersLab.CargoStacks.dtos.ToolDto;
+import com.TinkerersLab.CargoStacks.dtos.UtilizationDto;
 import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 
 public interface ToolService {
@@ -18,4 +19,7 @@ public interface ToolService {
     ToolDto delete(String id);
     
     List<ToolDto> search(String keyword);
+
+    UtilizationDto utilizeTool(String toolId, UtilizationDto newUtilizationDto);
+    
 }

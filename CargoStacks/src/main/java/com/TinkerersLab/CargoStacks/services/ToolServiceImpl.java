@@ -1,10 +1,19 @@
 package com.TinkerersLab.CargoStacks.services;
 
 import com.TinkerersLab.CargoStacks.Exceptions.ResourceNotFoundException;
+import com.TinkerersLab.CargoStacks.dtos.AllocationDto;
 import com.TinkerersLab.CargoStacks.dtos.ToolDto;
+import com.TinkerersLab.CargoStacks.dtos.UtilizationDto;
 import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
+import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization.Utilization;
 import com.TinkerersLab.CargoStacks.repository.ToolRepo;
+import com.TinkerersLab.CargoStacks.repository.UtilizationRepo;
+
+import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -12,20 +21,22 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date; 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ToolServiceImpl implements ToolService {
 
     ToolRepo toolRepo;
 
     ModelMapper modelMapper;
 
-    public ToolServiceImpl(ToolRepo toolRepo, ModelMapper modelMapper){
-        this.modelMapper = modelMapper;
-        this.toolRepo = toolRepo;
-    }
+    UtilizationRepo utilizationRepo;
+
+    UtilizationServiceImpl utilizationService;
 
     @Override
     public ToolDto create(ToolDto toolDto) {
@@ -110,6 +121,50 @@ public class ToolServiceImpl implements ToolService {
 
     public Tool dtoToEntity(ToolDto toolDto){
         return modelMapper.map(toolDto, Tool.class);
+    }
+
+    public CustomPageResponse<UtilizationDto> getUtilizations(int pageNumber, int pageSize, String sortBy, String sortSeq, String toolId) {
+
+        Sort sort;
+
+        if(sortSeq.equals("descending")){
+            sort = Sort.by(sortBy).descending();
+        }else{
+            sort = Sort.by(sortBy).ascending();
+        }
+
+        Tool tool = toolRepo.findById(toolId).orElseThrow(() -> new ResourceNotFoundException("Tool with provided id not found", toolId));
+
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sort);
+        Page<Utilization> utilizationPage = utilizationRepo.findByTool(tool, pageRequest);
+        List<Utilization> utilizations = utilizationPage.getContent();
+
+        List<UtilizationDto> utilizationDtos = utilizations
+            .stream()
+            .map( utilization ->  utilizationService.entityToDto(utilization))
+            .toList();
+
+        return CustomPageResponse
+            .<UtilizationDto>builder()
+            .pageNumber(pageNumber)
+            .pageSize(pageSize)
+            .totalElements(utilizationPage.getTotalElements())
+            .totalPages(utilizationPage.getTotalPages())
+            .content(utilizationDtos)
+            .isLast(utilizationPage.isLast())
+            .build();
+    }
+
+    @Override 
+    public UtilizationDto utilizeTool(String toolId, UtilizationDto newUtilizationDto) {
+
+        Tool tool = toolRepo.findById(toolId).orElseThrow(() -> new ResourceNotFoundException());
+
+        newUtilizationDto.setId(UUID.randomUUID().toString());
+        newUtilizationDto.setUtilizationTime(new Date());
+
+        return utilizationService.utilizeTool(entityToDto(tool), newUtilizationDto);        
+
     }
 
 }

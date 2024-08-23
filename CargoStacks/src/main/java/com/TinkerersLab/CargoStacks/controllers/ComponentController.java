@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1/components")
@@ -78,11 +77,13 @@ public class ComponentController {
     }
 
     @PostMapping("/{componentId}/allocations")
-    public AllocationDto createAllocation (
+    public ResponseEntity<AllocationDto> createAllocation (
         @PathVariable String componentId,
         @Valid @RequestBody AllocationDto newAllocation ) {
         
-        return allocationService.allocate(componentId, newAllocation);
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(allocationService.allocate(componentId, newAllocation));
     }
 
     @DeleteMapping("/{componentId}/allocations/{allocationId}")
