@@ -36,9 +36,9 @@ public class ComponentsServiceImpl implements ComponentService {
 
     @Override
     public CustomPageResponse<ComponentDto> getAll(int pageNumber, int pageSize, String sortBy, String sortSeq) {
-        if(pageNumber <= 0 ){
-            return null;
-        }
+        // if(pageNumber <= 0 ){
+        //     return null;
+        // }
 
         Sort sort;
         if(sortBy.equals("descending")){
