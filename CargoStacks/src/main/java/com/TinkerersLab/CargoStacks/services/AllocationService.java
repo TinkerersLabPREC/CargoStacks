@@ -1,7 +1,5 @@
 package com.TinkerersLab.CargoStacks.services;
 
-import java.util.List;
-
 import com.TinkerersLab.CargoStacks.dtos.AllocationDto;
 import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 

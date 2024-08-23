@@ -1,7 +1,6 @@
 package com.TinkerersLab.CargoStacks.models.dao.components;
 
 import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.Data;
