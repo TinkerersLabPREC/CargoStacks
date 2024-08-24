@@ -18,6 +18,9 @@ import lombok.ToString;
 public class User {
 
     @Id
+    @Column(
+        length = 12
+    )
     private String id;
 
     @Column(

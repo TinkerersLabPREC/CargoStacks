@@ -2,9 +2,11 @@ package com.TinkerersLab.CargoStacks.dtos;
 
 import java.util.List;
 
-import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -29,12 +31,13 @@ public class ComponentDto {
     @Size(min = 5, max = 40)
     private String location;
 
-    @NotEmpty
+    @Min(value = 0, message = "total components must be greater than equals to 0")
     private int total;
 
-    @NotEmpty
+    @NotNull
     private int currentlyAvailable;
 
-    private List<Allocation> allocations;
+    @JsonIgnore
+    private List<AllocationDto> allocations;
 
 }

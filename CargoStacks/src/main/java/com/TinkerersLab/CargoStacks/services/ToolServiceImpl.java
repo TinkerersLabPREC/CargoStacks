@@ -6,6 +6,10 @@ import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
 import com.TinkerersLab.CargoStacks.repository.ToolRepo;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,19 +20,17 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ToolServiceImpl implements ToolService {
 
     ToolRepo toolRepo;
 
     ModelMapper modelMapper;
 
-    public ToolServiceImpl(ToolRepo toolRepo, ModelMapper modelMapper){
-        this.modelMapper = modelMapper;
-        this.toolRepo = toolRepo;
-    }
-
     @Override
     public ToolDto create(ToolDto toolDto) {
+        System.out.println(toolDto);
         toolDto.setId(UUID.randomUUID().toString());
         Tool tool = toolRepo.save(dtoToEntity(toolDto));
         return entityToDto(tool);
@@ -80,6 +82,8 @@ public class ToolServiceImpl implements ToolService {
         Tool oldTool = toolRepo
             .findById(toolId)
             .orElseThrow(()-> new ResourceNotFoundException("Tool to be updated not found!", toolId));
+
+        toolDto.setId(toolId);
 
         toolRepo.save(dtoToEntity(toolDto));
         return entityToDto(oldTool);        

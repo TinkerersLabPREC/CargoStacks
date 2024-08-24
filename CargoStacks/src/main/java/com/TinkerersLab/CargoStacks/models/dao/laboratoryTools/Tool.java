@@ -1,6 +1,7 @@
 package com.TinkerersLab.CargoStacks.models.dao.laboratoryTools;
 
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization.Utilization;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,10 +47,11 @@ public class Tool {
     private int price;
 
     @Column(
-        length = 50
+        length = 100
     )
     private String requiredSoftware;
 
-    @OneToMany(mappedBy = "tool")
-    private List<Utilization> utilization;
+    @OneToMany(mappedBy = "tool", cascade = CascadeType.ALL)
+    private List<Utilization> utilizations;
+
 }

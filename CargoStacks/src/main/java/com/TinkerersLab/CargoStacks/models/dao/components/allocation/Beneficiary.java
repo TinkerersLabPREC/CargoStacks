@@ -2,6 +2,7 @@ package com.TinkerersLab.CargoStacks.models.dao.components.allocation;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class Beneficiary {
         nullable = false,
         length = 35
     )
+    @Email
     private String email;
 
     @Column(
@@ -54,6 +56,5 @@ public class Beneficiary {
         nullable = false
     )
     private String year;
-
-
+    
 }

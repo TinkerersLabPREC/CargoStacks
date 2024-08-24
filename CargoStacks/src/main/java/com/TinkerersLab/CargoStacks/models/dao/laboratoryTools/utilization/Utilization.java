@@ -1,13 +1,13 @@
 package com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization;
 
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
+import java.util.Date;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.sql.Time;
 
 @Data
 @Entity
@@ -22,9 +22,10 @@ public class Utilization {
 
     @Column(nullable = false)
     private Utilizer utilizer;
-    private Time UtilizationTime;
-    private int estimatedTimeRequired;          //estimation tool utilization time in hours
 
+    private Date utilizationTime;
+
+    private int estimatedTimeRequired;          //estimation tool utilization time in hours
 
     @ManyToOne
     private Tool tool;

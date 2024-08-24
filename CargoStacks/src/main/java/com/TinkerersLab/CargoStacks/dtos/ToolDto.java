@@ -3,7 +3,9 @@ package com.TinkerersLab.CargoStacks.dtos;
 import java.util.List;
 
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization.Utilization;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -25,12 +27,13 @@ public class ToolDto {
     @Size(min = 10, max = 500)
     private String description;
 
-    @NotEmpty
+    @Min(value = 1, message = "value could not be negative or zero")
     private int price;
 
-    @Size(max = 50)
+    @Size(max = 100)
     private String requiredSoftware;
 
-    private List<Utilization> utilization;
+    @JsonIgnore
+    private List<Utilization> utilizations;
 
 }
