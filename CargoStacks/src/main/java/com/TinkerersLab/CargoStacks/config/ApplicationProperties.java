@@ -16,4 +16,6 @@ public class ApplicationProperties {
 
     private int bcryptPasswordEncoderStrength=12;
 
+    private String repository="repository";
+
 }

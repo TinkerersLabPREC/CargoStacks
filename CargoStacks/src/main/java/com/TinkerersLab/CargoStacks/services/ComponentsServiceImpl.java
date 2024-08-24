@@ -1,8 +1,10 @@
 package com.TinkerersLab.CargoStacks.services;
 
 import com.TinkerersLab.CargoStacks.Exceptions.ResourceNotFoundException;
+import com.TinkerersLab.CargoStacks.config.ApplicationProperties;
 import com.TinkerersLab.CargoStacks.dtos.ComponentDto;
 import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
+import com.TinkerersLab.CargoStacks.models.ResourceContentType;
 import com.TinkerersLab.CargoStacks.models.dao.components.Component;
 import com.TinkerersLab.CargoStacks.repository.ComponentsRepo;
 
@@ -15,7 +17,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +32,10 @@ public class ComponentsServiceImpl implements ComponentService {
     ComponentsRepo componentsRepo;
 
     ModelMapper modelMapper;
+
+    FileServiceImpl fileServiceImpl;
+
+    ApplicationProperties applicationProperties;
 
     @Override
     public ComponentDto create(ComponentDto componentDto) {
@@ -93,7 +102,7 @@ public class ComponentsServiceImpl implements ComponentService {
         componentsRepo.delete(component);
         return entityToDto(component);
     }
-
+    
     @Override
     public ComponentDto update(ComponentDto newComponentDto, String componentId) {
         Component oldComponent = componentsRepo
@@ -110,6 +119,41 @@ public class ComponentsServiceImpl implements ComponentService {
         componentsRepo.save(oldComponent);
         return entityToDto(oldComponent);
 
+    }
+
+    @Override
+    public void saveComponentImage(MultipartFile file, String componentId) {
+        Component component = componentsRepo
+            .findById(componentId)
+            .orElseThrow(() -> new ResourceNotFoundException("Component with provided id not found", componentId));
+
+        String path = applicationProperties.getRepository() + 
+            File.separator + "components" + 
+            File.separator + componentId ;
+
+            String imagePath;
+        try {
+            imagePath = fileServiceImpl.saveFile(file, path);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not save image file");
+        }
+        component.setImage(new com.TinkerersLab.CargoStacks.models.File());
+        component.getImage().setPath(imagePath);
+        component.getImage().setContentType(file.getContentType());
+        componentsRepo.save(component);
+    }
+
+    @Override
+    public ResourceContentType getComponentImage(String componentId) {
+
+        Component component = componentsRepo
+            .findById(componentId)
+            .orElseThrow(() -> new ResourceNotFoundException("Component with provided id not found", componentId));
+        
+        ResourceContentType resourceContentType = fileServiceImpl.getFile(component.getImage().getPath());
+        resourceContentType.setContentType(component.getImage().getContentType());
+    
+        return resourceContentType;
     }
 
     public Component dtoToEntity(ComponentDto componentDto){
