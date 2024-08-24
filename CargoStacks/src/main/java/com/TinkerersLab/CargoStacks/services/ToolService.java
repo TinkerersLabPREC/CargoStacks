@@ -3,7 +3,6 @@ package com.TinkerersLab.CargoStacks.services;
 import java.util.List;
 
 import com.TinkerersLab.CargoStacks.dtos.ToolDto;
-import com.TinkerersLab.CargoStacks.dtos.UtilizationDto;
 import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 
 public interface ToolService {

@@ -2,7 +2,7 @@ package com.TinkerersLab.CargoStacks.dtos;
 
 import java.util.List;
 
-import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
+import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization.Utilization;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.Min;
@@ -34,6 +34,6 @@ public class ToolDto {
     private String requiredSoftware;
 
     @JsonIgnore
-    private List<Allocation> Allocation;
+    private List<Utilization> utilizations;
 
 }

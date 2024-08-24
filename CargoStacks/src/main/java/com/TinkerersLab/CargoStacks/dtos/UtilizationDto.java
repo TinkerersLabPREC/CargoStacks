@@ -1,6 +1,5 @@
 package com.TinkerersLab.CargoStacks.dtos;
 
-import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization.Utilizer;
 
 import jakarta.validation.constraints.FutureOrPresent;
@@ -25,6 +24,6 @@ public class UtilizationDto {
     @Min(value = 1)
     private int estimatedTimeRequired;
 
-    private Tool tool;
+    private ToolDto tool;
 
 }

@@ -56,6 +56,5 @@ public class Beneficiary {
         nullable = false
     )
     private String year;
-
-
+    
 }

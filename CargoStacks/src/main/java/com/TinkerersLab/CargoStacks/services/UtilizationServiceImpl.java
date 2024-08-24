@@ -11,14 +11,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.TinkerersLab.CargoStacks.Exceptions.ResourceNotFoundException;
-import com.TinkerersLab.CargoStacks.dtos.ToolDto;
 import com.TinkerersLab.CargoStacks.dtos.UtilizationDto;
 import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization.Utilization;
 import com.TinkerersLab.CargoStacks.repository.UtilizationRepo;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
 @Service
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UtilizationServiceImpl implements UtilizationService {
 
     private UtilizationRepo utilizationRepo;
@@ -26,11 +31,6 @@ public class UtilizationServiceImpl implements UtilizationService {
     private ModelMapper modelMapper;
 
     private ToolServiceImpl toolService;
-
-    public UtilizationServiceImpl(UtilizationRepo utilizationRepo, ModelMapper modelMapper){
-        this.modelMapper = modelMapper;
-        this.utilizationRepo = utilizationRepo;
-    }
 
     public CustomPageResponse<UtilizationDto> getUtilizationOfTool(int pageNumber, int pageSize, String sortBy, String sortSeq, String toolId) {
 
@@ -76,6 +76,7 @@ public class UtilizationServiceImpl implements UtilizationService {
         }else{
             newUtilizationDto.setUtilizationTime(newUtilizationDto.getUtilizationTime());
         }
+        
         Utilization newUtilization = dtoToEntity(newUtilizationDto);
         newUtilization.setTool(tool);
 
@@ -85,12 +86,32 @@ public class UtilizationServiceImpl implements UtilizationService {
 
     @Override
     public CustomPageResponse<UtilizationDto> getAll(int pageNumber, int pageSize, String sortBy, String sortSeq) {
-        List<Utilization> utilizations = utilizationRepo.findAll();
-        // return utilizations
-        //     .stream()
-        //     .map(utilization -> entityToDto(utilization))
-        //     .toList();
-        return null;
+        
+        Sort sort;
+        if(sortSeq.equals("descending")){
+            sort = Sort.by(sortBy).descending();
+        }else{
+            sort = Sort.by(sortBy).ascending();
+        }
+
+        PageRequest pageRequest = PageRequest.of(pageNumber-1, pageSize, sort);
+        Page<Utilization> utilizationPage = utilizationRepo.findAll(pageRequest);
+        List<Utilization> utilizations = utilizationPage.getContent();
+
+        List<UtilizationDto> utilizationsDtos = utilizations
+            .stream()
+            .map(utilization -> entityToDto(utilization))
+            .toList();
+        
+        return CustomPageResponse
+            .<UtilizationDto>builder()
+            .pageNumber(pageNumber)
+            .pageSize(pageSize)
+            .totalPages(utilizationPage.getTotalPages())
+            .totalElements(utilizationPage.getTotalElements())
+            .content(utilizationsDtos)
+            .isLast(utilizationPage.isLast())
+            .build();
     }
 
     @Override

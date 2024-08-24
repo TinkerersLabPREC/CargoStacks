@@ -1,17 +1,11 @@
 package com.TinkerersLab.CargoStacks.services;
 
-import com.TinkerersLab.CargoStacks.Exceptions.InvalidProvidedObjectException;
 import com.TinkerersLab.CargoStacks.Exceptions.ResourceNotFoundException;
-import com.TinkerersLab.CargoStacks.dtos.AllocationDto;
 import com.TinkerersLab.CargoStacks.dtos.ToolDto;
-import com.TinkerersLab.CargoStacks.dtos.UtilizationDto;
 import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
-import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization.Utilization;
 import com.TinkerersLab.CargoStacks.repository.ToolRepo;
-import com.TinkerersLab.CargoStacks.repository.UtilizationRepo;
 
-import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -22,11 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.io.InvalidObjectException;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -37,10 +27,6 @@ public class ToolServiceImpl implements ToolService {
     ToolRepo toolRepo;
 
     ModelMapper modelMapper;
-
-    UtilizationRepo utilizationRepo;
-
-    UtilizationServiceImpl utilizationService;
 
     @Override
     public ToolDto create(ToolDto toolDto) {
@@ -97,12 +83,8 @@ public class ToolServiceImpl implements ToolService {
             .findById(toolId)
             .orElseThrow(()-> new ResourceNotFoundException("Tool to be updated not found!", toolId));
 
-        // if(toolDto.getId() == null){
-        //     Map<String, String> errors = new HashMap<>();
-        //     errors.put("id", "id could not be null, fetch the id first");
-        //     throw new InvalidProvidedObjectException(errors);
-        // }
         toolDto.setId(toolId);
+
         toolRepo.save(dtoToEntity(toolDto));
         return entityToDto(oldTool);        
     }
