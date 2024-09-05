@@ -123,6 +123,7 @@ public class ComponentsServiceImpl implements ComponentService {
 
     @Override
     public void saveComponentImage(MultipartFile file, String componentId) {
+
         Component component = componentsRepo
             .findById(componentId)
             .orElseThrow(() -> new ResourceNotFoundException("Component with provided id not found", componentId));
@@ -131,7 +132,7 @@ public class ComponentsServiceImpl implements ComponentService {
             File.separator + "components" + 
             File.separator + componentId ;
 
-            String imagePath;
+        String imagePath;
         try {
             imagePath = fileServiceImpl.saveFile(file, path);
         } catch (IOException e) {

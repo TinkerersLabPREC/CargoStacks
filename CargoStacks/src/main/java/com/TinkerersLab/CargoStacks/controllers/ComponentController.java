@@ -70,7 +70,6 @@ public class ComponentController {
     @PostMapping("/{componentId}/images")
     public ResponseEntity<String> saveImage(@PathVariable String componentId,
         @RequestParam("image") MultipartFile imageFile) {
-
         
         componentsService.saveComponentImage(imageFile, componentId);
         return ResponseEntity.status(HttpStatus.OK).body("file saved successfully");

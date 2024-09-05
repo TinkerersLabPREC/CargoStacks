@@ -4,6 +4,7 @@ import com.TinkerersLab.CargoStacks.config.ApplicationConstants;
 import com.TinkerersLab.CargoStacks.dtos.ToolDto;
 import com.TinkerersLab.CargoStacks.dtos.UtilizationDto;
 import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
+import com.TinkerersLab.CargoStacks.models.ResourceContentType;
 import com.TinkerersLab.CargoStacks.services.ToolServiceImpl;
 import com.TinkerersLab.CargoStacks.services.UtilizationServiceImpl;
 
@@ -12,11 +13,17 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 
 
 @RestController
@@ -71,6 +78,23 @@ public class ToolsController {
     ){
 
         return ResponseEntity.ok(utilizationService.getUtilizationOfTool(pageNumber, pageSize, sortBy, sortSeq, toolId));
+    }
+
+    @PostMapping("/{toolId}/images")
+    public ResponseEntity<String> saveImage(@PathVariable String toolId,
+        @RequestParam("image") MultipartFile imageFile ) {
+
+        toolService.saveToolImage(imageFile, toolId);
+        return ResponseEntity.status(HttpStatus.OK).body("file saved successfully");
+    }
+
+    @GetMapping("{toolId}/images")
+    public ResponseEntity<Resource> getImage(@PathVariable String toolId) {
+        ResourceContentType resourceContentType = toolService.getToolImage(toolId);
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .contentType(MediaType.parseMediaType(resourceContentType.getContentType()))
+            .body(resourceContentType.getResource());
     }
     
     @PostMapping("/{toolId}/utilizations")

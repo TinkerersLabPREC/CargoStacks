@@ -1,5 +1,6 @@
 package com.TinkerersLab.CargoStacks.models.dao.laboratoryTools;
 
+import com.TinkerersLab.CargoStacks.models.File;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization.Utilization;
 
 import jakarta.persistence.*;
@@ -51,6 +52,8 @@ public class Tool {
     )
     private String requiredSoftware;
 
+    private File image;
+    
     @OneToMany(mappedBy = "tool", cascade = CascadeType.ALL)
     private List<Utilization> utilizations;
 

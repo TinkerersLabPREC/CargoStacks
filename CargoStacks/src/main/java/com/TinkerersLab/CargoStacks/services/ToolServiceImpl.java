@@ -1,10 +1,16 @@
 package com.TinkerersLab.CargoStacks.services;
 
 import com.TinkerersLab.CargoStacks.Exceptions.ResourceNotFoundException;
+import com.TinkerersLab.CargoStacks.config.ApplicationProperties;
 import com.TinkerersLab.CargoStacks.dtos.ToolDto;
 import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
+import com.TinkerersLab.CargoStacks.models.ResourceContentType;
+import com.TinkerersLab.CargoStacks.models.dao.components.Component;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
 import com.TinkerersLab.CargoStacks.repository.ToolRepo;
+
+import java.io.File;
+import java.io.IOException;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +34,11 @@ public class ToolServiceImpl implements ToolService {
     ToolRepo toolRepo;
 
     ModelMapper modelMapper;
+
+    ApplicationProperties applicationProperties;
+
+    FileServiceImpl fileService;
+
 
     @Override
     public ToolDto create(ToolDto toolDto) {
@@ -107,6 +119,47 @@ public class ToolServiceImpl implements ToolService {
             .toList();
     }
 
+    @Override
+    public void saveToolImage(MultipartFile file, String toolId) {
+        Tool tool = toolRepo
+            .findById(toolId)
+            .orElseThrow(() -> new ResourceNotFoundException("Tool with provided id not found!", toolId));
+
+        String path = applicationProperties.getRepository() + 
+        File.separator + "components" + 
+        File.separator + toolId;
+
+        String imagePath;
+
+        try {
+            imagePath = fileService.saveFile(file, path);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not save image file");
+        }
+
+        tool.setImage(new com.TinkerersLab.CargoStacks.models.File());
+        tool.getImage().setPath(imagePath);
+        tool.getImage().setContentType(file.getContentType());
+        toolRepo.save(tool);
+    }
+
+
+
+    @Override
+    public ResourceContentType getToolImage(String toolId) {
+        
+        Tool tool = toolRepo
+            .findById(toolId)
+            .orElseThrow(() -> new ResourceNotFoundException("Tool with provided id not found", toolId));
+        
+        ResourceContentType resourceContentType = fileService.getFile(tool.getImage().getPath());
+        resourceContentType.setContentType(tool.getImage().getContentType());
+    
+        return resourceContentType;
+
+
+    }
+
     public ToolDto entityToDto(Tool tool){
         ToolDto toolDto = modelMapper.map(tool, ToolDto.class);
         return toolDto;
@@ -115,5 +168,6 @@ public class ToolServiceImpl implements ToolService {
     public Tool dtoToEntity(ToolDto toolDto){
         return modelMapper.map(toolDto, Tool.class);
     }
+
 
 }
