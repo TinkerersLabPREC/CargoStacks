@@ -1,5 +1,6 @@
 package com.TinkerersLab.CargoStacks.models.dao.components;
 
+import com.TinkerersLab.CargoStacks.models.File;
 import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
 
 import jakarta.persistence.*;
@@ -49,6 +50,9 @@ public class Component {
 	)
     private int currentlyAvailable;
 
+    private File image;
+
+    
     @OneToMany(mappedBy = "component", cascade = CascadeType.ALL)
     private List<Allocation> allocations;
 

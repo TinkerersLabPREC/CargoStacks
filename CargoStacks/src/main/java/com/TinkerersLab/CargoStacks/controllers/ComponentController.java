@@ -4,6 +4,7 @@ import com.TinkerersLab.CargoStacks.config.ApplicationConstants;
 import com.TinkerersLab.CargoStacks.dtos.AllocationDto;
 import com.TinkerersLab.CargoStacks.dtos.ComponentDto;
 import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
+import com.TinkerersLab.CargoStacks.models.ResourceContentType;
 import com.TinkerersLab.CargoStacks.services.AllocationServiceImpl;
 import com.TinkerersLab.CargoStacks.services.ComponentsServiceImpl;
 
@@ -12,11 +13,14 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -62,6 +66,24 @@ public class ComponentController {
         return componentsService.deleteById(componentId);
     }
 
+
+    @PostMapping("/{componentId}/images")
+    public ResponseEntity<String> saveImage(@PathVariable String componentId,
+        @RequestParam("image") MultipartFile imageFile) {
+        
+        componentsService.saveComponentImage(imageFile, componentId);
+        return ResponseEntity.status(HttpStatus.OK).body("file saved successfully");
+    }
+
+    @GetMapping("/{componentId}/images")
+    public ResponseEntity<Resource> getImage(@PathVariable String componentId) {
+        ResourceContentType resourceContentType = componentsService.getComponentImage(componentId);
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .contentType(MediaType.parseMediaType(resourceContentType.getContentType()))
+            .body(resourceContentType.getResource());
+    }
+    
     @GetMapping("/{componentId}/allocations")
     public ResponseEntity<CustomPageResponse<AllocationDto>> getAllAllocations (
         @PathVariable String componentId,

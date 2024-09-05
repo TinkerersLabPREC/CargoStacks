@@ -2,8 +2,11 @@ package com.TinkerersLab.CargoStacks.services;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.TinkerersLab.CargoStacks.dtos.ComponentDto;
 import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
+import com.TinkerersLab.CargoStacks.models.ResourceContentType;
 
 public interface ComponentService {
 
@@ -18,4 +21,9 @@ public interface ComponentService {
     ComponentDto deleteById(String componentId);
 
     ComponentDto update(ComponentDto newComponentDto, String id);
+
+    void saveComponentImage(MultipartFile file, String componentId);
+
+    ResourceContentType getComponentImage(String componentId);
+
 }

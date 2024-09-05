@@ -85,7 +85,7 @@ public class GlobalExceptionHandler {
         });
 
         errorResponse.setPayload(errors);
-        return ResponseEntity.status(HttpStatus.OK).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler(InvalidProvidedObjectException.class)
@@ -100,9 +100,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
             .body(errorResponse);
-
-
-
+            
     }
     
 }

@@ -2,6 +2,7 @@ package com.TinkerersLab.CargoStacks.dtos;
 
 import java.util.List;
 
+import com.TinkerersLab.CargoStacks.models.File;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.Min;
@@ -36,6 +37,9 @@ public class ComponentDto {
 
     @NotNull
     private int currentlyAvailable;
+
+    @JsonIgnore
+    private File image;
 
     @JsonIgnore
     private List<AllocationDto> allocations;

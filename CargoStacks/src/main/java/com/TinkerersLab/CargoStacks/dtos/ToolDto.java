@@ -2,6 +2,7 @@ package com.TinkerersLab.CargoStacks.dtos;
 
 import java.util.List;
 
+import com.TinkerersLab.CargoStacks.models.File;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization.Utilization;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,6 +34,9 @@ public class ToolDto {
     @Size(max = 100)
     private String requiredSoftware;
 
+    @JsonIgnore
+    private File image;
+    
     @JsonIgnore
     private List<Utilization> utilizations;
 
