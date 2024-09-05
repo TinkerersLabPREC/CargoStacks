@@ -5,8 +5,6 @@ import com.TinkerersLab.CargoStacks.models.dao.components.allocation.Allocation;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 

@@ -5,7 +5,6 @@ import com.TinkerersLab.CargoStacks.config.ApplicationProperties;
 import com.TinkerersLab.CargoStacks.dtos.ToolDto;
 import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 import com.TinkerersLab.CargoStacks.models.ResourceContentType;
-import com.TinkerersLab.CargoStacks.models.dao.components.Component;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
 import com.TinkerersLab.CargoStacks.repository.ToolRepo;
 
@@ -126,7 +125,7 @@ public class ToolServiceImpl implements ToolService {
             .orElseThrow(() -> new ResourceNotFoundException("Tool with provided id not found!", toolId));
 
         String path = applicationProperties.getRepository() + 
-        File.separator + "components" + 
+        File.separator + "tools" + 
         File.separator + toolId;
 
         String imagePath;

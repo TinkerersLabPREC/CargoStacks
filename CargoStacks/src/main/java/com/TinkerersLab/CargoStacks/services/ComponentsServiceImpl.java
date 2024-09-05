@@ -33,7 +33,7 @@ public class ComponentsServiceImpl implements ComponentService {
 
     ModelMapper modelMapper;
 
-    FileServiceImpl fileServiceImpl;
+    FileServiceImpl fileService;
 
     ApplicationProperties applicationProperties;
 
@@ -125,7 +125,7 @@ public class ComponentsServiceImpl implements ComponentService {
     public void saveComponentImage(MultipartFile file, String componentId) {
 
         Component component = componentsRepo
-            .findById(componentId)
+            .findById(componentId)  
             .orElseThrow(() -> new ResourceNotFoundException("Component with provided id not found", componentId));
 
         String path = applicationProperties.getRepository() + 
@@ -134,7 +134,7 @@ public class ComponentsServiceImpl implements ComponentService {
 
         String imagePath;
         try {
-            imagePath = fileServiceImpl.saveFile(file, path);
+            imagePath = fileService.saveFile(file, path);
         } catch (IOException e) {
             throw new RuntimeException("Could not save image file");
         }
@@ -151,7 +151,7 @@ public class ComponentsServiceImpl implements ComponentService {
             .findById(componentId)
             .orElseThrow(() -> new ResourceNotFoundException("Component with provided id not found", componentId));
         
-        ResourceContentType resourceContentType = fileServiceImpl.getFile(component.getImage().getPath());
+        ResourceContentType resourceContentType = fileService.getFile(component.getImage().getPath());
         resourceContentType.setContentType(component.getImage().getContentType());
     
         return resourceContentType;
