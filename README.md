@@ -75,7 +75,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Contact
 
 For any inquiries or feedback, please reach out to us at:
-- **Email**: tinkererslabprec@gmail.com
+- **Email**: tl@pravaraengg.org.in
 - **GitHub**: [Tinkerer's Lab PREC](https://github.com/TinkerersLabPREC)
 
 ---
