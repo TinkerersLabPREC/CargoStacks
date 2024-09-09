@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -29,12 +31,31 @@ public class ApplicationConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .csrf(customizer -> customizer.disable())
-                .authorizeHttpRequests(customizer -> customizer.anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .build();
+        httpSecurity
+            .csrf(customizer -> customizer.disable())
+            .httpBasic(Customizer.withDefaults())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        
+        httpSecurity.authorizeHttpRequests( auth -> {
+
+            //requests open for everyone
+            auth.requestMatchers(HttpMethod.GET, "/api/v1/components/**").permitAll();
+            auth.requestMatchers(HttpMethod.GET, "/api/v1/tools/**").permitAll();
+            auth.requestMatchers(HttpMethod.GET, "/api/v1/allocations/**").permitAll();
+            auth.requestMatchers(HttpMethod.GET, "/api/v1/utilizations/**").permitAll();
+
+            //users can create new allocations and utilizations
+            auth.requestMatchers(HttpMethod.POST, "/api/v1/components/*/allocations").permitAll();
+            auth.requestMatchers(HttpMethod.POST, "/api/v1/tools/*/utilizations").permitAll();
+
+            //only admin can create, update, delete new components, tools and allocations
+            auth.requestMatchers(HttpMethod.POST, "/api/v1/tools").hasRole("ADMIN");
+            auth.requestMatchers(HttpMethod.POST, "/api/v1/components").hasRole("ADMIN");
+            auth.requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN");
+            auth.requestMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN");
+        });
+
+        return httpSecurity.build();
     }
 
     @Bean
