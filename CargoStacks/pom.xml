@@ -13,6 +13,7 @@
     <artifactId>CargoStacks</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>CargoStacks</name>
+    
     <description>
         CargoStacks is an advanced inventory management system designed specifically for Tinkerers' Laboratory. Built 
         using Java Spring Boot and MySQL, it efficiently manages and tracks laboratory inventory. The system is scalable, 
@@ -94,6 +95,7 @@
     </dependencies>
 
     <build>
+        <finalName>CargoStacks-Application</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

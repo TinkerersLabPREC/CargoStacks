@@ -1,0 +1,32 @@
+version: '2.29.3'
+
+services:
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysqldb
+    networks:
+      - CargoStacks-net
+
+
+  mysqldb:
+    image: mysql:8.0  
+    expose:
+      - 3306
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: CargoStacks
+      MYSQL_ROOT_USERNAME: root
+    networks:
+      - CargoStacks-net
+
+networks:
+  CargoStacks-net:
+    driver: bridge
