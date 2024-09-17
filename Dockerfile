@@ -1,12 +1,15 @@
-#creating Jar file
-FROM maven:latest AS build
-
-COPY CargoStacks /opt/CargoStacks
+FROM maven:3.8.7-eclipse-temurin-17 AS build
 WORKDIR /opt/CargoStacks
-RUN mvn package -DskipTests 
+# COPY CargoStacks/pom.xml .
+# RUN mvn dependency:go-offline -B
+COPY CargoStacks /opt/CargoStacks
+RUN mvn clean package -DskipTests
 
-# Second stage: create a slim image
-FROM openjdk:latest
+FROM eclipse-temurin:17-jdk-jammy
 
-COPY --from=build /opt/CargoStacks/target/CargoStacks-Application.jar /opt/CargoStacks-Application.jar
-ENTRYPOINT ["java", "-jar", "/opt/CargoStacks-Application.jar"]
+RUN groupadd -g 1234 CargoStacks && \
+    useradd -m -u 1234 -g CargoStacks CargoStacks
+USER CargoStacks
+WORKDIR /home/CargoStacks
+COPY --from=build /opt/CargoStacks/target/CargoStacks-Application.jar .
+ENTRYPOINT ["java", "-jar", "CargoStacks-Application.jar"]
