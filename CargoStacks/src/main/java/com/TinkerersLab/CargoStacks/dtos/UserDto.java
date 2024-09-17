@@ -10,12 +10,10 @@ public class UserDto {
     private String id;
 
     @NotEmpty
-    @Size(min = 8, max = 35)
-    private String username;
-
-    @NotEmpty
     @Size(min = 8, max = 50)
     private String password;
+
+    private String email;
 
     @Size(min = 0, max = 100)
     private String userDescription;

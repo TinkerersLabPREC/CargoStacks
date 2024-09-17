@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -21,15 +22,14 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ApplicationConfiguration {
 
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
     private ApplicationProperties applicationProperties;
 
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+
         httpSecurity
+            .cors( customizer -> customizer.disable())
             .csrf(customizer -> customizer.disable())
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -43,25 +43,30 @@ public class ApplicationConfiguration {
             auth.requestMatchers(HttpMethod.GET, "/api/v1/utilizations/**").permitAll();
 
             //users can create new allocations and utilizations
-            auth.requestMatchers(HttpMethod.POST, "/api/v1/components/*/allocations").permitAll();
-            auth.requestMatchers(HttpMethod.POST, "/api/v1/tools/*/utilizations").permitAll();
+            auth.requestMatchers(HttpMethod.POST, "/api/v1/components/*/allocations").hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_GUEST);
+            auth.requestMatchers(HttpMethod.POST, "/api/v1/tools/*/utilizations").hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_GUEST);
 
             //only admin can create, update, delete new components, tools and allocations
-            auth.requestMatchers(HttpMethod.POST, "/api/v1/tools").hasRole("ADMIN");
-            auth.requestMatchers(HttpMethod.POST, "/api/v1/components").hasRole("ADMIN");
-            auth.requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN");
-            auth.requestMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN");
+            auth.requestMatchers(HttpMethod.GET, "/admin/**").hasRole(ApplicationConstants.ROLE_ADMIN);
+            auth.requestMatchers(HttpMethod.POST, "/api/v1/tools/**").hasRole(ApplicationConstants.ROLE_ADMIN);
+            auth.requestMatchers(HttpMethod.POST, "/api/v1/components/**").hasRole(ApplicationConstants.ROLE_ADMIN);
+            auth.requestMatchers(HttpMethod.DELETE, "/**").hasRole(ApplicationConstants.ROLE_ADMIN);
+            auth.requestMatchers(HttpMethod.PUT, "/**").hasRole(ApplicationConstants.ROLE_ADMIN);
         });
 
         return httpSecurity.build();
     }
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder(applicationProperties.getBcryptPasswordEncoderStrength()));
-        authenticationProvider.setUserDetailsService(userDetailsService);
-        return authenticationProvider;
+    // @Bean
+    // public AuthenticationProvider authenticationProvider() {
+    //     DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+    //     authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder(applicationProperties.getBcryptPasswordEncoderStrength()));
+    //     authenticationProvider.setUserDetailsService(userDetailsService);
+    //     return authenticationProvider;
+    // }
+
+    @Bean PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(applicationProperties.getBcryptPasswordEncoderStrength());
     }
 
     @Bean

@@ -1,8 +1,14 @@
 package com.TinkerersLab.CargoStacks.models.dao.user;
 
+import java.util.List;
+
+import com.TinkerersLab.CargoStacks.models.Role;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +19,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name = "users")
+@Table(name = "app_user")
 @Entity
 public class User {
 
@@ -26,9 +32,9 @@ public class User {
     @Column(
         unique = true, 
         nullable = false,
-        length = 35
+        length = 50
     )
-    private String username;
+    private String email;
 
     @Column(
         unique = true, 
@@ -42,4 +48,16 @@ public class User {
     )
     private String userDescription;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
+
+    public void assignRole(Role role) {
+        this.roles.add(role);
+        role.getUsers().add(this);
+    }
+
+    public void removeRole(Role role) {
+        this.roles.remove(role);
+        role.getUsers().remove(this);
+    }
 }

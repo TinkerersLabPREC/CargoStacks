@@ -14,4 +14,8 @@ public class ApplicationConstants {
 
     public final static String DEFAULT_BENEFICIARY_NAME = "null";
 
+    public final static String ROLE_ADMIN = "ADMIN";
+    
+    public final static String ROLE_GUEST = "GUEST";
+
 }
