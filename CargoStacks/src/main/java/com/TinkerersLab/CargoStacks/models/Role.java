@@ -22,11 +22,7 @@ public class Role {
     @Id
     private String id;
 
-    @Column(
-        unique = true, 
-        nullable = false,
-        length = 35
-    )
+    @Column(unique = true, nullable = false, length = 35)
     private String name;
 
     @JsonIgnore

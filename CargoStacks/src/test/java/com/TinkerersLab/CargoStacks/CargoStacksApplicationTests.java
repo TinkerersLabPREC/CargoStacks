@@ -10,4 +10,8 @@ class CargoStacksApplicationTests {
     void contextLoads() {
     }
 
+
+    @Test
+    void createRole() {
+    }
 }

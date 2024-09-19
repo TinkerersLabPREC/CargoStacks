@@ -28,6 +28,6 @@ public class RoleServiceImpl implements RoleService {
         role.setId(UUID.randomUUID().toString());
         role.setName(roleName);
 
-        return roleRepo.save(role);        
+        return roleRepo.save(role);
     }
 }

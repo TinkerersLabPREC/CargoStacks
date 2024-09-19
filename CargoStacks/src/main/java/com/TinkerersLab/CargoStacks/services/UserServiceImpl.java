@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     RoleRepo roleRepo;
 
     ModelMapper modelMapper;
-    
+
     PasswordEncoder passwordEncoder;
 
     @Override
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
         User user = dtoToEntity(userDto);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        Role defaultRole = roleRepo.findByName("ROLE_GUEST").get();    
+        Role defaultRole = roleRepo.findByName("ROLE_GUEST").get();
         user.setRoles(new ArrayList<>());
         user.getRoles().add(defaultRole);
         userRepo.save(user);
@@ -53,16 +53,16 @@ public class UserServiceImpl implements UserService {
         for (Role role : roles) {
             user.removeRole(role);
         }
-        userRepo.delete(user);        
+        userRepo.delete(user);
     }
 
     @Override
     public void changePassword(String username, String oldPassword, String newPassword) {
         User user = userRepo.findByEmail(username);
-        if(passwordEncoder.matches(oldPassword, user.getPassword())){
+        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
             user.setPassword(passwordEncoder.encode(newPassword));
             userRepo.save(user);
-        }else{
+        } else {
             throw new UnsupportedOperationException("Password does not match");
         }
     }

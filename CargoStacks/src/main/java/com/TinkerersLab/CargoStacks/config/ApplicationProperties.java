@@ -14,8 +14,8 @@ import lombok.Data;
 @Validated
 public class ApplicationProperties {
 
-    private int bcryptPasswordEncoderStrength=12;
+    private int bcryptPasswordEncoderStrength = 12;
 
-    private String repository="repository";
+    private String repository = "repository";
 
 }

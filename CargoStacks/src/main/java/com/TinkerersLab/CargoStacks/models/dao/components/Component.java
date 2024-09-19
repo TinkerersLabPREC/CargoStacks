@@ -24,8 +24,8 @@ public class Component {
     private String name;         //actual component name
 
     @Column(
-		nullable = false,
-		length = 200)
+            nullable = false,
+            length = 200)
     private String description;
 
     @Column(
@@ -35,24 +35,24 @@ public class Component {
     private String modelName;  //model no.
 
     @Column(
-		nullable = false, 
-		length = 40
-	)
+            nullable = false,
+            length = 40
+    )
     private String location;         //to locate component in the lab
 
-	@Column(
-		nullable = false
-	)
+    @Column(
+            nullable = false
+    )
     private int total;
 
-	@Column(
-		nullable = false
-	)
+    @Column(
+            nullable = false
+    )
     private int currentlyAvailable;
 
     private File image;
 
-    
+
     @OneToMany(mappedBy = "component", cascade = CascadeType.ALL)
     private List<Allocation> allocations;
 

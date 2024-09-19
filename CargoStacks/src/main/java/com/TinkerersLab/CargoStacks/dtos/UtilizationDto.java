@@ -17,7 +17,7 @@ public class UtilizationDto {
 
     @NotNull
     private Utilizer utilizer;
-    
+
     @FutureOrPresent
     private Date utilizationTime;
 

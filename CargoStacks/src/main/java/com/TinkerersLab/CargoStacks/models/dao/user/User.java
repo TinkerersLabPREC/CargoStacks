@@ -24,27 +24,24 @@ import lombok.ToString;
 public class User {
 
     @Id
-    @Column(
-        length = 12
-    )
     private String id;
 
     @Column(
-        unique = true, 
-        nullable = false,
-        length = 50
+            unique = true,
+            nullable = false,
+            length = 50
     )
     private String email;
 
     @Column(
-        unique = true, 
-        nullable = false,
-        length = 150
+            unique = true,
+            nullable = false,
+            length = 150
     )
     private String password;
 
     @Column(
-        length = 150
+            length = 150
     )
     private String userDescription;
 

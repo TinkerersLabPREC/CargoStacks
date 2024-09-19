@@ -1,32 +1,31 @@
-version: '2.29.3'
+version: "2.29.3"
 
 services:
-
   app:
-    build: 
+    build:
       context: .
     ports:
-      - "8080:8080"      
+      - "8080:8080"
     restart: always
     environment:
       DATASOURCE_HOSTNAME: mysqldb
-      DATASOURCE_PORT: 3306 
+      DATASOURCE_PORT: 3306
       DATASOURCE_USERNAME: CargoStacks
       DATASOURCE_PASSWORD: changeMe
       DATASOURCE_DBNAME: CargoStacks
       JPA_SHOW_SQL: true
       JPA_HIBERNATE_DDL_AUTO: update
-      REPOSITORY_PATH: /opt/repository
+      UPLOAD_PATH: /opt/repository
       MAX_FILE_SIZE: 20MB
       MAX_REQUEST_SIZE: 20MB
       BCRYPT_PASSWORD_ENCODER_STRENGTH: 10
     depends_on:
-      - mysqldb   
+      - mysqldb
     networks:
       - CargoStacks-net
 
   mysqldb:
-    image: mariadb:latest 
+    image: mariadb:latest
     expose:
       - 3306
     ports:

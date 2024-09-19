@@ -1,247 +1,247 @@
 {
-	"info": {
-		"_postman_id": "0515003d-6d75-44f2-852b-ce3844223e1e",
-		"name": "CargoStacks",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "32461845"
-	},
-	"item": [
-		{
-			"name": "Components",
-			"item": [
-				{
-					"name": "Allocations",
-					"item": [
-						{
-							"name": "getAllAllocation",
-							"request": {
-								"auth": {
-									"type": "basic",
-									"basic": [
-										{
-											"key": "password",
-											"value": "pass",
-											"type": "string"
-										},
-										{
-											"key": "username",
-											"value": "kaust",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/api/v1/components/cfb44976-2ed8-4874-b4ee-06488f042cf6/allocations",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"v1",
-										"components",
-										"cfb44976-2ed8-4874-b4ee-06488f042cf6",
-										"allocations"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "New Request",
-							"request": {
-								"method": "GET",
-								"header": []
-							},
-							"response": []
-						},
-						{
-							"name": "addAllocation",
-							"request": {
-								"method": "GET",
-								"header": []
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "getAll",
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "pass",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "kaust",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/components",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"components"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create",
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "pass",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "kaust",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"PIR sensor\",\n    \"description\": \"a small infrared sensor \",\n    \"modelName\": \"PIR3999\",\n    \"location\": \"box no. 15\",\n    \"total\":8,\n    \"currentlyAvailable\": 7\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/components",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"components"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update",
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "pass",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "kaust",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"arduino nano\",\n    \"description\": \"a on board micro controller used for projects \",\n    \"modelName\": \"arduino\",\n    \"location\": \"in the cupboard\",\n    \"total\": 4,\n    \"currentlyAvailable\": 2,\n    \"allocations\": []\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/components/0006eec4-c62e-4273-bc6f-8d2346c390e9",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"components",
-								"0006eec4-c62e-4273-bc6f-8d2346c390e9"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete",
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "pass",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "kaust",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/components/0006eec4-c62e-4273-bc6f-8d2346c390e9",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"components",
-								"0006eec4-c62e-4273-bc6f-8d2346c390e9"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Tools",
-			"item": [
-				{
-					"name": "Utilization",
-					"item": []
-				}
-			]
-		}
-	]
+  "info": {
+    "_postman_id": "0515003d-6d75-44f2-852b-ce3844223e1e",
+    "name": "CargoStacks",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "32461845"
+  },
+  "item": [
+    {
+      "name": "Components",
+      "item": [
+        {
+          "name": "Allocations",
+          "item": [
+            {
+              "name": "getAllAllocation",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "password",
+                      "value": "pass",
+                      "type": "string"
+                    },
+                    {
+                      "key": "username",
+                      "value": "kaust",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/v1/components/cfb44976-2ed8-4874-b4ee-06488f042cf6/allocations",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "v1",
+                    "components",
+                    "cfb44976-2ed8-4874-b4ee-06488f042cf6",
+                    "allocations"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "New Request",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            },
+            {
+              "name": "addAllocation",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "getAll",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "pass",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "kaust",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/components",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "components"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "pass",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "kaust",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"PIR sensor\",\n    \"description\": \"a small infrared sensor \",\n    \"modelName\": \"PIR3999\",\n    \"location\": \"box no. 15\",\n    \"total\":8,\n    \"currentlyAvailable\": 7\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/components",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "components"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "pass",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "kaust",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"arduino nano\",\n    \"description\": \"a on board micro controller used for projects \",\n    \"modelName\": \"arduino\",\n    \"location\": \"in the cupboard\",\n    \"total\": 4,\n    \"currentlyAvailable\": 2,\n    \"allocations\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/components/0006eec4-c62e-4273-bc6f-8d2346c390e9",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "components",
+                "0006eec4-c62e-4273-bc6f-8d2346c390e9"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "pass",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "kaust",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/components/0006eec4-c62e-4273-bc6f-8d2346c390e9",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "components",
+                "0006eec4-c62e-4273-bc6f-8d2346c390e9"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tools",
+      "item": [
+        {
+          "name": "Utilization",
+          "item": []
+        }
+      ]
+    }
+  ]
 }

@@ -12,7 +12,7 @@ public interface UtilizationService {
     UtilizationDto utilize(String toolId, UtilizationDto utilizationDto);
 
     UtilizationDto update(UtilizationDto newUtilizationDto, String id);
-    
+
     CustomPageResponse<UtilizationDto> getUtilizationOfTool(int pageNumber, int pageSize, String sortBy, String sortSeq, String toolId);
 
 }

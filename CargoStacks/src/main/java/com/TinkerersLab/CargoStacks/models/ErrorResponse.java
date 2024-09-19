@@ -8,9 +8,9 @@ import lombok.Data;
 public class ErrorResponse<T> {
 
     public String message;
-    
+
     public T payload;
-    
+
     public HttpStatus status;
 
     public boolean success = false;
