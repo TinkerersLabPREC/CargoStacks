@@ -13,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @Service
 @AllArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
-public class RoleServiceImpl implements RoleService {
+public class    RoleServiceImpl implements RoleService {
 
     RoleRepo roleRepo;
 

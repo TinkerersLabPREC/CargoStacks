@@ -13,6 +13,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.TinkerersLab.CargoStacks.config.ApplicationConstants;
 import com.TinkerersLab.CargoStacks.config.ApplicationProperties;
 
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.KeyGenerator; 
+
 @Configuration
 public class SecurityConfig {
 
@@ -23,7 +27,8 @@ public class SecurityConfig {
     private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+        HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity
                 .cors(customizer -> customizer.disable())
@@ -40,9 +45,11 @@ public class SecurityConfig {
 
             // users can create new allocations and utilizations
             auth.requestMatchers(HttpMethod.POST, "/api/v1/components/*/allocations")
-                    .hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_ADMIN);
+                    .hasAnyRole(ApplicationConstants.ROLE_GUEST, 
+                    ApplicationConstants.ROLE_ADMIN);
             auth.requestMatchers(HttpMethod.POST, "/api/v1/tools/*/utilizations")
-                    .hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_ADMIN);
+                    .hasAnyRole(ApplicationConstants.ROLE_GUEST, 
+                    ApplicationConstants.ROLE_ADMIN);
 
             // only admin can create, update, delete new components, tools and allocations
             auth.requestMatchers(HttpMethod.GET, "/admin/**").hasRole(ApplicationConstants.ROLE_ADMIN)
@@ -73,7 +80,14 @@ public class SecurityConfig {
     // }
 
     @Bean
-    PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(applicationProperties.getBcryptPasswordEncoderStrength());
+    }
+
+    @Bean
+    public KeyGenerator keyGenerator() throws NoSuchAlgorithmException{
+        KeyGenerator keyGen = KeyGenerator.getInstance("HS512");  
+        keyGen.init(128);
+        return keyGen;
     }
 }

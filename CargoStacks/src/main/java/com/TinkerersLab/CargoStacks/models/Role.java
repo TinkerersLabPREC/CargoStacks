@@ -20,11 +20,15 @@ import lombok.Data;
 public class Role {
 
     @Id
+    @Column(name = "role_id")
     private String id;
 
-    @Column(unique = true, nullable = false, length = 35)
+    @Column(name = "role_name", unique = true, nullable = false, length = 35)
     private String name;
 
+    @Column(name = "role_description", length = 100)
+    private String description;
+    
     @JsonIgnore
     @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<User> users;
