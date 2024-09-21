@@ -2,7 +2,6 @@ package com.TinkerersLab.CargoStacks.config.security;
 
 import java.io.IOException;
 
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,11 +24,12 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    
+
     JwtUtil jwtUtil;
 
-    UserDetailsService userDetailsService;      //by default custom user detail service will be autowired as UserDetailsService is a interface and we have its implementation
-    
+    UserDetailsService userDetailsService; // by default custom user detail service will be autowired as
+                                           // UserDetailsService is a interface and we have its implementation
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
             HttpServletResponse response,
@@ -38,22 +38,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authenticationHeader = request.getHeader("Authorization");
         String username = null;
         String jwtToken = null;
-        if(authenticationHeader != null && authenticationHeader.startsWith("Bearer ")){
+        if (authenticationHeader != null && authenticationHeader.startsWith("Bearer ")) {
             jwtToken = authenticationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwtToken); 
-            if( username != null && SecurityContextHolder.getContext().getAuthentication() != null){
+            username = jwtUtil.extractUsername(jwtToken);
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                
-                if(jwtToken != null && jwtUtil.validateToken(jwtToken, userDetails.getUsername()) ){
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(jwtToken, null, userDetails.getAuthorities());
-                    authenticationToken.setDetails( new WebAuthenticationDetails(request));
+
+                if (jwtToken != null && jwtUtil.validateToken(jwtToken, userDetails.getUsername())) {
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                            jwtToken, null, userDetails.getAuthorities());
+                    authenticationToken.setDetails(new WebAuthenticationDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
             }
-        
+
         } else {
-            throw new AuthenticationException("jwtToken is not valid");
-        
+            throw new RuntimeException("jwtToken is not valid");
         }
     }
 }

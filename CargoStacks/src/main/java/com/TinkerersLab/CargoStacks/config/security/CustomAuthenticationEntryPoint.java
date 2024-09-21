@@ -13,26 +13,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Component
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
+    ObjectMapper objectMapper;
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
-                         AuthenticationException authException) throws IOException, ServletException {
+            AuthenticationException authException) throws IOException, ServletException {
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        ErrorResponse<String> customError = new ErrorResponse<>();
-        customError.setMessage("Invalid details " + authException.getMessage());
-        customError.setSuccess(false);
+        ErrorResponse<String> customError = ErrorResponse.<String>builder()
+                .message("Invalid details " + authException.getMessage())
+                .success(false)
+                .build();
 
-        ObjectMapper objectMapper = new ObjectMapper();
         String jsonString = objectMapper.writeValueAsString(customError);
-
         response.getWriter().write(jsonString);
-
     }
 
 }

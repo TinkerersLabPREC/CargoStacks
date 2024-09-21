@@ -14,7 +14,6 @@ import java.security.Key;
 
 import javax.crypto.KeyGenerator;
 
-
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class JwtUtil {
@@ -48,10 +47,9 @@ public class JwtUtil {
                 .getBody();
     }
 
-    public String generateToken(String username){
+    public String generateToken(String username) {
         return createToken(username);
     }
-
 
     private String createToken(String username) {
         return Jwts.builder()
@@ -62,7 +60,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    public boolean validateToken(String token, String username){
+    public boolean validateToken(String token, String username) {
         String tokenUsername = extractUsername(token);
         return username.equals(tokenUsername) && !isTokenExpired(token);
     }
