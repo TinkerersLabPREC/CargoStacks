@@ -4,10 +4,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.Data;
+
 import java.util.Collection;
 
 import java.util.stream.Collectors;
 
+@Data
 public class UserPrincipal implements UserDetails {
 
     private final User user;

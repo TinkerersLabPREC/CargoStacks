@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import lombok.Data;
+import lombok.Getter;
 
 @Data
+@Getter
 @Service
 @Configuration
 @ConfigurationProperties(prefix = "spring.application")
@@ -18,4 +20,7 @@ public class ApplicationProperties {
 
     private String repository = "repository";
 
+    private String adminEmail;
+
+    private String adminPassword;
 }

@@ -2,6 +2,7 @@ package com.TinkerersLab.CargoStacks.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,16 +32,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUser(String username) {
-        User user = userRepo.findByEmail(username);
+        User user;
+        user = userRepo.findByEmail(username);
+        if(user == null){
+            return null;
+        }
         return entityToDto(user);
     }
 
     @Override
     public UserDto createUser(UserDto userDto) {
         User user = dtoToEntity(userDto);
+        user.setId(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         Role defaultRole = roleRepo.findByName("ROLE_GUEST").get();
-        user.setRoles(new ArrayList<>());
+        if(user.getRoles() == null){
+            user.setRoles(new ArrayList<>());
+        }
         user.getRoles().add(defaultRole);
         userRepo.save(user);
         return entityToDto(user);

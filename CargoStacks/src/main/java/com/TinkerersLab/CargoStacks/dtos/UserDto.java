@@ -1,5 +1,10 @@
 package com.TinkerersLab.CargoStacks.dtos;
 
+import java.util.List;
+
+import com.TinkerersLab.CargoStacks.models.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -9,6 +14,7 @@ public class UserDto {
 
     private String id;
 
+    @JsonIgnore
     @NotEmpty
     @Size(min = 8, max = 50)
     private String password;
@@ -18,4 +24,5 @@ public class UserDto {
     @Size(min = 0, max = 100)
     private String userDescription;
 
+    private List<Role> roles;
 }

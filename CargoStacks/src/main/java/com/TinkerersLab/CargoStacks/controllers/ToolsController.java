@@ -18,12 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
 
 @RestController
 @RequestMapping("/api/v1/tools")
@@ -41,8 +36,7 @@ public class ToolsController {
             @RequestParam(name = "pageNumber", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER) int pageNumber,
             @RequestParam(name = "pageSize", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_SIZE) int pageSize,
             @RequestParam(name = "sortBy", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_BY) String sortBy,
-            @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq
-    ) {
+            @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq) {
         return ResponseEntity.status(HttpStatus.OK).body(toolService.getAll(pageNumber, pageSize, sortBy, sortSeq));
     }
 
@@ -73,15 +67,15 @@ public class ToolsController {
             @RequestParam(name = "pageNumber", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER) int pageNumber,
             @RequestParam(name = "pageSize", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_SIZE) int pageSize,
             @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
-            @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq
-    ) {
+            @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq) {
 
-        return ResponseEntity.ok(utilizationService.getUtilizationOfTool(pageNumber, pageSize, sortBy, sortSeq, toolId));
+        return ResponseEntity
+                .ok(utilizationService.getUtilizationOfTool(pageNumber, pageSize, sortBy, sortSeq, toolId));
     }
 
     @PostMapping("/{toolId}/images")
     public ResponseEntity<String> saveImage(@PathVariable String toolId,
-                                            @RequestParam("image") MultipartFile imageFile) {
+            @RequestParam("image") MultipartFile imageFile) {
 
         toolService.saveToolImage(imageFile, toolId);
         return ResponseEntity.status(HttpStatus.OK).body("file saved successfully");
@@ -98,7 +92,7 @@ public class ToolsController {
 
     @PostMapping("/{toolId}/utilizations")
     public ResponseEntity<UtilizationDto> createUtilization(@PathVariable String toolId,
-                                                            @Valid @RequestBody UtilizationDto utilizationDto) {
+            @Valid @RequestBody UtilizationDto utilizationDto) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(utilizationService.utilize(toolId, utilizationDto));
     }

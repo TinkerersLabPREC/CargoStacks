@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 import java.util.Date;
 import java.util.function.Function;
@@ -18,15 +20,14 @@ import javax.crypto.KeyGenerator;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class JwtUtil {
 
-    Key key;
+    // Key key = ;
+
+    Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     long jwtExpirationInMs = 8 * 60 * 60 * 1000;
 
-    KeyGenerator KeyGenerator;
-
     public JwtUtil(KeyGenerator keyGenerator) {
-        this.KeyGenerator = keyGenerator;
-        this.key = keyGenerator.generateKey();
+        // this.key = keyGenerator.generateKey();
     }
 
     public String extractUsername(String token) {

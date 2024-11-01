@@ -1,5 +1,6 @@
 package com.TinkerersLab.CargoStacks.models.dao.user;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.TinkerersLab.CargoStacks.models.Role;
@@ -49,7 +50,13 @@ public class User {
     private List<Role> roles;
 
     public void assignRole(Role role) {
+        if(this.roles == null){
+            this.roles = new ArrayList<>();
+        }
         this.roles.add(role);
+        if(role.getUsers() == null){
+            role.setUsers(new ArrayList<>());
+        }
         role.getUsers().add(this);
     }
 

@@ -27,14 +27,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     JwtUtil jwtUtil;
 
-    UserDetailsService userDetailsService; // by default custom user detail service will be autowired as
-                                           // UserDetailsService is a interface and we have its implementation
+    UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
 
+        // if (request.getRequestURI().startsWith("/api/v1/auth") || request.getRequestURI().startsWith("/api/v1/components")) {
+        //     filterChain.doFilter(request, response);
+        //     return;
+        // }
         String authenticationHeader = request.getHeader("Authorization");
         String username = null;
         String jwtToken = null;
@@ -55,5 +58,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } else {
             throw new RuntimeException("jwtToken is not valid");
         }
+        filterChain.doFilter(request, response);
     }
 }
