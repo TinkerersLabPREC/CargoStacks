@@ -79,25 +79,24 @@ public class SecurityConfiguration {
 		httpSecurity.authorizeHttpRequests(auth -> {
 
 			// requests open for everyone
-			// auth.requestMatchers("/api/v1/auth/**").permitAll()
-			// .requestMatchers(HttpMethod.GET, "/api/v1/components/**").permitAll()
-			// .requestMatchers(HttpMethod.GET, "/api/v1/tools/**").permitAll()
-			// .requestMatchers(HttpMethod.GET, "/api/v1/allocations/**").permitAll()
-			// .requestMatchers(HttpMethod.GET, "/api/v1/utilizations/**").permitAll()
+			auth.requestMatchers("/api/v1/auth/**").permitAll()
+			.requestMatchers(HttpMethod.GET, "/api/v1/components/**").permitAll()
+			.requestMatchers(HttpMethod.GET, "/api/v1/tools/**").permitAll()
+			.requestMatchers(HttpMethod.GET, "/api/v1/allocations/**").permitAll()
+			.requestMatchers(HttpMethod.GET, "/api/v1/utilizations/**").permitAll()
 
-			// // users can create new allocations and utilizations
-			// .requestMatchers(HttpMethod.POST, "/api/v1/components/*/allocations").hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_ADMIN)
-			// .requestMatchers(HttpMethod.POST, "/api/v1/tools/*/utilizations").hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_ADMIN)
+			// users can create new allocations and utilizations
+			.requestMatchers(HttpMethod.POST, "/api/v1/components/*/allocations").hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_ADMIN)
+			.requestMatchers(HttpMethod.POST, "/api/v1/tools/*/utilizations").hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_ADMIN)
 
-			// // only admin can create, update, delete new components, tools andallocations
-			// .requestMatchers(HttpMethod.GET, "/admin/**").hasRole(ApplicationConstants.ROLE_ADMIN)
-			// .requestMatchers(HttpMethod.POST, "/api/v1/tools/**").hasRole(ApplicationConstants.ROLE_ADMIN)
-			// .requestMatchers(HttpMethod.POST, "/api/v1/components/**").hasRole(ApplicationConstants.ROLE_ADMIN)
-			// .requestMatchers(HttpMethod.DELETE, "/**").hasRole(ApplicationConstants.ROLE_ADMIN)
-			// .requestMatchers(HttpMethod.PUT, "/**").hasRole(ApplicationConstants.ROLE_ADMIN);
+			// only admin can create, update, delete new components, tools andallocations
+			.requestMatchers(HttpMethod.GET, "/admin/**").hasRole(ApplicationConstants.ROLE_ADMIN)
+			.requestMatchers(HttpMethod.POST, "/api/v1/tools/**").hasRole(ApplicationConstants.ROLE_ADMIN)
+			.requestMatchers(HttpMethod.POST, "/api/v1/components/**").hasRole(ApplicationConstants.ROLE_ADMIN)
+			.requestMatchers(HttpMethod.DELETE, "/**").hasRole(ApplicationConstants.ROLE_ADMIN)
+			.requestMatchers(HttpMethod.PUT, "/**").hasRole(ApplicationConstants.ROLE_ADMIN);
 
-			// auth.requestMatchers("/**").permitAll().anyRequest().authenticated();
-			auth.requestMatchers("/api/v1/auth/**").permitAll().anyRequest().authenticated();
+			auth.requestMatchers("/**").permitAll().anyRequest().authenticated();
 
 		});
 
@@ -106,7 +105,7 @@ public class SecurityConfiguration {
 				// customizer -> customizer.authenticationEntryPoint(customAuthenticationEntryPoint));
 				customizer -> customizer.disable());
 				
-		httpSecurity.addFilterAfter(jwtAuthenticationFilter, BasicAuthenticationFilter.class);
+		httpSecurity.addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
 		// Exception handling configuration
 		httpSecurity.exceptionHandling(customizer -> customizer

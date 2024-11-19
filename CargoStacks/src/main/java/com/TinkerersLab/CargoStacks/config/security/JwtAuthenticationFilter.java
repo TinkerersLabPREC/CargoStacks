@@ -29,11 +29,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     UserDetailsService userDetailsService;
     
-    // @Override
-    // protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-    //     return request.getServletPath().equals("/api/v1/auth/login") || request.getServletPath().equals("/api/v1/auth/signin");
-    // }
-
     @Override
     protected void doFilterInternal(HttpServletRequest request,
             HttpServletResponse response,
