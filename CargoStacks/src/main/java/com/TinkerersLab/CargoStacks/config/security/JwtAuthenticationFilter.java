@@ -28,16 +28,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     JwtUtil jwtUtil;
 
     UserDetailsService userDetailsService;
+    
+    // @Override
+    // protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    //     return request.getServletPath().equals("/api/v1/auth/login") || request.getServletPath().equals("/api/v1/auth/signin");
+    // }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
 
-        // if (request.getRequestURI().startsWith("/api/v1/auth") || request.getRequestURI().startsWith("/api/v1/components")) {
-        //     filterChain.doFilter(request, response);
-        //     return;
-        // }
         String authenticationHeader = request.getHeader("Authorization");
         String username = null;
         String jwtToken = null;
@@ -54,10 +55,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
             }
-
-        } else {
-            throw new RuntimeException("jwtToken is not valid");
         }
         filterChain.doFilter(request, response);
     }
 }
+

@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
@@ -102,9 +103,10 @@ public class SecurityConfiguration {
 
 		// Basic authentication configuration
 		httpSecurity.httpBasic(
-				customizer -> customizer.authenticationEntryPoint(customAuthenticationEntryPoint));
-
-		httpSecurity.addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+				// customizer -> customizer.authenticationEntryPoint(customAuthenticationEntryPoint));
+				customizer -> customizer.disable());
+				
+		httpSecurity.addFilterAfter(jwtAuthenticationFilter, BasicAuthenticationFilter.class);
 
 		// Exception handling configuration
 		httpSecurity.exceptionHandling(customizer -> customizer
