@@ -16,45 +16,45 @@ import java.util.Date;
 @ToString
 @Embeddable
 public class Beneficiary {
-    
+
     @Column(
-        nullable = false,
-        length = 50
+            nullable = false,
+            length = 50
     )
     private String name;
 
     @Column(
-        nullable = false,
-        length = 35
+            nullable = false,
+            length = 35
     )
     @Email
     private String email;
 
     @Column(
-        nullable = false,
-        length = 12
+            nullable = false,
+            length = 12
     )
     private String phone;
 
     @Column(
-        nullable = false,
-        length = 100
+            nullable = false,
+            length = 100
     )
     private String address;
 
     @Column(
-        nullable = false
+            nullable = false
     )
     private Date returnDate;
 
     @Column(
-        nullable = false
+            nullable = false
     )
     private String department;
 
     @Column(
-        nullable = false
+            nullable = false
     )
     private String year;
-    
+
 }

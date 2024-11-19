@@ -18,9 +18,9 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String saveFile(MultipartFile file, String path) throws IOException {
-        Path dirPath =  Paths.get(path);
+        Path dirPath = Paths.get(path);
         Files.createDirectories(dirPath);
-        
+
         Path filePath = Paths.get(path, file.getOriginalFilename());
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 

@@ -12,9 +12,9 @@ public interface AllocationService {
     AllocationDto updateAllocation(AllocationDto allocationDto, String id);
 
     AllocationDto getById(String id);
-    
+
     CustomPageResponse<AllocationDto> getAll(int pageNumber, int pageSize, String sortBy, String sortSeq);
 
     CustomPageResponse<AllocationDto> getAllOfComponent(String componentId, int pageNumber, int pageSize, String sortBy, String sortSeq, String returned, String beneficiaryName);
-    
+
 }

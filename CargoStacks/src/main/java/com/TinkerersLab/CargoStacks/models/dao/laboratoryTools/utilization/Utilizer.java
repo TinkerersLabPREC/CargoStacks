@@ -13,43 +13,43 @@ import lombok.NoArgsConstructor;
 public class Utilizer {
 
     @Column(
-        nullable = false,
-        length = 50
+            nullable = false,
+            length = 50
     )
     private String name;
 
     @Column(
-        nullable = false
+            nullable = false
     )
     private String email;
 
     @Column(
-        nullable = false,
-        length = 12
+            nullable = false,
+            length = 12
     )
     private String phone;
 
     @Column(
-        nullable = false
+            nullable = false
     )
     private String department;
 
 
     @Column(
-        nullable = false
+            nullable = false
     )
     private String year;
 
     @Column(
-        nullable = false,
-        length = 150
+            nullable = false,
+            length = 150
     )
     private String address;
 
 
     @Column(
-        nullable = false,
-        length = 150
+            nullable = false,
+            length = 150
     )
     private String usageDescription;
 

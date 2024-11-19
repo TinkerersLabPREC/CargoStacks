@@ -26,7 +26,7 @@ public class ComponentDto {
 
     @NotEmpty
     @Size(min = 5, max = 50)
-    private String modelName; 
+    private String modelName;
 
     @NotEmpty
     @Size(min = 5, max = 40)

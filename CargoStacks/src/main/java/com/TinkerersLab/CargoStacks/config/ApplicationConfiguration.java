@@ -1,52 +1,69 @@
 package com.TinkerersLab.CargoStacks.config;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 
+import com.TinkerersLab.CargoStacks.dtos.UserDto;
+import com.TinkerersLab.CargoStacks.models.Role;
+import com.TinkerersLab.CargoStacks.models.dao.user.User;
+import com.TinkerersLab.CargoStacks.services.RoleServiceImpl;
+import com.TinkerersLab.CargoStacks.services.UserServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 @EnableWebSecurity
 public class ApplicationConfiguration {
 
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private ApplicationProperties applicationProperties;
-
+    ApplicationProperties applicationProperties;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .csrf(customizer -> customizer.disable())
-                .authorizeHttpRequests(customizer -> customizer.anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .build();
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder(applicationProperties.getBcryptPasswordEncoderStrength()));
-        authenticationProvider.setUserDetailsService(userDetailsService);
-        return authenticationProvider;
-    }
-
-    @Bean
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
+    @Bean
+    public CommandLineRunner commandLineRunner(UserServiceImpl userService, RoleServiceImpl roleService) {
+        return args -> {
+
+            // Create default roles if not present
+            Role adminRole = roleService.getRoleOrNull("ROLE_"+ApplicationConstants.ROLE_ADMIN);
+            Role guestRole = roleService.getRoleOrNull("ROLE_"+ApplicationConstants.ROLE_GUEST);
+
+            if (adminRole == null) {
+                adminRole = roleService.createRole("ROLE_"+ApplicationConstants.ROLE_ADMIN);
+            }
+            if (guestRole == null) {
+                guestRole = roleService.createRole("ROLE_"+ApplicationConstants.ROLE_GUEST);
+            }
+            System.out.println("Default roles created");
+
+            // Create default admin user if not present
+            UserDto user = userService.getUser(applicationProperties.getAdminEmail());
+            if (user == null) {
+                UserDto admin = new UserDto();
+                admin.setEmail(applicationProperties.getAdminEmail());
+                admin.setPassword(applicationProperties.getAdminPassword());
+                admin.setUserDescription("Default admin user");
+                User userEntity = userService.dtoToEntity(admin);
+                userEntity.assignRole(adminRole);
+                userService.createUser(admin);
+            }
+            System.out.println("Default admin user created");
+        };
+
+    }
+
 }

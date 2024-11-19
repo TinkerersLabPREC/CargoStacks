@@ -21,31 +21,31 @@ public class Allocation {
     private String id;
 
     @Column(
-        nullable = false
+            nullable = false
     )
     private Beneficiary beneficiary;
 
     @Column(
-        nullable = false
+            nullable = false
     )
     private int quantityTaken;
 
     @Column(
-        nullable = false,
-        length = 100
+            nullable = false,
+            length = 100
     )
     private String projectName;
-    
+
     @Column(
-        nullable = false
+            nullable = false
     )
     private Date allocationDate;
-    
+
     @Column(
-        nullable = false
+            nullable = false
     )
     private boolean isReturned;
-    
+
     @ManyToOne
     private Component component;
 

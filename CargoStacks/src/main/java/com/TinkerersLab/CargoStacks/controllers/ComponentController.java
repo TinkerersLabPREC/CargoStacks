@@ -38,39 +38,39 @@ public class ComponentController {
 
     @GetMapping
     public ResponseEntity<CustomPageResponse<ComponentDto>> getAllComponents(
-        @RequestParam(name = "pageNumber", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER) int pageNumber,
-        @RequestParam(name = "pageSize" , required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_SIZE ) int pageSize,
-        @RequestParam(name = "sortBy", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_BY) String sortBy,
-        @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq) {
-        
+            @RequestParam(name = "pageNumber", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER) int pageNumber,
+            @RequestParam(name = "pageSize", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_SIZE) int pageSize,
+            @RequestParam(name = "sortBy", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_BY) String sortBy,
+            @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq) {
+
         return ResponseEntity.status(HttpStatus.OK).body(componentsService.getAll(pageNumber, pageSize, sortBy, sortSeq));
     }
-    
+
     @GetMapping("/{componentId}")
     public ComponentDto getComponentById(@PathVariable String componentId) {
         return componentsService.getById(componentId);
     }
 
     @PostMapping
-    public ResponseEntity<ComponentDto> createComponent (@Valid @RequestBody ComponentDto componentDto) {
+    public ResponseEntity<ComponentDto> createComponent(@Valid @RequestBody ComponentDto componentDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(componentsService.create(componentDto));
     }
 
     @PutMapping("/{componentId}")
-    public ComponentDto updateComponent (@PathVariable String componentId, @RequestBody ComponentDto componentDto) {
+    public ComponentDto updateComponent(@PathVariable String componentId, @RequestBody ComponentDto componentDto) {
         return componentsService.update(componentDto, componentId);
     }
 
-    @DeleteMapping("/{componentId}")    
-    public ComponentDto deleteComponent ( @PathVariable String componentId){
+    @DeleteMapping("/{componentId}")
+    public ComponentDto deleteComponent(@PathVariable String componentId) {
         return componentsService.deleteById(componentId);
     }
 
 
     @PostMapping("/{componentId}/images")
     public ResponseEntity<String> saveImage(@PathVariable String componentId,
-        @RequestParam("image") MultipartFile imageFile) {
-        
+                                            @RequestParam("image") MultipartFile imageFile) {
+
         componentsService.saveComponentImage(imageFile, componentId);
         return ResponseEntity.status(HttpStatus.OK).body("file saved successfully");
     }
@@ -79,40 +79,40 @@ public class ComponentController {
     public ResponseEntity<Resource> getImage(@PathVariable String componentId) {
         ResourceContentType resourceContentType = componentsService.getComponentImage(componentId);
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .contentType(MediaType.parseMediaType(resourceContentType.getContentType()))
-            .body(resourceContentType.getResource());
+                .status(HttpStatus.OK)
+                .contentType(MediaType.parseMediaType(resourceContentType.getContentType()))
+                .body(resourceContentType.getResource());
     }
-    
+
     @GetMapping("/{componentId}/allocations")
-    public ResponseEntity<CustomPageResponse<AllocationDto>> getAllAllocations (
-        @PathVariable String componentId,
-        @RequestParam(name = "pageNumber", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER) int pageNumber,
-        @RequestParam(name = "pageSize" , required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_SIZE ) int pageSize,
-        @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
-        @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq,
-        @RequestParam(name = "returned", required = false, defaultValue =  ApplicationConstants.DEFAULT_ALLOCATION_RETURNED) String returned,
-        @RequestParam(name = "beneficiaryName", required = false, defaultValue = ApplicationConstants.DEFAULT_BENEFICIARY_NAME) String beneficiaryName
-        ) {
-        
+    public ResponseEntity<CustomPageResponse<AllocationDto>> getAllAllocations(
+            @PathVariable String componentId,
+            @RequestParam(name = "pageNumber", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER) int pageNumber,
+            @RequestParam(name = "pageSize", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_SIZE) int pageSize,
+            @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq,
+            @RequestParam(name = "returned", required = false, defaultValue = ApplicationConstants.DEFAULT_ALLOCATION_RETURNED) String returned,
+            @RequestParam(name = "beneficiaryName", required = false, defaultValue = ApplicationConstants.DEFAULT_BENEFICIARY_NAME) String beneficiaryName
+    ) {
+
         return ResponseEntity.ok(allocationService.getAllOfComponent(componentId, pageNumber, pageSize, sortBy, sortSeq, returned, beneficiaryName));
     }
 
     @PostMapping("/{componentId}/allocations")
-    public ResponseEntity<AllocationDto> createAllocation (
-        @PathVariable String componentId,
-        @Valid @RequestBody AllocationDto newAllocation ) {
-        
+    public ResponseEntity<AllocationDto> createAllocation(
+            @PathVariable String componentId,
+            @Valid @RequestBody AllocationDto newAllocation) {
+
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(allocationService.allocate(componentId, newAllocation));
+                .status(HttpStatus.OK)
+                .body(allocationService.allocate(componentId, newAllocation));
     }
 
     @DeleteMapping("/{componentId}/allocations/{allocationId}")
-    public AllocationDto deallocationComponent( @PathVariable String componentId,
-        @PathVariable String allocationId) {
-        
+    public AllocationDto deallocationComponent(@PathVariable String componentId,
+                                               @PathVariable String allocationId) {
+
         return allocationService.deallocate(componentId, allocationId);
-    }       
-    
+    }
+
 }

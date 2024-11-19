@@ -36,7 +36,7 @@ public class ToolDto {
 
     @JsonIgnore
     private File image;
-    
+
     @JsonIgnore
     private List<Utilization> utilizations;
 

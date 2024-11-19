@@ -22,21 +22,21 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UtilizationController {
-    
+
     UtilizationServiceImpl utilizationService;
 
     @GetMapping
-    public ResponseEntity<CustomPageResponse<UtilizationDto>>  getAll (
-        @RequestParam(name = "pageNumber", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER) int pageNumber,
-        @RequestParam(name = "pageSize" , required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_SIZE ) int pageSize,
-        @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
-        @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq) {
-        
+    public ResponseEntity<CustomPageResponse<UtilizationDto>> getAll(
+            @RequestParam(name = "pageNumber", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER) int pageNumber,
+            @RequestParam(name = "pageSize", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_SIZE) int pageSize,
+            @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq) {
+
         return ResponseEntity.ok().body(utilizationService.getAll(pageNumber, pageSize, sortBy, sortSeq));
     }
 
     @GetMapping("/{utilizationId}")
-    public UtilizationDto getAllocationById (@PathVariable String utilizationId ) {
+    public UtilizationDto getAllocationById(@PathVariable String utilizationId) {
         return utilizationService.getById(utilizationId);
     }
 }
