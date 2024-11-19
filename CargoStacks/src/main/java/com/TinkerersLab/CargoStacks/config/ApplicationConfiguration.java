@@ -1,8 +1,5 @@
 package com.TinkerersLab.CargoStacks.config;
 
-import java.util.List;
-import java.util.UUID;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -48,7 +45,6 @@ public class ApplicationConfiguration {
             if (guestRole == null) {
                 guestRole = roleService.createRole("ROLE_"+ApplicationConstants.ROLE_GUEST);
             }
-            System.out.println("Default roles created");
 
             // Create default admin user if not present
             UserDto user = userService.getUser(applicationProperties.getAdminEmail());
@@ -61,9 +57,6 @@ public class ApplicationConfiguration {
                 userEntity.assignRole(adminRole);
                 userService.createUser(admin);
             }
-            System.out.println("Default admin user created");
         };
-
     }
-
 }
