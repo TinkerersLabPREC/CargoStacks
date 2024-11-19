@@ -12,9 +12,9 @@ public interface ComponentsRepo extends JpaRepository<Component, String> {
 
     @Query(
             "SELECT c FROM Component c WHERE " +
-            "LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword , '%')) OR " +
-            "LOWER(c.description) LIKE LOWER(CONCAT('%', :keyword , '%')) OR " +
-            "LOWER(c.modelName) LIKE LOWER(CONCAT('%', :keyword , '%')) "
+                    "LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword , '%')) OR " +
+                    "LOWER(c.description) LIKE LOWER(CONCAT('%', :keyword , '%')) OR " +
+                    "LOWER(c.modelName) LIKE LOWER(CONCAT('%', :keyword , '%')) "
     )
     List<Component> searchComponent(String keyword);
 }

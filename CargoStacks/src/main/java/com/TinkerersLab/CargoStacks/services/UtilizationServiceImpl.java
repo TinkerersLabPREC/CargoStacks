@@ -36,9 +36,9 @@ public class UtilizationServiceImpl implements UtilizationService {
 
         Sort sort;
 
-        if(sortSeq.equals("descending")){
+        if (sortSeq.equals("descending")) {
             sort = Sort.by(sortBy).descending();
-        }else{
+        } else {
             sort = Sort.by(sortBy).ascending();
         }
 
@@ -49,34 +49,34 @@ public class UtilizationServiceImpl implements UtilizationService {
         List<Utilization> utilizations = utilizationPage.getContent();
 
         List<UtilizationDto> utilizationDtos = utilizations
-            .stream()
-            .map( utilization ->  entityToDto(utilization))
-            .toList();
+                .stream()
+                .map(utilization -> entityToDto(utilization))
+                .toList();
 
         return CustomPageResponse
-            .<UtilizationDto>builder()
-            .pageNumber(pageNumber)
-            .pageSize(pageSize)
-            .totalElements(utilizationPage.getTotalElements())
-            .totalPages(utilizationPage.getTotalPages())
-            .content(utilizationDtos)
-            .isLast(utilizationPage.isLast())
-            .build();
+                .<UtilizationDto>builder()
+                .pageNumber(pageNumber)
+                .pageSize(pageSize)
+                .totalElements(utilizationPage.getTotalElements())
+                .totalPages(utilizationPage.getTotalPages())
+                .content(utilizationDtos)
+                .isLast(utilizationPage.isLast())
+                .build();
     }
 
-    @Override 
+    @Override
     public UtilizationDto utilize(String toolId, UtilizationDto newUtilizationDto) {
 
         Tool tool = toolService.dtoToEntity(toolService.getById(toolId));
 
         newUtilizationDto.setId(UUID.randomUUID().toString());
-        
-        if(newUtilizationDto.getUtilizationTime() == null){
+
+        if (newUtilizationDto.getUtilizationTime() == null) {
             newUtilizationDto.setUtilizationTime(new Date());
-        }else{
+        } else {
             newUtilizationDto.setUtilizationTime(newUtilizationDto.getUtilizationTime());
         }
-        
+
         Utilization newUtilization = dtoToEntity(newUtilizationDto);
         newUtilization.setTool(tool);
 
@@ -86,40 +86,40 @@ public class UtilizationServiceImpl implements UtilizationService {
 
     @Override
     public CustomPageResponse<UtilizationDto> getAll(int pageNumber, int pageSize, String sortBy, String sortSeq) {
-        
+
         Sort sort;
-        if(sortSeq.equals("descending")){
+        if (sortSeq.equals("descending")) {
             sort = Sort.by(sortBy).descending();
-        }else{
+        } else {
             sort = Sort.by(sortBy).ascending();
         }
 
-        PageRequest pageRequest = PageRequest.of(pageNumber-1, pageSize, sort);
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize, sort);
         Page<Utilization> utilizationPage = utilizationRepo.findAll(pageRequest);
         List<Utilization> utilizations = utilizationPage.getContent();
 
         List<UtilizationDto> utilizationsDtos = utilizations
-            .stream()
-            .map(utilization -> entityToDto(utilization))
-            .toList();
-        
+                .stream()
+                .map(utilization -> entityToDto(utilization))
+                .toList();
+
         return CustomPageResponse
-            .<UtilizationDto>builder()
-            .pageNumber(pageNumber)
-            .pageSize(pageSize)
-            .totalPages(utilizationPage.getTotalPages())
-            .totalElements(utilizationPage.getTotalElements())
-            .content(utilizationsDtos)
-            .isLast(utilizationPage.isLast())
-            .build();
+                .<UtilizationDto>builder()
+                .pageNumber(pageNumber)
+                .pageSize(pageSize)
+                .totalPages(utilizationPage.getTotalPages())
+                .totalElements(utilizationPage.getTotalElements())
+                .content(utilizationsDtos)
+                .isLast(utilizationPage.isLast())
+                .build();
     }
 
     @Override
     public UtilizationDto getById(String id) {
-        
+
         Utilization utilization = utilizationRepo
-            .findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Utilization with provided id not found", id));
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Utilization with provided id not found", id));
 
         return entityToDto(utilization);
     }
@@ -136,11 +136,11 @@ public class UtilizationServiceImpl implements UtilizationService {
         return entityToDto(savedUtilization);
     }
 
-    public UtilizationDto entityToDto(Utilization utilization){
+    public UtilizationDto entityToDto(Utilization utilization) {
         return modelMapper.map(utilization, UtilizationDto.class);
     }
 
-    public Utilization dtoToEntity(UtilizationDto utilizationDto){
+    public Utilization dtoToEntity(UtilizationDto utilizationDto) {
         return modelMapper.map(utilizationDto, Utilization.class);
     }
 

@@ -24,10 +24,10 @@ public class AllocationDto {
     private String projectName;
 
     private Date allocationDate;
-    
+
     @NotNull
     private boolean isReturned;
-    
+
     private ComponentDto component;
 
 }

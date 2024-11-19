@@ -27,17 +27,17 @@ public class AllocationController {
     AllocationServiceImpl allocationService;
 
     @GetMapping
-    public ResponseEntity<CustomPageResponse<AllocationDto>>  getAll (
-        @RequestParam(name = "pageNumber", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER) int pageNumber,
-        @RequestParam(name = "pageSize" , required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_SIZE ) int pageSize,
-        @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
-        @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq) {
-        
+    public ResponseEntity<CustomPageResponse<AllocationDto>> getAll(
+            @RequestParam(name = "pageNumber", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER) int pageNumber,
+            @RequestParam(name = "pageSize", required = false, defaultValue = ApplicationConstants.DEFAULT_PAGE_SIZE) int pageSize,
+            @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq) {
+
         return ResponseEntity.ok().body(allocationService.getAll(pageNumber, pageSize, sortBy, sortSeq));
     }
 
     @GetMapping("/{allocationId}")
-    public AllocationDto getAllocationById (@PathVariable String allocationVariable ) {
+    public AllocationDto getAllocationById(@PathVariable String allocationVariable) {
         return allocationService.getById(allocationVariable);
     }
 

@@ -1,7 +1,9 @@
 package com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization;
 
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
+
 import java.util.Date;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

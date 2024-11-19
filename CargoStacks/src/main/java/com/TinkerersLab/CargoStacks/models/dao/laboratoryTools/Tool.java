@@ -23,37 +23,37 @@ public class Tool {
     private String id;
 
     @Column(
-        nullable = false,
-        unique = true,
-        length = 50
+            nullable = false,
+            unique = true,
+            length = 50
     )
     private String name;
 
     @Column(
-        nullable = false,
-        unique = true,
-        length = 50
+            nullable = false,
+            unique = true,
+            length = 50
     )
     private String modelName;
 
     @Column(
-        nullable = false,
-        length = 500
+            nullable = false,
+            length = 500
     )
     private String description;
 
     @Column(
-        nullable = false
+            nullable = false
     )
     private int price;
 
     @Column(
-        length = 100
+            length = 100
     )
     private String requiredSoftware;
 
     private File image;
-    
+
     @OneToMany(mappedBy = "tool", cascade = CascadeType.ALL)
     private List<Utilization> utilizations;
 

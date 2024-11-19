@@ -11,5 +11,5 @@ public interface FileService {
     String saveFile(MultipartFile file, String path) throws IOException;
 
     ResourceContentType getFile(String path);
-    
+
 }

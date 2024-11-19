@@ -11,7 +11,7 @@ import com.TinkerersLab.CargoStacks.models.ResourceContentType;
 public interface ToolService {
 
     CustomPageResponse<ToolDto> getAll(int pageNumber, int pageSize, String sortBy, String sortSeq);
-    
+
     ToolDto create(ToolDto toolDto);
 
     ToolDto getById(String id);
@@ -19,7 +19,7 @@ public interface ToolService {
     ToolDto update(ToolDto toolDto, String toolId);
 
     ToolDto delete(String id);
-    
+
     List<ToolDto> search(String keyword);
 
     void saveToolImage(MultipartFile file, String toolId);
