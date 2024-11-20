@@ -1,6 +1,6 @@
-# Inventory-Management-System
+# CargoStacks - A smart Lab Equipment management solution
 
-Welcome to the **Inventory Management System** repository for the Tinkerer's Lab at PREC!
+Welcome to the **CargoStacks** repository for the Tinkerer's Lab at PREC!
 
 ## About the Project
 
@@ -25,17 +25,34 @@ Ensure you have the following installed on your machine:
 
 - [Git](https://git-scm.com)
 - [MySQL](https://www.mysql.com/downloads)
+- [Maven](https://maven.apache.org/download.cgi)
+- [Java](https://www.oracle.com/in/java/technologies/downloads)
 
-### Installation
+
+### Installation and Deployment
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/TinkerersLabPREC/Inventory-Management-System.git
+    git clone https://github.com/TinkerersLabPREC/CargoStacks.git
     ```
 2. Navigate to the project directory:
     ```sh
-    cd Inventory-Management-System
+    cd CargoStacks;
     ```
+3. Running the application
+    ```sh
+    cd CargoStacks;
+    mvn spring-boot:run;
+    ```
+4. Running application in docker container
+    ```sh
+    docker compose up;
+    ```
+    OR
+    ```sh
+    docker-compose up;
+    ```     
+
 
 ## Contributing
 
@@ -47,7 +64,7 @@ project. Here are some ways you can contribute:
 
 2. **Clone the repository**:
     ```sh
-    git clone https://github.com/your-username/Inventory-Management-System.git
+    git clone https://github.com/your-username/CargoStacks.git
     ```
    Replace `your-username` with your GitHub username.
 
