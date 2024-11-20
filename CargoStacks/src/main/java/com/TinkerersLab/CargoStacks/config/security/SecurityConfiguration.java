@@ -17,23 +17,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.TinkerersLab.CargoStacks.config.ApplicationConstants;
-import com.TinkerersLab.CargoStacks.config.ApplicationProperties;
-import com.TinkerersLab.CargoStacks.helper.JwtUtil;
 import com.TinkerersLab.CargoStacks.models.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.KeyGenerator;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity()
 public class SecurityConfiguration {
 
 	@Lazy
@@ -43,9 +41,6 @@ public class SecurityConfiguration {
 	@Autowired
 	private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
-	// @Autowired
-	// private JwtAuthenticationFilter jwtAuthenticationFilter;
-	
 	@Bean
 	AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
 		return configuration.getAuthenticationManager();
@@ -79,25 +74,24 @@ public class SecurityConfiguration {
 		httpSecurity.authorizeHttpRequests(auth -> {
 
 			// requests open for everyone
-			// auth.requestMatchers("/api/v1/auth/**").permitAll()
-			// .requestMatchers(HttpMethod.GET, "/api/v1/components/**").permitAll()
-			// .requestMatchers(HttpMethod.GET, "/api/v1/tools/**").permitAll()
-			// .requestMatchers(HttpMethod.GET, "/api/v1/allocations/**").permitAll()
-			// .requestMatchers(HttpMethod.GET, "/api/v1/utilizations/**").permitAll()
+			auth.requestMatchers("/api/v1/auth/**").permitAll()
+			.requestMatchers(HttpMethod.GET, "/api/v1/components/**").permitAll()
+			.requestMatchers(HttpMethod.GET, "/api/v1/tools/**").permitAll()
+			.requestMatchers(HttpMethod.GET, "/api/v1/allocations/**").permitAll()
+			.requestMatchers(HttpMethod.GET, "/api/v1/utilizations/**").permitAll()
 
-			// // users can create new allocations and utilizations
-			// .requestMatchers(HttpMethod.POST, "/api/v1/components/*/allocations").hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_ADMIN)
-			// .requestMatchers(HttpMethod.POST, "/api/v1/tools/*/utilizations").hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_ADMIN)
+			// users can create new allocations and utilizations
+			.requestMatchers(HttpMethod.POST, "/api/v1/components/*/allocations").hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_ADMIN)
+			.requestMatchers(HttpMethod.POST, "/api/v1/tools/*/utilizations").hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_ADMIN)
 
-			// // only admin can create, update, delete new components, tools andallocations
-			// .requestMatchers(HttpMethod.GET, "/admin/**").hasRole(ApplicationConstants.ROLE_ADMIN)
-			// .requestMatchers(HttpMethod.POST, "/api/v1/tools/**").hasRole(ApplicationConstants.ROLE_ADMIN)
-			// .requestMatchers(HttpMethod.POST, "/api/v1/components/**").hasRole(ApplicationConstants.ROLE_ADMIN)
-			// .requestMatchers(HttpMethod.DELETE, "/**").hasRole(ApplicationConstants.ROLE_ADMIN)
-			// .requestMatchers(HttpMethod.PUT, "/**").hasRole(ApplicationConstants.ROLE_ADMIN);
+			// only admin can create, update, delete new components, tools andallocations
+			.requestMatchers(HttpMethod.GET, "/admin/**").hasRole(ApplicationConstants.ROLE_ADMIN)
+			.requestMatchers(HttpMethod.POST, "/api/v1/tools/**").hasRole(ApplicationConstants.ROLE_ADMIN)
+			.requestMatchers(HttpMethod.POST, "/api/v1/components/**").hasRole(ApplicationConstants.ROLE_ADMIN)
+			.requestMatchers(HttpMethod.DELETE, "/**").hasRole(ApplicationConstants.ROLE_ADMIN)
+			.requestMatchers(HttpMethod.PUT, "/**").hasRole(ApplicationConstants.ROLE_ADMIN);
 
-			// auth.requestMatchers("/**").permitAll().anyRequest().authenticated();
-			auth.requestMatchers("/api/v1/auth/**").permitAll().anyRequest().authenticated();
+			auth.requestMatchers("/**").permitAll().anyRequest().authenticated();
 
 		});
 
@@ -106,7 +100,7 @@ public class SecurityConfiguration {
 				// customizer -> customizer.authenticationEntryPoint(customAuthenticationEntryPoint));
 				customizer -> customizer.disable());
 				
-		httpSecurity.addFilterAfter(jwtAuthenticationFilter, BasicAuthenticationFilter.class);
+		httpSecurity.addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
 		// Exception handling configuration
 		httpSecurity.exceptionHandling(customizer -> customizer
@@ -135,15 +129,9 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public JwtUtil jwtUtil(KeyGenerator keyGenerator) {
-		return new JwtUtil(keyGenerator);
+	public Key key() throws NoSuchAlgorithmException{
+		KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
+		keyGenerator.init(256);
+		return keyGenerator.generateKey();
 	}
-
-	@Bean
-	public KeyGenerator keyGenerator() throws NoSuchAlgorithmException {
-		KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-		keyGenerator.init(128);
-		return keyGenerator;
-	}
-
 }
