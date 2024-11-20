@@ -1,34 +1,26 @@
 package com.TinkerersLab.CargoStacks.helper;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 
 import java.util.Date;
 import java.util.function.Function;
 import java.security.Key;
 
-import javax.crypto.KeyGenerator;
-
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@AllArgsConstructor
 public class JwtUtil {
 
-    // Key key = ;
-
-    Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    Key key;
 
     long jwtExpirationInMs = 8 * 60 * 60 * 1000;
-
-    public JwtUtil(KeyGenerator keyGenerator) {
-        // this.key = keyGenerator.generateKey();
-    }
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

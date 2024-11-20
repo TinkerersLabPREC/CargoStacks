@@ -17,23 +17,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.TinkerersLab.CargoStacks.config.ApplicationConstants;
-import com.TinkerersLab.CargoStacks.config.ApplicationProperties;
-import com.TinkerersLab.CargoStacks.helper.JwtUtil;
 import com.TinkerersLab.CargoStacks.models.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.KeyGenerator;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity()
 public class SecurityConfiguration {
 
 	@Lazy
@@ -43,9 +41,6 @@ public class SecurityConfiguration {
 	@Autowired
 	private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
-	// @Autowired
-	// private JwtAuthenticationFilter jwtAuthenticationFilter;
-	
 	@Bean
 	AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
 		return configuration.getAuthenticationManager();
@@ -134,15 +129,9 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public JwtUtil jwtUtil(KeyGenerator keyGenerator) {
-		return new JwtUtil(keyGenerator);
+	public Key key() throws NoSuchAlgorithmException{
+		KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
+		keyGenerator.init(256);
+		return keyGenerator.generateKey();
 	}
-
-	@Bean
-	public KeyGenerator keyGenerator() throws NoSuchAlgorithmException {
-		KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-		keyGenerator.init(128);
-		return keyGenerator;
-	}
-
 }
