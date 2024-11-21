@@ -27,34 +27,36 @@ public class User {
     @Id
     private String id;
 
-    @Column(
-            unique = true,
-            nullable = false,
-            length = 50
-    )
+    @Column(unique = true, nullable = false, length = 50)
     private String email;
 
-    @Column(
-            unique = true,
-            nullable = false,
-            length = 150
-    )
+    @Column(nullable = false, length = 150)
     private String password;
 
-    @Column(
-            length = 150
-    )
+    @Column(length = 150)
     private String userDescription;
+
+    @Column(nullable = false, length = 50)
+    private String Organization; // college name
+
+    @Column(nullable = false, length = 15)
+    private String contact;
+
+    @Column(nullable = false, length = 150)
+    private String address;
+
+    @Column(nullable = false, length = 30)
+    private String department;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 
     public void assignRole(Role role) {
-        if(this.roles == null){
+        if (this.roles == null) {
             this.roles = new ArrayList<>();
         }
         this.roles.add(role);
-        if(role.getUsers() == null){
+        if (role.getUsers() == null) {
             role.setUsers(new ArrayList<>());
         }
         role.getUsers().add(this);

@@ -35,20 +35,23 @@ public class AllocationServiceImpl implements AllocationService {
 
     @Override
     public AllocationDto allocate(String componentId, AllocationDto newAllocationDto) {
-        // TODO: write a custom validator to validate allocationDto.quantity <
-        // component.currentlyAvailable
         newAllocationDto.setId(UUID.randomUUID().toString());
         Component component = componentsRepo
                 .findById(componentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Component with provided id not found", componentId));
 
+        if (component.getCurrentlyAvailable() < newAllocationDto.getQuantityTaken()) {
+            throw new RuntimeException(componentId
+                    + " : components of requested quantity :"
+                    + newAllocationDto.getQuantityTaken()
+                    + " is not available");
+        }
         component.setCurrentlyAvailable(component.getCurrentlyAvailable() - newAllocationDto.getQuantityTaken());
 
         Allocation newAllocation = dtoToEntity(newAllocationDto);
         newAllocation.setReturned(false);
         newAllocation.setAllocationDate(new Date());
         newAllocation.setComponent(component);
-        // newAllocation.addComponent(component);
         Allocation savedAllocation = allocationRepo.save(newAllocation);
 
         return entityToDto(savedAllocation);
@@ -70,9 +73,6 @@ public class AllocationServiceImpl implements AllocationService {
         component.setCurrentlyAvailable(component.getCurrentlyAvailable() + allocation.getQuantityTaken());
         allocationRepo.save(allocation);
         return entityToDto(allocation);
-        // Allocation allocation = allocationRepo.findById(id).get();
-        // allocationRepo.delete(allocation);
-        // return entityToDto(allocation);
     }
 
     @Override
@@ -121,12 +121,12 @@ public class AllocationServiceImpl implements AllocationService {
 
     @Override
     public CustomPageResponse<AllocationDto> getAllOfComponent(String componentId,
-                                                               int pageNumber,
-                                                               int pageSize,
-                                                               String sortBy,
-                                                               String sortSeq,
-                                                               String returned,
-                                                               String beneficiaryName) {
+            int pageNumber,
+            int pageSize,
+            String sortBy,
+            String sortSeq,
+            String returned,
+            String beneficiaryName) {
 
         Sort sort;
 
@@ -145,7 +145,6 @@ public class AllocationServiceImpl implements AllocationService {
         Page<Allocation> allocationPage;
 
         if (!returned.equals("null") && !beneficiaryName.equals("null")) {
-            // TODO: Write a custom query in repository
             allocationPage = allocationRepo.findByComponent(component, pageRequest);
 
         } else if (returned.equals("null") && !beneficiaryName.equals("null")) {

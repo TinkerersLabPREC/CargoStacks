@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/v1/auth")
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class    AuthController {
+public class AuthController {
 
     AuthenticationManager authManager;
 
@@ -60,5 +60,9 @@ public class    AuthController {
         return ResponseEntity.ok(jwtResponse);
     }
 
-    
+    @PostMapping("/signup")
+    public ResponseEntity<?> SigninNewUser(@RequestBody String entity) {
+        return null;
+    }
+
 }

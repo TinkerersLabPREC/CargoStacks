@@ -36,14 +36,14 @@ public class ApplicationConfiguration {
         return args -> {
 
             // Create default roles if not present
-            Role adminRole = roleService.getRoleOrNull("ROLE_"+ApplicationConstants.ROLE_ADMIN);
-            Role guestRole = roleService.getRoleOrNull("ROLE_"+ApplicationConstants.ROLE_GUEST);
+            Role adminRole = roleService.getRoleOrNull("ROLE_" + ApplicationConstants.ROLE_ADMIN);
+            Role guestRole = roleService.getRoleOrNull("ROLE_" + ApplicationConstants.ROLE_GUEST);
 
             if (adminRole == null) {
-                adminRole = roleService.createRole("ROLE_"+ApplicationConstants.ROLE_ADMIN);
+                adminRole = roleService.createRole("ROLE_" + ApplicationConstants.ROLE_ADMIN);
             }
             if (guestRole == null) {
-                guestRole = roleService.createRole("ROLE_"+ApplicationConstants.ROLE_GUEST);
+                guestRole = roleService.createRole("ROLE_" + ApplicationConstants.ROLE_GUEST);
             }
 
             // Create default admin user if not present
@@ -52,10 +52,15 @@ public class ApplicationConfiguration {
                 UserDto admin = new UserDto();
                 admin.setEmail(applicationProperties.getAdminEmail());
                 admin.setPassword(applicationProperties.getAdminPassword());
+                admin.setOrganization("Prec");
+                admin.setAddress("Loni");
+                admin.setDepartment("Tinkerers lab");
+                admin.setUserDescription("A default admin account for testing");
+                admin.setContact("+91258963214");
                 admin.setUserDescription("Default admin user");
                 User userEntity = userService.dtoToEntity(admin);
                 userEntity.assignRole(adminRole);
-                userService.createUser(admin);
+                userService.createUser(userService.entityToDto(userEntity));
             }
         };
     }

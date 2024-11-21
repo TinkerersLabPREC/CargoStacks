@@ -17,44 +17,26 @@ import java.util.Date;
 @Embeddable
 public class Beneficiary {
 
-    @Column(
-            nullable = false,
-            length = 50
-    )
+    @Column(nullable = false, length = 50)
     private String name;
 
-    @Column(
-            nullable = false,
-            length = 35
-    )
+    @Column(nullable = false, length = 35)
     @Email
     private String email;
 
-    @Column(
-            nullable = false,
-            length = 12
-    )
+    @Column(nullable = false, length = 12)
     private String phone;
 
-    @Column(
-            nullable = false,
-            length = 100
-    )
+    @Column(nullable = false, length = 100)
     private String address;
 
-    @Column(
-            nullable = false
-    )
+    @Column(nullable = false)
     private Date returnDate;
 
-    @Column(
-            nullable = false
-    )
+    @Column(nullable = false)
     private String department;
 
-    @Column(
-            nullable = false
-    )
+    @Column(nullable = false)
     private String year;
 
 }
