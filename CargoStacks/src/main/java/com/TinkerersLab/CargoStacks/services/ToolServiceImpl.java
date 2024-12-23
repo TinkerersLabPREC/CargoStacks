@@ -38,10 +38,8 @@ public class ToolServiceImpl implements ToolService {
 
     FileServiceImpl fileService;
 
-
     @Override
     public ToolDto create(ToolDto toolDto) {
-        System.out.println(toolDto);
         toolDto.setId(UUID.randomUUID().toString());
         Tool tool = toolRepo.save(dtoToEntity(toolDto));
         return entityToDto(tool);
@@ -84,7 +82,8 @@ public class ToolServiceImpl implements ToolService {
 
     @Override
     public ToolDto getById(String id) {
-        Tool tool = toolRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tool of provided id not found!", id));
+        Tool tool = toolRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Tool of provided id not found!", id));
         return entityToDto(tool);
     }
 
@@ -142,7 +141,6 @@ public class ToolServiceImpl implements ToolService {
         toolRepo.save(tool);
     }
 
-
     @Override
     public ResourceContentType getToolImage(String toolId) {
 
@@ -155,7 +153,6 @@ public class ToolServiceImpl implements ToolService {
 
         return resourceContentType;
 
-
     }
 
     public ToolDto entityToDto(Tool tool) {
@@ -166,6 +163,5 @@ public class ToolServiceImpl implements ToolService {
     public Tool dtoToEntity(ToolDto toolDto) {
         return modelMapper.map(toolDto, Tool.class);
     }
-
 
 }

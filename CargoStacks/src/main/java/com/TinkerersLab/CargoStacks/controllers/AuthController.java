@@ -38,7 +38,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> createToken(@RequestBody LoginRequest loginRequest) {
-        System.out.println("Login request received");
         try {
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     loginRequest.getUsername(), loginRequest.getPassword());
@@ -48,7 +47,6 @@ public class AuthController {
             throw new BadCredentialsException("Invalid username or password");
         }
         // user authenticated
-        System.out.println("User got authenticated");
         UserPrincipal user = (UserPrincipal) userDetailsService.loadUserByUsername(loginRequest.getUsername());
 
         String token = jwtUtil.generateToken(user.getUsername());

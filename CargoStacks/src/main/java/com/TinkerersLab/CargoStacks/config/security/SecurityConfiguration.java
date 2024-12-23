@@ -28,6 +28,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
 import javax.crypto.KeyGenerator;
 
 @Configuration
@@ -55,7 +57,8 @@ public class SecurityConfiguration {
 		httpSecurity.cors(cors -> {
 			CorsConfiguration config = new CorsConfiguration();
 
-			config.addAllowedOrigin("http://localhost:3000");
+			config.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5173"));
+			// config.addAllowedOrigin("http://localhost:3000");
 			// config.setAllowCredentials(true);
 
 			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
