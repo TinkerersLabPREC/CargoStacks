@@ -19,7 +19,8 @@ import com.TinkerersLab.CargoStacks.models.ErrorResponse;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ErrorResponse<String>> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException exception) {
+    public ResponseEntity<ErrorResponse<String>> handleHttpRequestMethodNotSupportedException(
+            HttpRequestMethodNotSupportedException exception) {
 
         ErrorResponse<String> errorResponse = ErrorResponse.<String>builder()
                 .message("Method not allowed")
@@ -27,12 +28,13 @@ public class GlobalExceptionHandler {
                 .payload("Method not allowed for this endpoint " + exception.getMethod())
                 .success(false)
                 .build();
-    
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity<ErrorResponse<String>> handleInvalidToolException(SQLIntegrityConstraintViolationException exception) {
+    public ResponseEntity<ErrorResponse<String>> handleInvalidToolException(
+            SQLIntegrityConstraintViolationException exception) {
 
         ErrorResponse<String> errorResponse = ErrorResponse.<String>builder()
                 .message(exception.getMessage())
@@ -63,7 +65,7 @@ public class GlobalExceptionHandler {
         ErrorResponse<String> errorResponse = ErrorResponse.<String>builder()
                 .message(exception.getMessage())
                 .status(HttpStatus.NOT_FOUND)
-                .payload("The Resource with provided id: "+exception.getId() + " was not found")
+                .payload("The Resource with provided id: " + exception.getId() + " was not found")
                 .success(false)
                 .build();
 
@@ -71,7 +73,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse<Map<String, String>>> handleValidationException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<ErrorResponse<Map<String, String>>> handleValidationException(
+            MethodArgumentNotValidException exception) {
 
         Map<String, String> errors = new HashMap<>();
 
@@ -83,17 +86,18 @@ public class GlobalExceptionHandler {
         });
 
         ErrorResponse<Map<String, String>> errorResponse = ErrorResponse.<Map<String, String>>builder()
-        .message("Invalid Object provided")
-        .status(HttpStatus.BAD_REQUEST)
-        .success(false)
-        .payload(errors)
-        .build(); 
+                .message("Invalid Object provided")
+                .status(HttpStatus.BAD_REQUEST)
+                .success(false)
+                .payload(errors)
+                .build();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler(InvalidProvidedObjectException.class)
-    public ResponseEntity<ErrorResponse<Map<String, String>>> handleInvalidProvidedObjectException(InvalidProvidedObjectException exception) {
+    public ResponseEntity<ErrorResponse<Map<String, String>>> handleInvalidProvidedObjectException(
+            InvalidProvidedObjectException exception) {
 
         ErrorResponse<Map<String, String>> errorResponse = ErrorResponse.<Map<String, String>>builder()
                 .message(exception.getMessage())
@@ -106,5 +110,4 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(errorResponse);
     }
-
 }

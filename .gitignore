@@ -1,5 +1,6 @@
 ### application ###
-repository
+assets
+optimized-jdk-17
 mysql
 data
 certs

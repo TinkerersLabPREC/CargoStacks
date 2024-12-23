@@ -28,6 +28,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
 import javax.crypto.KeyGenerator;
 
 @Configuration
@@ -35,7 +37,7 @@ import javax.crypto.KeyGenerator;
 public class SecurityConfiguration {
 
 	@Lazy
-	@Autowired 
+	@Autowired
 	private JwtAuthenticationFilter jwtAuthenticationFilter;
 
 	@Autowired
@@ -55,7 +57,8 @@ public class SecurityConfiguration {
 		httpSecurity.cors(cors -> {
 			CorsConfiguration config = new CorsConfiguration();
 
-			config.addAllowedOrigin("http://localhost:3000");
+			config.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5173"));
+			// config.addAllowedOrigin("http://localhost:3000");
 			// config.setAllowCredentials(true);
 
 			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -74,22 +77,26 @@ public class SecurityConfiguration {
 		httpSecurity.authorizeHttpRequests(auth -> {
 
 			// requests open for everyone
-			auth.requestMatchers("/api/v1/auth/**").permitAll()
-			.requestMatchers(HttpMethod.GET, "/api/v1/components/**").permitAll()
-			.requestMatchers(HttpMethod.GET, "/api/v1/tools/**").permitAll()
-			.requestMatchers(HttpMethod.GET, "/api/v1/allocations/**").permitAll()
-			.requestMatchers(HttpMethod.GET, "/api/v1/utilizations/**").permitAll()
+			auth
+					.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "swagger-resources/**").permitAll()
+					.requestMatchers("/api/v1/auth/**").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/v1/components/**").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/v1/tools/**").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/v1/allocations/**").permitAll()
+					.requestMatchers(HttpMethod.GET, "/api/v1/utilizations/**").permitAll()
 
-			// users can create new allocations and utilizations
-			.requestMatchers(HttpMethod.POST, "/api/v1/components/*/allocations").hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_ADMIN)
-			.requestMatchers(HttpMethod.POST, "/api/v1/tools/*/utilizations").hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_ADMIN)
+					// users can create new allocations and utilizations
+					.requestMatchers(HttpMethod.POST, "/api/v1/components/*/allocations")
+					.hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_ADMIN)
+					.requestMatchers(HttpMethod.POST, "/api/v1/tools/*/utilizations")
+					.hasAnyRole(ApplicationConstants.ROLE_GUEST, ApplicationConstants.ROLE_ADMIN)
 
-			// only admin can create, update, delete new components, tools andallocations
-			.requestMatchers(HttpMethod.GET, "/admin/**").hasRole(ApplicationConstants.ROLE_ADMIN)
-			.requestMatchers(HttpMethod.POST, "/api/v1/tools/**").hasRole(ApplicationConstants.ROLE_ADMIN)
-			.requestMatchers(HttpMethod.POST, "/api/v1/components/**").hasRole(ApplicationConstants.ROLE_ADMIN)
-			.requestMatchers(HttpMethod.DELETE, "/**").hasRole(ApplicationConstants.ROLE_ADMIN)
-			.requestMatchers(HttpMethod.PUT, "/**").hasRole(ApplicationConstants.ROLE_ADMIN);
+					// only admin can create, update, delete new components, tools andallocations
+					.requestMatchers(HttpMethod.GET, "/admin/**").hasRole(ApplicationConstants.ROLE_ADMIN)
+					.requestMatchers(HttpMethod.POST, "/api/v1/tools/**").hasRole(ApplicationConstants.ROLE_ADMIN)
+					.requestMatchers(HttpMethod.POST, "/api/v1/components/**").hasRole(ApplicationConstants.ROLE_ADMIN)
+					.requestMatchers(HttpMethod.DELETE, "/**").hasRole(ApplicationConstants.ROLE_ADMIN)
+					.requestMatchers(HttpMethod.PUT, "/**").hasRole(ApplicationConstants.ROLE_ADMIN);
 
 			auth.requestMatchers("/**").permitAll().anyRequest().authenticated();
 
@@ -97,9 +104,10 @@ public class SecurityConfiguration {
 
 		// Basic authentication configuration
 		httpSecurity.httpBasic(
-				// customizer -> customizer.authenticationEntryPoint(customAuthenticationEntryPoint));
+				// customizer ->
+				// customizer.authenticationEntryPoint(customAuthenticationEntryPoint));
 				customizer -> customizer.disable());
-				
+
 		httpSecurity.addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
 		// Exception handling configuration
@@ -129,7 +137,7 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public Key key() throws NoSuchAlgorithmException{
+	public Key key() throws NoSuchAlgorithmException {
 		KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
 		keyGenerator.init(256);
 		return keyGenerator.generateKey();

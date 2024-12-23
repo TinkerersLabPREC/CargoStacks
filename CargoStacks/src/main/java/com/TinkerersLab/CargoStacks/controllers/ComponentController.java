@@ -24,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1/components")
@@ -43,7 +42,8 @@ public class ComponentController {
             @RequestParam(name = "sortBy", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_BY) String sortBy,
             @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(componentsService.getAll(pageNumber, pageSize, sortBy, sortSeq));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(componentsService.getAll(pageNumber, pageSize, sortBy, sortSeq));
     }
 
     @GetMapping("/{componentId}")
@@ -66,10 +66,9 @@ public class ComponentController {
         return componentsService.deleteById(componentId);
     }
 
-
     @PostMapping("/{componentId}/images")
     public ResponseEntity<String> saveImage(@PathVariable String componentId,
-                                            @RequestParam("image") MultipartFile imageFile) {
+            @RequestParam("image") MultipartFile imageFile) {
 
         componentsService.saveComponentImage(imageFile, componentId);
         return ResponseEntity.status(HttpStatus.OK).body("file saved successfully");
@@ -92,10 +91,10 @@ public class ComponentController {
             @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
             @RequestParam(name = "sortSeq", required = false, defaultValue = ApplicationConstants.DEFAULT_SORT_SEQ) String sortSeq,
             @RequestParam(name = "returned", required = false, defaultValue = ApplicationConstants.DEFAULT_ALLOCATION_RETURNED) String returned,
-            @RequestParam(name = "beneficiaryName", required = false, defaultValue = ApplicationConstants.DEFAULT_BENEFICIARY_NAME) String beneficiaryName
-    ) {
+            @RequestParam(name = "beneficiaryName", required = false, defaultValue = ApplicationConstants.DEFAULT_BENEFICIARY_NAME) String beneficiaryName) {
 
-        return ResponseEntity.ok(allocationService.getAllOfComponent(componentId, pageNumber, pageSize, sortBy, sortSeq, returned, beneficiaryName));
+        return ResponseEntity.ok(allocationService.getAllOfComponent(componentId, pageNumber, pageSize, sortBy, sortSeq,
+                returned, beneficiaryName));
     }
 
     @PostMapping("/{componentId}/allocations")
@@ -110,7 +109,7 @@ public class ComponentController {
 
     @DeleteMapping("/{componentId}/allocations/{allocationId}")
     public AllocationDto deallocationComponent(@PathVariable String componentId,
-                                               @PathVariable String allocationId) {
+            @PathVariable String allocationId) {
 
         return allocationService.deallocate(componentId, allocationId);
     }

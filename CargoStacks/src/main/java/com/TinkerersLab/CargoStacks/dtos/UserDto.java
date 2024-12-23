@@ -19,10 +19,26 @@ public class UserDto {
     @Size(min = 8, max = 50)
     private String password;
 
+    @NotEmpty
+    @Size(min = 6, max = 50)
     private String email;
 
     @Size(min = 0, max = 100)
     private String userDescription;
 
+    
+    @Size(min = 0, max = 50)
+    private String Organization;    //college name
+    
+    @Size(min = 0, max = 15)
+    private String contact;
+    
+    @Size(min = 0, max = 150)
+    private String address;
+    
+    @Size(min = 0, max = 30)
+    private String department;
+    
     private List<Role> roles;
+
 }
