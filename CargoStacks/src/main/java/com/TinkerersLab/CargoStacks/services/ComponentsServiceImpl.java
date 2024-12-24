@@ -151,7 +151,7 @@ public class ComponentsServiceImpl implements ComponentService {
         // component.setImage(new com.TinkerersLab.CargoStacks.models.File());
         // component.getImage().setPath(imagePath);
         // component.getImage().setContentType(file.getContentType());
-        if (component.getImages().isBlank()) {
+        if (component.getImages() == null) {
             List<com.TinkerersLab.CargoStacks.models.File> images = new ArrayList<>();
             images.add(new com.TinkerersLab.CargoStacks.models.File(file.getContentType(), imagePath));
             component.setTotalImages(1);

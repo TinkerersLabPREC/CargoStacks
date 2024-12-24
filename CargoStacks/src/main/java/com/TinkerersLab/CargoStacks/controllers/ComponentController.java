@@ -74,7 +74,7 @@ public class ComponentController {
         return ResponseEntity.status(HttpStatus.OK).body("file saved successfully");
     }
 
-    @GetMapping("/{componentId}/images/{index}")
+    @GetMapping("/{componentId}/images/{idx}")
     public ResponseEntity<Resource> getImage(@PathVariable String componentId, @PathVariable int idx) {
         ResourceContentType resourceContentType = componentsService.getComponentImage(componentId, idx);
         return ResponseEntity

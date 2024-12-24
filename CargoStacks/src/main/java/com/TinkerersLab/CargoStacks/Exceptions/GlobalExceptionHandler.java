@@ -1,6 +1,5 @@
 package com.TinkerersLab.CargoStacks.Exceptions;
 
-import java.security.SignatureException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.TinkerersLab.CargoStacks.models.ErrorResponse;
+
+import io.jsonwebtoken.security.SignatureException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -114,18 +115,18 @@ public class GlobalExceptionHandler {
                                 .body(errorResponse);
         }
 
-        @ExceptionHandler(SignatureException.class)
-        public ResponseEntity<ErrorResponse<String>> errorResponse() {
+        // @ExceptionHandler(SignatureException.class)
+        // public ResponseEntity<ErrorResponse<String>> errorResponse(SignatureException exception) {
 
-                ErrorResponse<String> errorResponse = ErrorResponse.<String>builder()
-                                .message("Invalid JWT token")
-                                .status(HttpStatus.FORBIDDEN)
-                                .payload("provided JWT token signature dosen't match")
-                                .success(false)
-                                .build();
-                                
-                return ResponseEntity
-                                .status(HttpStatus.BAD_REQUEST)
-                                .body(errorResponse);
-        }
+        //         ErrorResponse<String> errorResponse = ErrorResponse.<String>builder()
+        //                         .message("Invalid JWT token")
+        //                         .status(HttpStatus.FORBIDDEN)
+        //                         .payload("provided JWT token signature dosen't match : " + exception.getMessage())
+        //                         .success(false)
+        //                         .build();
+
+        //         return ResponseEntity
+        //                         .status(HttpStatus.BAD_REQUEST)
+        //                         .body(errorResponse);
+        // }
 }
