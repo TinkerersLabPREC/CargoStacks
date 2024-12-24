@@ -54,9 +54,6 @@ public class ComponentsServiceImpl implements ComponentService {
 
     @Override
     public CustomPageResponse<ComponentDto> getAll(int pageNumber, int pageSize, String sortBy, String sortSeq) {
-        // if(pageNumber <= 0 ){
-        // return null;
-        // }
 
         Sort sort;
         if (sortBy.equals("descending")) {
@@ -148,9 +145,6 @@ public class ComponentsServiceImpl implements ComponentService {
             throw new RuntimeException("Could not save image file");
         }
 
-        // component.setImage(new com.TinkerersLab.CargoStacks.models.File());
-        // component.getImage().setPath(imagePath);
-        // component.getImage().setContentType(file.getContentType());
         if (component.getImages() == null) {
             List<com.TinkerersLab.CargoStacks.models.File> images = new ArrayList<>();
             images.add(new com.TinkerersLab.CargoStacks.models.File(file.getContentType(), imagePath));

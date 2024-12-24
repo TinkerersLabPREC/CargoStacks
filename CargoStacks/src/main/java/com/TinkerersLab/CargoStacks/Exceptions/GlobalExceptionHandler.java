@@ -115,18 +115,18 @@ public class GlobalExceptionHandler {
                                 .body(errorResponse);
         }
 
-        // @ExceptionHandler(SignatureException.class)
-        // public ResponseEntity<ErrorResponse<String>> errorResponse(SignatureException exception) {
+        @ExceptionHandler(SignatureException.class)
+        public ResponseEntity<ErrorResponse<String>> errorResponse(SignatureException exception) {
 
-        //         ErrorResponse<String> errorResponse = ErrorResponse.<String>builder()
-        //                         .message("Invalid JWT token")
-        //                         .status(HttpStatus.FORBIDDEN)
-        //                         .payload("provided JWT token signature dosen't match : " + exception.getMessage())
-        //                         .success(false)
-        //                         .build();
+                ErrorResponse<String> errorResponse = ErrorResponse.<String>builder()
+                                .message("Invalid JWT token")
+                                .status(HttpStatus.FORBIDDEN)
+                                .payload("provided JWT token signature dosen't match : " + exception.getMessage())
+                                .success(false)
+                                .build();
 
-        //         return ResponseEntity
-        //                         .status(HttpStatus.BAD_REQUEST)
-        //                         .body(errorResponse);
-        // }
+                return ResponseEntity
+                                .status(HttpStatus.FORBIDDEN)
+                                .body(errorResponse);
+        }
 }
