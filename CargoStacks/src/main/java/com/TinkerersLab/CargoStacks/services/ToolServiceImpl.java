@@ -135,9 +135,8 @@ public class ToolServiceImpl implements ToolService {
             throw new RuntimeException("Could not save image file");
         }
 
-        tool.setImage(new com.TinkerersLab.CargoStacks.models.File());
-        tool.getImage().setPath(imagePath);
-        tool.getImage().setContentType(file.getContentType());
+        tool.setImage(new com.TinkerersLab.CargoStacks.models.File(imagePath, file.getContentType()));
+
         toolRepo.save(tool);
     }
 

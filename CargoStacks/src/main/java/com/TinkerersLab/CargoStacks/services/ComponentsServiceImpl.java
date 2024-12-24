@@ -7,6 +7,10 @@ import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 import com.TinkerersLab.CargoStacks.models.ResourceContentType;
 import com.TinkerersLab.CargoStacks.models.dao.components.Component;
 import com.TinkerersLab.CargoStacks.repository.ComponentsRepo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,9 +42,12 @@ public class ComponentsServiceImpl implements ComponentService {
 
     ApplicationProperties applicationProperties;
 
+    ObjectMapper objectMapper;
+
     @Override
     public ComponentDto create(ComponentDto componentDto) {
         componentDto.setId(UUID.randomUUID().toString());
+        componentDto.setTotalImages(0);
         Component newComponent = componentsRepo.save(dtoToEntity(componentDto));
         return entityToDto(newComponent);
     }
@@ -139,21 +147,73 @@ public class ComponentsServiceImpl implements ComponentService {
         } catch (IOException e) {
             throw new RuntimeException("Could not save image file");
         }
-        component.setImage(new com.TinkerersLab.CargoStacks.models.File());
-        component.getImage().setPath(imagePath);
-        component.getImage().setContentType(file.getContentType());
+
+        // component.setImage(new com.TinkerersLab.CargoStacks.models.File());
+        // component.getImage().setPath(imagePath);
+        // component.getImage().setContentType(file.getContentType());
+        if (component.getImages().isBlank()) {
+            List<com.TinkerersLab.CargoStacks.models.File> images = new ArrayList<>();
+            images.add(new com.TinkerersLab.CargoStacks.models.File(file.getContentType(), imagePath));
+            component.setTotalImages(1);
+            try {
+                component.setImages(objectMapper.writeValueAsString(images));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(
+                        "Something went wrong while processing images json string from component object "
+                                + e.getMessage());
+            }
+        } else {
+            try {
+                List<com.TinkerersLab.CargoStacks.models.File> images = objectMapper.readValue(component.getImages(),
+                        new TypeReference<List<com.TinkerersLab.CargoStacks.models.File>>() {
+                        });
+                images.add(new com.TinkerersLab.CargoStacks.models.File(file.getContentType(), imagePath));
+                component.setImages(objectMapper.writeValueAsString(images));
+                component.setTotalImages(component.getTotalImages() + 1);
+            } catch (JsonMappingException e) {
+                throw new RuntimeException(
+                        "Invalid images(JsonStirng) value in component object coming from db " + e.getMessage());
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(
+                        "Something went wrong while processing images json string from component object "
+                                + e.getMessage());
+            }
+        }
         componentsRepo.save(component);
     }
 
     @Override
-    public ResourceContentType getComponentImage(String componentId) {
+    public ResourceContentType getComponentImage(String componentId, int idx) {
 
         Component component = componentsRepo
                 .findById(componentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Component with provided id not found", componentId));
 
-        ResourceContentType resourceContentType = fileService.getFile(component.getImage().getPath());
-        resourceContentType.setContentType(component.getImage().getContentType());
+        com.TinkerersLab.CargoStacks.models.File requestedImage;
+        if (component.getImages().isBlank() || component.getTotalImages() == 0) {
+            throw new RuntimeException("Provieded Component: " + componentId + " has no image resource");
+        } else {
+            try {
+                List<com.TinkerersLab.CargoStacks.models.File> images = objectMapper.readValue(component.getImages(),
+                        new TypeReference<List<com.TinkerersLab.CargoStacks.models.File>>() {
+                        });
+                if (idx > images.size()) {
+                    throw new RuntimeException("Image with provided index not found");
+                }
+                requestedImage = images.get(idx);
+
+            } catch (JsonMappingException e) {
+                throw new RuntimeException(
+                        "Invalid images(JsonStirng) value in component object coming from db " + e.getMessage());
+
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(
+                        "Something went wrong while processing images json string from component object "
+                                + e.getMessage());
+            }
+        }
+        ResourceContentType resourceContentType = fileService.getFile(requestedImage.getPath());
+        resourceContentType.setContentType(requestedImage.getContentType());
 
         return resourceContentType;
     }

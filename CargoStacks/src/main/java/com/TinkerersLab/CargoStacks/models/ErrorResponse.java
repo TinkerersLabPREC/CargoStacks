@@ -19,5 +19,5 @@ public class ErrorResponse<T> {
 
     public HttpStatus status;
 
-    public boolean success = false;
+    public boolean success;
 }
