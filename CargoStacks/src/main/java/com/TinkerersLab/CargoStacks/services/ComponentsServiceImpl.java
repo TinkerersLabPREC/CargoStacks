@@ -184,14 +184,14 @@ public class ComponentsServiceImpl implements ComponentService {
                 .orElseThrow(() -> new ResourceNotFoundException("Component with provided id not found", componentId));
 
         com.TinkerersLab.CargoStacks.models.File requestedImage;
-        if (component.getImages().isBlank() || component.getTotalImages() == 0) {
+        if (component.getImages() == null || component.getTotalImages() == 0) {
             throw new RuntimeException("Provieded Component: " + componentId + " has no image resource");
         } else {
             try {
                 List<com.TinkerersLab.CargoStacks.models.File> images = objectMapper.readValue(component.getImages(),
                         new TypeReference<List<com.TinkerersLab.CargoStacks.models.File>>() {
                         });
-                if (idx > images.size()) {
+                if (idx > images.size() || idx < 0) {
                     throw new RuntimeException("Image with provided index not found");
                 }
                 requestedImage = images.get(idx);
