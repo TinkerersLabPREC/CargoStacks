@@ -7,6 +7,10 @@ import com.TinkerersLab.CargoStacks.models.CustomPageResponse;
 import com.TinkerersLab.CargoStacks.models.ResourceContentType;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.Tool;
 import com.TinkerersLab.CargoStacks.repository.ToolRepo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +26,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,9 +43,12 @@ public class ToolServiceImpl implements ToolService {
 
     FileServiceImpl fileService;
 
+    ObjectMapper objectMapper;
+
     @Override
     public ToolDto create(ToolDto toolDto) {
         toolDto.setId(UUID.randomUUID().toString());
+        toolDto.setTotalImages(0);
         Tool tool = toolRepo.save(dtoToEntity(toolDto));
         return entityToDto(tool);
     }
@@ -135,24 +143,72 @@ public class ToolServiceImpl implements ToolService {
             throw new RuntimeException("Could not save image file");
         }
 
-        tool.setImage(new com.TinkerersLab.CargoStacks.models.File());
-        tool.getImage().setPath(imagePath);
-        tool.getImage().setContentType(file.getContentType());
+        if (tool.getImages() == null) {
+            List<com.TinkerersLab.CargoStacks.models.File> images = new ArrayList<>();
+            images.add(new com.TinkerersLab.CargoStacks.models.File(file.getContentType(), imagePath));
+            try {
+                tool.setImages(objectMapper.writeValueAsString(images));
+                tool.setTotalImages(1);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(
+                        "Something went wrong while processing images json string from component object "
+                                + e.getMessage());
+            }
+        } else {
+            try {
+                List<com.TinkerersLab.CargoStacks.models.File> images = objectMapper.readValue(tool.getImages(),
+                        new TypeReference<List<com.TinkerersLab.CargoStacks.models.File>>() {
+                        });
+                images.add(new com.TinkerersLab.CargoStacks.models.File(file.getContentType(), imagePath));
+                tool.setImages(objectMapper.writeValueAsString(images));
+                tool.setTotalImages(tool.getTotalImages() + 1);
+            } catch (JsonMappingException e) {
+                throw new RuntimeException(
+                        "Invalid images(JsonStirng) value in component object coming from db " + e.getMessage());
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(
+                        "Something went wrong while processing images json string from component object "
+                                + e.getMessage());
+            }
+        }
         toolRepo.save(tool);
     }
 
     @Override
-    public ResourceContentType getToolImage(String toolId) {
+    public ResourceContentType getToolImage(String toolId, int index) {
 
         Tool tool = toolRepo
                 .findById(toolId)
                 .orElseThrow(() -> new ResourceNotFoundException("Tool with provided id not found", toolId));
 
-        ResourceContentType resourceContentType = fileService.getFile(tool.getImage().getPath());
-        resourceContentType.setContentType(tool.getImage().getContentType());
+        com.TinkerersLab.CargoStacks.models.File requestedImage;
+
+        if (tool.getImages() == null || tool.getTotalImages() == 0) {
+            throw new RuntimeException("Provieded tool: " + toolId + " has no image resource");
+        } else {
+            try {
+                List<com.TinkerersLab.CargoStacks.models.File> images = objectMapper.readValue(tool.getImages(),
+                        new TypeReference<List<com.TinkerersLab.CargoStacks.models.File>>() {
+                        });
+                if (index > images.size() || index < 0) {
+                    throw new RuntimeException("Image with provided index not found");
+                }
+                requestedImage = images.get(index);
+            } catch (JsonMappingException e) {
+                throw new RuntimeException(
+                        "Invalid images(JsonStirng) value in component object coming from db " + e.getMessage());
+
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(
+                        "Something went wrong while processing images json string from component object "
+                                + e.getMessage());
+            }
+
+        }
+        ResourceContentType resourceContentType = fileService.getFile(requestedImage.getPath());
+        resourceContentType.setContentType(requestedImage.getContentType());
 
         return resourceContentType;
-
     }
 
     public ToolDto entityToDto(Tool tool) {

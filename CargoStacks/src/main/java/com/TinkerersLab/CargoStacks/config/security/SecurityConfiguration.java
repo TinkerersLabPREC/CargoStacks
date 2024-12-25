@@ -69,7 +69,6 @@ public class SecurityConfiguration {
 		httpSecurity.csrf(AbstractHttpConfigurer::disable);
 		// CSRF and Session management configuration
 		httpSecurity
-				// .csrf(customizer -> customizer.disable())
 				.sessionManagement(session -> session
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
@@ -78,7 +77,7 @@ public class SecurityConfiguration {
 
 			// requests open for everyone
 			auth
-					.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "swagger-resources/**").permitAll()
+					// .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "swagger-resources/**").permitAll()
 					.requestMatchers("/api/v1/auth/**").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/v1/components/**").permitAll()
 					.requestMatchers(HttpMethod.GET, "/api/v1/tools/**").permitAll()
@@ -104,9 +103,8 @@ public class SecurityConfiguration {
 
 		// Basic authentication configuration
 		httpSecurity.httpBasic(
-				// customizer ->
-				// customizer.authenticationEntryPoint(customAuthenticationEntryPoint));
-				customizer -> customizer.disable());
+				customizer ->
+				customizer.authenticationEntryPoint(customAuthenticationEntryPoint));
 
 		httpSecurity.addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

@@ -81,9 +81,9 @@ public class ToolsController {
         return ResponseEntity.status(HttpStatus.OK).body("file saved successfully");
     }
 
-    @GetMapping("{toolId}/images")
-    public ResponseEntity<Resource> getImage(@PathVariable String toolId) {
-        ResourceContentType resourceContentType = toolService.getToolImage(toolId);
+    @GetMapping("{toolId}/images/{index}")
+    public ResponseEntity<Resource> getImage(@PathVariable String toolId, @PathVariable int index) {
+        ResourceContentType resourceContentType = toolService.getToolImage(toolId, index);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(MediaType.parseMediaType(resourceContentType.getContentType()))

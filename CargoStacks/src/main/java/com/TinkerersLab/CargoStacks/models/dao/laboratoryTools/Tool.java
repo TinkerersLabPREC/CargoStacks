@@ -1,6 +1,5 @@
 package com.TinkerersLab.CargoStacks.models.dao.laboratoryTools;
 
-import com.TinkerersLab.CargoStacks.models.File;
 import com.TinkerersLab.CargoStacks.models.dao.laboratoryTools.utilization.Utilization;
 
 import jakarta.persistence.*;
@@ -19,42 +18,31 @@ import java.util.List;
 @Table(name = "tools")
 public class Tool {
 
-    @Id
-    private String id;
+        @Id
+        private String id;
 
-    @Column(
-            nullable = false,
-            unique = true,
-            length = 50
-    )
-    private String name;
+        @Column(nullable = false, unique = true, length = 50)
+        private String name;
 
-    @Column(
-            nullable = false,
-            unique = true,
-            length = 50
-    )
-    private String modelName;
+        @Column(nullable = false, unique = true, length = 50)
+        private String modelName;
 
-    @Column(
-            nullable = false,
-            length = 500
-    )
-    private String description;
+        @Column(nullable = false, length = 500)
+        private String description;
 
-    @Column(
-            nullable = false
-    )
-    private int price;
+        @Column(nullable = false)
+        private int price;
 
-    @Column(
-            length = 100
-    )
-    private String requiredSoftware;
+        @Column(length = 100)
+        private String requiredSoftware;
 
-    private File image;
+        @Column(length = 500)
+        private String images;
 
-    @OneToMany(mappedBy = "tool", cascade = CascadeType.ALL)
-    private List<Utilization> utilizations;
+        @Column(nullable = false)
+        private int totalImages;
+
+        @OneToMany(mappedBy = "tool", cascade = CascadeType.ALL)
+        private List<Utilization> utilizations;
 
 }

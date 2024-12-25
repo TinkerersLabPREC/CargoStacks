@@ -24,6 +24,6 @@ public interface ToolService {
 
     void saveToolImage(MultipartFile file, String toolId);
 
-    ResourceContentType getToolImage(String toolId);
+    ResourceContentType getToolImage(String toolId, int index);
 
 }

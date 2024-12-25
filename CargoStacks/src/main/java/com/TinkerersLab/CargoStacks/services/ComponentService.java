@@ -24,6 +24,6 @@ public interface ComponentService {
 
     void saveComponentImage(MultipartFile file, String componentId);
 
-    ResourceContentType getComponentImage(String componentId);
+    ResourceContentType getComponentImage(String componentId, int idx);
 
 }
